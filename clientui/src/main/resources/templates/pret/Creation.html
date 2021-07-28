@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Creation d'un Pret </title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/pretCreation.css}"/>
+</head>
+<body>
+
+    <!-- Menu -->
+    <header>
+
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+            <a class="navbar-brand" th:href="@{/}" >Bibliotheque </a>
+
+            <!-- btn toggle -->
+            <div>
+                <button class="navbar-toggler" type="button"
+                        data-toggle="collapse" data-target="#navbarContent">
+                    <span class="navbar-toggler-icon" ></span>
+                </button>
+            </div>
+
+            <div  class="collapse navbar-collapse" id="navbarContent" >
+                <ul class="navbar-nav  mr-auto mt-2 mt-lg-0  ">
+
+                    <!-- Livres -->
+                    <li class="nav-item active ">
+                        <a class="nav-link" th:href="@{/livres/all}">Livres</a>
+                    </li>
+
+                    <!-- Espace Perso-->
+                    <li class="nav-item" th:if="${user.connected}">
+                        <a class="nav-link" th:href="@{/espace(jwt=${user.jwt})}">Espace</a>
+                    </li>
+
+                    <!-- Login -->
+                    <li class="nav-item " th:if="${!user.connected}">
+                        <a class="nav-link" th:href="@{/login}">Sign in</a>
+                    </li>
+
+                    <!-- Inscription  -->
+                    <li class="nav-item " th:if="${!user.connected}">
+                        <a class="nav-link" th:href="@{/register}">Sign up</a>
+                    </li>
+
+                    <!-- btn logout -->
+                    <li class="nav-item"  th:if="${user.connected}" >
+
+                        <!--  <a th:url="/logout">">Logout</a> -->
+                        <a class="nav-link" th:href="@{/logout}">Logout</a>
+                    </li>
+
+                </ul>
+
+
+                <form class="form-inline my-2 my-lg-0" th:action="@{/search}">
+                    <input class="form-control mr-sm-2" type="search" name="search" placeholder="Recherche" aria-label="Search">
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Recherche</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+
+
+    <div class="container mt-5">
+
+        <!-- Titre -->
+        <div class="row">
+            <h1>Votre Exemplaire</h1>
+        </div>
+
+        <!-- IMG et Info -->
+        <div class="row mt-5">
+
+            <!-- Image -->
+            <div class="cadreImage">
+                <div class="containerImage">
+                    <img th:src="@{'/image/' + ${livre.titreImage}}"  th:alt="${livre.titreImage}" />
+                </div>
+            </div>
+
+            <!-- Info et BTN-->
+            <div class="col col-lg-7 col-md-4">
+
+                <div class="containerInfo">
+                    <table>
+                        <tbody>
+
+                        <tr>
+                            <th>Titre </th>
+                            <td th:utext="${livre.titre}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Auteur  </th>
+                            <td th:utext="${livre.auteur}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Edition  </th>
+                            <td th:utext="${exemplaire.edition}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Résumé </th>
+                            <td th:utext="${livre.description}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Date d'emprunt</th>
+                            <td th:utext="${#dates.format(pret.date_debut, 'dd-MM-yyyy')}"></td>
+                        </tr>
+
+                        <tr>
+                            <th>Date fin d'emprunt</th>
+                            <td th:utext="${#dates.format(pret.date_fin, 'dd-MM-yyyy')}"></td>
+                        </tr>
+
+                       <tr>
+                           <th>Emprunter </th>
+
+                            <td class="linkEmprunt" >
+                                  <form>
+                                      <button class="btnEmprunt">
+                                          <a  th:href="@{/validate(id=${pret.id})}">Je souhaite emprunter cette exemplaire</a>
+
+                                      </button>
+                                  </form>
+                             </td>
+                       </tr>
+
+                    </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Btn retour -->
+        <div class="rowButton">
+            <button>
+                <a th:href="@{/livre/Exemplaires(id=${livre.id})}">Retour</a>
+            </button>
+            <button>
+                <a th:href="@{/livres/all}">Liste Livres</a>
+            </button>
+        </div>
+    </div>
+
+
+
+<div class="Footer">
+    Copyright © 2021, All Right Reserved
+</div>
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

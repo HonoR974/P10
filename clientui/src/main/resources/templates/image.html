@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Image </title>
+</head>
+<body>
+
+<td><p th:utext="${img.name}"></p></td>
+
+
+<img th:src="@{'resources/static/image/' +  ${img.name}}" alt="test1"/>
+
+<img th:src="@{'/static/image/' + ${img.name}}" alt="test2"/>
+
+<img th:src="@{/static/image/${img.name}}" alt="test3"/>
+
+
+<img th:src="@{'image/' + ${img.name}}" alt="test4"/>
+
+<img th:src="@{image/${img.name}}" alt="test5"/>
+
+
+<img th:src="@{'/image/' + ${img.name}}" alt="test6"/>
+
+<img th:src="@{/image/${img.name}}" alt="test7"/>
+
+
+
+</body>
+</html>

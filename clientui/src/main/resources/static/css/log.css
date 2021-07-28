@@ -1,0 +1,205 @@
+a
+{
+    text-decoration: none;
+    font-size: 22px;
+    color: black;
+}
+
+nav
+{
+    background-color: rgb(203, 153, 126) ;
+}
+
+
+.nav-item
+{
+    margin-left: 20px;
+}
+
+#bodyLog
+{
+    background-color: rgba(141,250,227,0.1);
+}
+
+.cadre
+{
+    margin-top: 50px;
+    padding: 20px;
+    height: 600px;
+    background-color: rgba(132,179,245,0.1);
+    border-radius: 5%;
+}
+
+.titleLogin
+{
+    text-align: center;
+    margin: 20px;
+    text-decoration: underline;
+    text-decoration-color: white;
+}
+
+.attLog
+{
+    background-color: rgba(93,192,245,0.3);
+    border-radius: 5%;
+    margin-left: 10%;
+    margin-right: 10%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.attLog input
+{
+    display: flex;
+    flex-direction: column;
+}
+
+
+.cadreFormulaire
+{
+    display: flex;
+    flex-direction: column;
+    border-radius: 15%;
+    margin-left: 10%;
+    margin-right: 20%;
+}
+
+.formulaire
+{
+    margin-top: 40px;
+    padding: 20px;
+    background-color: rgba(89,199,219,0.3);
+    border-radius: 5%;
+    font-size: 20px;
+    font-family: Georgia, serif;
+
+}
+
+.btnLog
+{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 15px;
+}
+
+.btnLog button
+{
+    color: white;
+    background-color: rgba(107,138,237,1);
+    border-color: rgba(107,138,237,1);
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+
+}
+
+.btnLog button:hover
+{
+    color: white;
+    background-color: rgba(113,198,224,1);
+    border-color: rgba(113,198,224,1);
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+}
+
+.cadrebuttonRetour
+{
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.buttonRetour
+{
+
+    background-color: rgba(107,138,237,1);
+    font-size: 15px;
+    border-color: rgba(107,138,237,1);
+    width: 120px;
+    height: 40px;
+    border-radius: 10%;
+}
+
+.buttonRetour a
+{
+    color: white;
+}
+
+.buttonRetour:hover
+{
+    background-color: rgba(113,198,224,1);
+    border-color: rgba(113,198,224,1);
+}
+
+
+
+
+/**Inscription **/
+.cadreInscription
+{
+
+}
+
+
+.titleInscription
+{
+    margin: 20px;
+    text-align: center;
+}
+
+.infoInscription
+{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.infoInscription input
+{
+    margin: 10px;
+    height: 50px;
+    width: 500px;
+}
+
+.cadreChamps
+{
+    border: solid grey;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+
+.champs
+{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+}
+
+.champs p
+{
+    width: 80%;
+}
+
+
+
+.rowButton
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+

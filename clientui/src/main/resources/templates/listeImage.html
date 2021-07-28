@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" />
+
+    <title>Liste des images </title>
+</head>
+<body>
+
+<tr th:each ="img : ${liste}">
+
+    <td>
+        <a th:utext="${img.name}">...</a>
+    </td>
+
+    <td>
+        <img th:src="@{'/image/' + ${img.name}}" alt="test2" style="height: 200px; width: 300px"/>
+    </td>
+</tr>
+
+
+
+<script type="text/javascript" src="webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

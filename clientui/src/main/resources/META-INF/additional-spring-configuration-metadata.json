@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "NotEmpty",
+      "type": "java.lang.String",
+      "description": "Description for NotEmpty."
+    },
+    {
+      "name": "NotEmpty",
+      "type": "java.lang.String",
+      "description": "Description for NotEmpty."
+    }
+  ] }

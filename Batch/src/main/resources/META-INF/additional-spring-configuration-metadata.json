@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "templateId",
+      "type": "java.lang.String",
+      "description": "Description for templateId."
+    },
+    {
+      "name": "sendgrid.emailFrom",
+      "type": "java.lang.String",
+      "description": "Description for sendgrid.emailFrom."
+    },
+
+    {
+      "name": "batch.username",
+      "type": "java.lang.String",
+      "description": "Description for batch.username."
+    },
+    {
+      "name": "batch.password",
+      "type": "java.lang.String",
+      "description": "Description for batch.password."
+    }
+  ] }
