@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Batch/Batch.iml" filepath="$PROJECT_DIR$/Batch/Batch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/P10.iml" filepath="$PROJECT_DIR$/.idea/P10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bibliotheque/bibliotheque.iml" filepath="$PROJECT_DIR$/bibliotheque/bibliotheque.iml" />
+      <module fileurl="file://$PROJECT_DIR$/clientui/clientui.iml" filepath="$PROJECT_DIR$/clientui/clientui.iml" />
+    </modules>
+  </component>
+</project>
