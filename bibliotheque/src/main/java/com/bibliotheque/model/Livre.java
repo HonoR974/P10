@@ -30,6 +30,8 @@ public class Livre {
     @OneToMany(mappedBy = "livre")
     private List<Examplaire> examplaires;
 
+    private Boolean disponible;
+
     @JsonIgnore
     @ManyToOne
     private ImageGallery image;
@@ -88,5 +90,13 @@ public class Livre {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(Boolean disponible) {
+        this.disponible = disponible;
     }
 }

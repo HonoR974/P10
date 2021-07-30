@@ -22,6 +22,9 @@ public class Statut
     @OneToMany(mappedBy = "statut")
     private List<Pret> listeDePret;
 
+    @OneToMany(mappedBy = "statutReservation")
+    private List<Reservation> listeReservation;
+
     public Long getId() {
         return id;
     }
@@ -46,6 +49,11 @@ public class Statut
         this.listeDePret = listeDePret;
     }
 
+    public List<Reservation> getListeReservation() {
+        return listeReservation;
+    }
 
-
+    public void setListeReservation(List<Reservation> listeReservation) {
+        this.listeReservation = listeReservation;
+    }
 }

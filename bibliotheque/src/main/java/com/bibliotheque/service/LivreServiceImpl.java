@@ -50,7 +50,7 @@ public class LivreServiceImpl implements LivreService{
      */
     @Override
     public Livre getLivreById(long id) {
-        Livre livre=  livreRepository.findById(id);
+        Livre livre =  livreRepository.findById(id);
 
         return livre;
     }

@@ -28,6 +28,10 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Pret> listeDePret;
 
+    @OneToMany(mappedBy = "userReservation")
+    private List<Reservation> listReservation;
+
+
     public Long getId() {
         return id;
     }
@@ -82,5 +86,13 @@ public class User {
 
     public void setListeDePret(List<Pret> listeDePret) {
         this.listeDePret = listeDePret;
+    }
+
+    public List<Reservation> getListReservation() {
+        return listReservation;
+    }
+
+    public void setListReservation(List<Reservation> listReservation) {
+        this.listReservation = listReservation;
     }
 }

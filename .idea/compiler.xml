@@ -14,7 +14,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Batch" target="11" />
-      <module name="bibliotheque" target="1.8" />
+      <module name="bibliotheque" target="11" />
       <module name="clientui" target="11" />
     </bytecodeTargetLevel>
   </component>
