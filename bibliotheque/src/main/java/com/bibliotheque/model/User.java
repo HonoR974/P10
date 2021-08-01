@@ -28,6 +28,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Pret> listeDePret;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "userReservation")
     private List<Reservation> listReservation;
 

@@ -30,6 +30,9 @@ public class Livre {
     @OneToMany(mappedBy = "livre")
     private List<Examplaire> examplaires;
 
+    @OneToMany(mappedBy = "livreReservation")
+    private List<Reservation> reservations;
+
     private Boolean disponible;
 
     @JsonIgnore
@@ -98,5 +101,13 @@ public class Livre {
 
     public void setDisponible(Boolean disponible) {
         this.disponible = disponible;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }
