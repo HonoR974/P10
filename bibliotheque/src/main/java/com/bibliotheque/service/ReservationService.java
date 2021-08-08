@@ -32,4 +32,6 @@ public interface ReservationService {
     //cancel une reservation
     void cancelReservation(long id_reservation);
 
+    List<Reservation> getAllFirstReserve();
+
 }

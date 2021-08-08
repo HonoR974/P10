@@ -1,4 +1,4 @@
-package com.bibliotheque.web.controller;
+package com.bibliotheque.web.controller.batch;
 
 import com.bibliotheque.dto.LivreDTO;
 import com.bibliotheque.dto.PretBatchDTO;
