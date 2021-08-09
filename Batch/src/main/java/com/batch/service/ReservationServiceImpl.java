@@ -1,11 +1,14 @@
 package com.batch.service;
 
+import com.batch.model.Email;
 import com.batch.model.PretDTO;
 import com.batch.model.ReservationDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -83,9 +86,22 @@ public class ReservationServiceImpl implements ReservationService{
         return listFinal;
     }
 
+
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+
     private void sendMail(ReservationDTO reservationDTO)
     {
-        
+        System.out.println("l'envoie du mail ");
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo(reservationDTO.getMail());
+        msg.setFrom("damien.dorval1@gmail.com");
+        msg.setSubject("test");
+        msg.setText("Le premier mail ");
+        System.out.println("\n msg " + msg.toString());
+        javaMailSender.send(msg);
+
     }
 
 

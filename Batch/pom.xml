@@ -47,13 +47,13 @@
 			<scope>test</scope>
 		</dependency>
 
-
-		<!-- sengrid -->
+		<!-- send email -->
 		<dependency>
-			<groupId>com.sendgrid</groupId>
-			<artifactId>sendgrid-java</artifactId>
-			<version>4.6.0</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
+
+
 
 
 		<dependency>
@@ -61,12 +61,6 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>com.sendgrid</groupId>
-			<artifactId>sendgrid-java</artifactId>
-			<version>4.1.2</version>
-		</dependency>
-
 	</dependencies>
 
 

@@ -18,13 +18,16 @@ public class Scheduler {
    // @Scheduled(fixedDelay = 8000)
 
     //tout les min a 19 h le 27/05
-    @Scheduled(cron = "0 */1 19 27 05 ? ")
+
+//    @Scheduled(cron = "0 */1 19 27 05 ? ")
+/*
     public void perform() throws Exception {
 
         System.out.println("\n ----------- Perform -------- ");
         batchLauncher.run();
 
     }
+*/
 
     @Scheduled(fixedRate = 5000)
     public void performReserve() throws Exception {
