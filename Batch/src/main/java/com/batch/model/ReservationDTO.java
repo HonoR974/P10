@@ -1,4 +1,4 @@
-package com.bibliotheque.dto;
+package com.batch.model;
 
 import lombok.Data;
 

@@ -1,11 +1,9 @@
 package com.batch.service;
 
-import com.batch.config.DynamicTemplatePersonalization;
 import com.batch.model.PretDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.sendgrid.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,14 +38,6 @@ public class PretServiceImpl implements PretService{
 
     private List<PretDTO> listePretEnCours;
 
-    @Autowired
-    private SendGrid sendGrid;
-
-    @Value("${templateId}")
-    private String EMAIL_TEMPLATE_ID;
-
-    @Value("${sendgrid.emailFrom}")
-    private String fromEmail;
 
     /**
      * Recupere les pret qui sont valider et non fini
@@ -220,7 +210,7 @@ public class PretServiceImpl implements PretService{
      */
     @Override
     public void sendMailRetard() throws IOException, InterruptedException {
-
+/*
         Email from = new Email(fromEmail);
         String subject;
         Email to = null;
@@ -291,6 +281,8 @@ public class PretServiceImpl implements PretService{
 
 
         }
+        */
+
     }
 
 

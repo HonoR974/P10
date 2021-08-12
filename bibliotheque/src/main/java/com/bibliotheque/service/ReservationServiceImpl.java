@@ -75,7 +75,6 @@ public class ReservationServiceImpl implements ReservationService{
         return condition;
     }
 
-
     @Override
     public List<Reservation> getAll() {
 
@@ -90,6 +89,8 @@ public class ReservationServiceImpl implements ReservationService{
         reservationDTO.setUsername(reservation.getUserReservation().getUsername());
         reservationDTO.setTitre(reservation.getLivreReservation().getTitre());
         reservationDTO.setStatut(reservation.getStatutReservation().getNom());
+        reservationDTO.setSendMail(reservationDTO.isSendMail());
+        reservationDTO.setMail(reservation.getUserReservation().getEmail());
         return reservationDTO;
     }
 
@@ -143,6 +144,12 @@ public class ReservationServiceImpl implements ReservationService{
         Statut statut = statutRepository.findByNom("Annuler");
         reservation.setStatutReservation(statut);
         reservationRepository.save(reservation);
+    }
+
+    @Override
+    public List<Reservation> getAllFirstReserve() {
+        Statut statut = statutRepository.findByNom("First");
+        return reservationRepository.findByStatutReservation(statut);
     }
 
 

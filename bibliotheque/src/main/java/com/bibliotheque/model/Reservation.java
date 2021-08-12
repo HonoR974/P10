@@ -20,7 +20,7 @@ public class Reservation {
     @ManyToOne
     private Statut statutReservation;
 
-
+    private boolean mailSend;
 
     //dateRetour
     //taille liste
@@ -61,6 +61,14 @@ public class Reservation {
         this.livreReservation = livreReservation;
     }
 
+    public boolean isMailSend() {
+        return mailSend;
+    }
+
+    public void setMailSend(boolean mailSend) {
+        this.mailSend = mailSend;
+    }
+
     @Override
     public String toString() {
         return "Reservation{" +
@@ -68,6 +76,7 @@ public class Reservation {
                 ", userReservation=" + userReservation +
                 ", livreReservation=" + livreReservation +
                 ", statutReservation=" + statutReservation +
+                ", mailSend=" + mailSend +
                 '}';
     }
 }
