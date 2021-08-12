@@ -175,7 +175,7 @@ public class ReservationServiceImpl implements ReservationService{
         System.out.println("\n context fait  ");
 
 
-        String process = templateEngine.process("welcome", context);
+        String process = templateEngine.process("Mail", context);
         System.out.println("\n process fait  ");
 
         javax.mail.internet.MimeMessage mimeMessage = javaMailSender.createMimeMessage();
