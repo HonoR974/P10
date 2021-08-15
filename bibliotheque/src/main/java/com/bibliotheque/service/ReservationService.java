@@ -3,6 +3,8 @@ package com.bibliotheque.service;
 import com.bibliotheque.dto.ReservationDTO;
 import com.bibliotheque.model.Reservation;
 
+import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -15,10 +17,13 @@ public interface ReservationService {
     // Read
     List<Reservation> getAll();
 
-    //conversion DTO
+    //conversion reserv to DTO
     ReservationDTO giveReservationDTO(Reservation reservation);
-    //conversion ListDTO
+    //conversion listReserv to  ListDTO
     List<ReservationDTO> giveListDTO(List<Reservation> reservationList);
+
+    //conversion listDTO to listeReserv
+    List<Reservation> giveList(List<ReservationDTO> reservationDTOS) throws ParseException;
 
     //verification : l'user n'emprunte pas le livre
     boolean checkEmpruntUser(long id_livre);
@@ -33,5 +38,7 @@ public interface ReservationService {
     void cancelReservation(long id_reservation);
 
     List<Reservation> getAllFirstReserve();
+
+    void saveList(HashMap<Integer,ReservationDTO> list) throws ParseException;
 
 }

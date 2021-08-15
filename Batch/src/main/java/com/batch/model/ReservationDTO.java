@@ -12,4 +12,7 @@ public class ReservationDTO
     private String statut;
     private boolean sendMail;
     private String mail;
+    private String date_debut;
+    private String date_fin;
+
 }

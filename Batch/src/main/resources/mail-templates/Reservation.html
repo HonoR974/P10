@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+    <!--
+    <link th:href="@{resources/css/reservation.css}" rel="stylesheet" />
+-->
+    <title>Le mail envoyé </title>
+</head>
+    <body>
+
+    <div style="height: 50px;width: 100%; background-color: rgba(234,98,252,0.7)";>
+
+         <h2> Pour l'user : <strong th:utext="${user.username}"></strong>
+            <br>
+             Le livre : <strong th:utext="${user.livre}"></strong> est disponible
+         </h2>
+    </div>
+
+    il doit y avoir un nouveau fond le style de l'email n'est clairement pas fini
+
+    <div class="test">
+        <h1>Hello</h1>
+    </div>
+
+    <h1> Le titre de l'email :) </h1>
+
+    <p>Le CSS va arriver un jour </p>
+
+
+    </body>
+</html>

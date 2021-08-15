@@ -1,6 +1,7 @@
 package com.batch.config;
 
 
+import com.batch.model.ReservationDTO;
 import com.batch.service.ReservationService;
 import com.batch.service.ReservationServiceImpl;
 import org.springframework.batch.core.Job;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import java.util.List;
 
 @Configuration
 @EnableBatchProcessing
@@ -33,6 +36,8 @@ public class ReservConfig {
     {
         return jobBuilders.get("Reservation")
                 .start(verifFirstUser())
+
+                .next(sendList())
                 .build();
     }
 
@@ -50,9 +55,28 @@ public class ReservConfig {
         MethodInvokingTaskletAdapter adapter = new MethodInvokingTaskletAdapter();
         adapter.setTargetObject(reservationService());
         adapter.setTargetMethod("getFirstReserv");
+        return adapter;
+    }
+
+
+
+    @Bean
+    public Step sendList() {
+        return stepBuilders.get("sendList")
+                .tasklet(sendListMethod())
+                .build();
+    }
+
+    @Bean
+    public MethodInvokingTaskletAdapter sendListMethod()
+    {
+        MethodInvokingTaskletAdapter adapter = new MethodInvokingTaskletAdapter();
+        adapter.setTargetObject(reservationService());
+        adapter.setTargetMethod("sendListReservation");
 
         return adapter;
     }
+
 
     @Bean
     public ReservationService reservationService() { return  new ReservationServiceImpl();

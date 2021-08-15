@@ -20,6 +20,11 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -33,15 +38,20 @@ public class ReservationServiceImpl implements ReservationService{
     @Autowired
     private SecurityService securityService;
 
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    @Autowired
+    private TemplateEngine templateEngine;
+
     private String jwt;
 
-    @Override
-    public String test() {
+    private List<ReservationDTO> listReservation;
 
-        System.out.println("\n test ");
-        return "test";
-    }
 
+    //recupere toutes les reservations
+    // qui sont premieres de leurs
+    //liste d'attente
     @Override
     public List<ReservationDTO> getFirstReserv() throws IOException, InterruptedException, MessagingException {
         List<ReservationDTO> list = new ArrayList<>();
@@ -66,105 +76,47 @@ public class ReservationServiceImpl implements ReservationService{
 
         list = mapper.readValue(response.body().toString(), new TypeReference<List<ReservationDTO>>() {});
 
-
-
         return checkFirstReserv(list);
 
     }
 
+
+    //verfication si un mail leurs a été envoyé
+    //un mail par reserv
     private List<ReservationDTO> checkFirstReserv(List<ReservationDTO> list) throws MessagingException {
         List<ReservationDTO> listFinal = new ArrayList<>();
 
         for (ReservationDTO reservationDTO : list)
         {
+            System.out.println("\n ------ verfication ---------- ");
+            System.out.println("\n user : " + reservationDTO.getUsername());
             if (!reservationDTO.isSendMail())
             {
+                //envoie de l'eamil
                 sendMail(reservationDTO);
                 reservationDTO.setSendMail(true);
+
+                //ajout des dates de la reservation
+                reservationDTO.setDate_debut(putNewDate().getDate_debut());
+                reservationDTO.setDate_fin(putNewDate().getDate_fin());
+
             }
 
+
+            System.out.println("\n ------ Fin verfication ---------- ");
             listFinal.add(reservationDTO);
         }
+
+        listReservation = listFinal;
+
         return listFinal;
     }
 
-    @Autowired
-    private JavaMailSender javaMailSender;
-
-    @Autowired
-    private TemplateEngine templateEngine;
-
+    //envoie du mail
     private void sendMail(ReservationDTO reservationDTO) throws MessagingException {
-        /**
-        System.out.println("l'envoie du mail ");
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo(reservationDTO.getMail());
-        msg.setFrom("damien.dorval1@gmail.com");
-        msg.setSubject("test");
-        msg.setText("Le premier mail ");
-        System.out.println("\n msg " + msg.toString());
-        javaMailSender.send(msg);
-**/
 
-        //sans corps html
-        /*
-                MimeMessage message = javaMailSender.createMimeMessage();
-                MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-                helper.setTo(reservationDTO.getMail());
-                helper.setSubject("deuxieme test ");
-                helper.setText("htmlBody de qualité !!!", true);
-                helper.setFrom("damien.dorval1@gmail.com");
-
-                System.out.println("\n message " + message.toString());
-
-                System.out.println("\n helper " + helper.toString());
-
-                javaMailSender.send(message);
-        */
-
-        //avec un corps html dans un string
-        /*
-                javax.mail.internet.MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
-                helper.setSubject("Welcome " + reservationDTO.getUsername());
-
-
-                //le corps de l'email
-                String html = "<!doctype html>\n" +
-                        "<html lang=\"en\" xmlns=\"http://www.w3.org/1999/xhtml\"\n" +
-                        "      xmlns:th=\"http://www.thymeleaf.org\">\n" +
-                        "<head>\n" +
-                        "    <meta charset=\"UTF-8\">\n" +
-                        "    <meta name=\"viewport\"\n" +
-                        "          content=\"width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0\">\n" +
-                        "    <meta http-equiv=\"X-UA-Compatible\" content=\"ie=edge\">\n" +
-                        "    <title>Email</title>\n" +
-                        "</head>\n" +
-                        "<body>\n" +
-                        "<div>Welcome <b>" + reservationDTO.getUsername() + "</b></div>\n" +
-                        "\n" +
-                        "<div> Your Book is ready : <b>" + reservationDTO.getTitre() + "</b></div>\n" +
-                        "</body>\n" +
-                        "</html>\n";
-
-
-
-                helper.setText(html, true);
-                helper.setTo("honore.guillaudeau1@gmail.com");
-
-                System.out.println("\n helper " + helper.toString());
-
-                System.out.println("\n mail destinataire " + reservationDTO.getMail());
-                javaMailSender.send(mimeMessage);
-
-                System.out.println("\n mail envoyé ");
-
-        */
-
-
-        //avec thymeleaf
-
-        System.out.println("\n debut ");
+        System.out.println("\n debut de l'envoie du mail a "  + reservationDTO.getUsername());
+        System.out.println("\n a l'adresse " + reservationDTO.getMail());
         UserEmail user = new UserEmail();
         Context context = new Context();
 
@@ -175,20 +127,90 @@ public class ReservationServiceImpl implements ReservationService{
         System.out.println("\n context fait  ");
 
 
-        String process = templateEngine.process("Mail", context);
+        String process = templateEngine.process("Reservation", context);
         System.out.println("\n process fait  ");
 
         javax.mail.internet.MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
         helper.setFrom("damien.dorval1@gmail.com");
-        helper.setSubject("Welcome " + reservationDTO.getUsername());
+        helper.setSubject("Votre livre est disponible :  " + reservationDTO.getTitre());
         helper.setText(process, true);
         helper.setTo(reservationDTO.getMail());
         javaMailSender.send(mimeMessage);
 
+        System.out.println("\n mail envoyé ");
+
     }
 
+    //les dates de la reservation
+    private ReservationDTO putNewDate()
+    {
+        //la date d'aujourd'hui
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date dateBegin = new Date();
+        System.out.println("\n date de mnt : " + dateFormat.format(dateBegin));
 
+        //Ajout du temps ( 48 h )
+        Date dateEnd = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateBegin);
+        calendar.add(Calendar.DATE,2);
+        dateEnd  = calendar.getTime();
+        System.out.println("\n date de fin de la reservation : "  + dateEnd);
+
+        //convertion en string pour le dto
+        String dateD = dateFormat.format(dateBegin);
+        String dateF = dateFormat.format(dateEnd);
+        System.out.println("\n la date de debut est " + dateD );
+        System.out.println("\n la date de fin est " + dateF);
+
+        ReservationDTO reservationDTO1 = new ReservationDTO();
+        reservationDTO1.setDate_debut(dateD);
+        reservationDTO1.setDate_fin(dateF);
+
+        return reservationDTO1;
+    }
+
+    //envoie une liste recu
+    @Override
+    public void sendListReservation() throws IOException, InterruptedException {
+
+
+        System.out.println("\n liste enregistré " + listReservation);
+
+
+        Map<Integer,ReservationDTO> param = new HashMap<>();
+        int i = 0;
+        for (ReservationDTO reservationDTO : listReservation)
+        {
+            param.put(i, reservationDTO);
+            i++;
+        }
+        var objectMapper = new ObjectMapper();
+        String requestBody = objectMapper.writeValueAsString(param);
+
+        System.out.println("\n les params a save " + requestBody);
+
+
+        this.jwt = securityService.authticate();
+        System.out.println("\n jwt send list " + jwt);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9001/api/batch/reservation/save"))
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .setHeader(HttpHeaders.CONTENT_TYPE,"application/json")
+                .setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+                .build();
+
+        HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+
+        String reponse = response.body();
+
+        System.out.println("\n response : " +  response + "\n reponse : " + reponse);
+
+
+    }
 
 }
 

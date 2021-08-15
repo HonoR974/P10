@@ -8,7 +8,10 @@ import java.util.List;
 
 public interface ReservationService {
 
-    String test();
 
+    //verification des premiers de la liste
     List<ReservationDTO> getFirstReserv() throws IOException, InterruptedException, MessagingException;
+
+    void sendListReservation() throws IOException, InterruptedException;
+
 }

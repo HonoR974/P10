@@ -2,6 +2,7 @@ package com.bibliotheque.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 
@@ -22,9 +23,9 @@ public class Reservation {
 
     private boolean mailSend;
 
-    //dateRetour
-    //taille liste
+    private Date date_debut;
 
+    private Date date_fin;
 
     public Long getId() {
         return id;
@@ -42,7 +43,6 @@ public class Reservation {
     public void setUserReservation(User userReservation) {
         this.userReservation = userReservation;
     }
-
 
 
     public Statut getStatutReservation() {
@@ -69,6 +69,22 @@ public class Reservation {
         this.mailSend = mailSend;
     }
 
+    public Date getDate_debut() {
+        return date_debut;
+    }
+
+    public void setDate_debut(Date date_debut) {
+        this.date_debut = date_debut;
+    }
+
+    public Date getDate_fin() {
+        return date_fin;
+    }
+
+    public void setDate_fin(Date date_fin) {
+        this.date_fin = date_fin;
+    }
+
     @Override
     public String toString() {
         return "Reservation{" +
@@ -77,6 +93,8 @@ public class Reservation {
                 ", livreReservation=" + livreReservation +
                 ", statutReservation=" + statutReservation +
                 ", mailSend=" + mailSend +
+                ", date_debut=" + date_debut +
+                ", date_fin=" + date_fin +
                 '}';
     }
 }

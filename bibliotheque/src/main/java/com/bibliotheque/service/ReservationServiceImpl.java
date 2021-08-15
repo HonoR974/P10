@@ -9,7 +9,11 @@ import com.bibliotheque.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -37,12 +41,9 @@ public class ReservationServiceImpl implements ReservationService{
     public Reservation createReservation(long id_livre)
     {
 
-
-
         Livre livre = livreRepository.findById(id_livre);
         User user = securityService.getUser();
         Statut statut = statutRepository.findByNom("En Attente");
-
 
 
         Reservation reservation = new Reservation();
@@ -106,6 +107,42 @@ public class ReservationServiceImpl implements ReservationService{
         return list;
     }
 
+    @Override
+    public List<Reservation> giveList(List<ReservationDTO> listeDTO) throws ParseException {
+
+        System.out.println("\n give List  " + listeDTO.toString());
+
+        List<Reservation> list = new ArrayList<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        Date debut;
+        Date fin;
+
+        //recupere le statut et les dates du dto
+        for (ReservationDTO reservationDTO : listeDTO)
+        {
+            //recupere la reserve
+            Reservation reservation = new Reservation();
+            reservation.setId(reservationDTO.getId());
+
+            //statut
+            Statut statut = statutRepository.findByNom(reservationDTO.getStatut());
+            reservation.setStatutReservation(statut);
+
+            //date
+            debut = format.parse(reservationDTO.getDate_debut());
+            fin = format.parse(reservationDTO.getDate_fin());
+            reservation.setDate_debut(debut);
+            reservation.setDate_fin(fin);
+
+            //mail
+            reservation.setMailSend(reservationDTO.isSendMail());
+
+            list.add(reservation);
+        }
+
+        return list;
+    }
+
 
     @Override
     public boolean checkPlaceListe(long id_livre) {
@@ -151,6 +188,26 @@ public class ReservationServiceImpl implements ReservationService{
         Statut statut = statutRepository.findByNom("First");
         return reservationRepository.findByStatutReservation(statut);
     }
+
+    @Override
+    public void saveList(HashMap<Integer, ReservationDTO> list) throws ParseException {
+
+        List<ReservationDTO> listDTO = new ArrayList<>();
+
+        for (int i = 0;  i <= list.size(); i++)
+        {
+            listDTO.add(list.get(i));
+        }
+
+        System.out.println("\n listDTO " + listDTO.size());
+
+        List<Reservation> listReserv = giveList(listDTO);
+
+        reservationRepository.saveAll(listReserv);
+
+
+    }
+
 
 
 }
