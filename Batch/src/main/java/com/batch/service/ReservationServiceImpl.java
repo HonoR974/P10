@@ -179,7 +179,7 @@ public class ReservationServiceImpl implements ReservationService{
         System.out.println("\n liste enregistré " + listReservation);
 
 
-        Map<Integer,ReservationDTO> param = new HashMap<>();
+        HashMap<Integer,ReservationDTO> param = new HashMap<>();
         int i = 0;
         for (ReservationDTO reservationDTO : listReservation)
         {
@@ -190,6 +190,7 @@ public class ReservationServiceImpl implements ReservationService{
         String requestBody = objectMapper.writeValueAsString(param);
 
         System.out.println("\n les params a save " + requestBody);
+        
 
 
         this.jwt = securityService.authticate();

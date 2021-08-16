@@ -113,22 +113,32 @@ public class ReservationServiceImpl implements ReservationService{
         System.out.println("\n give List  " + listeDTO.toString());
 
         List<Reservation> list = new ArrayList<>();
-        SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date debut;
         Date fin;
 
         //recupere le statut et les dates du dto
         for (ReservationDTO reservationDTO : listeDTO)
         {
+
+            if (reservationDTO ==null)
+            {
+                break;
+            }
             //recupere la reserve
             Reservation reservation = new Reservation();
             reservation.setId(reservationDTO.getId());
+
+
 
             //statut
             Statut statut = statutRepository.findByNom(reservationDTO.getStatut());
             reservation.setStatutReservation(statut);
 
             //date
+            System.out.println("\n la date a convertire : " + reservationDTO.getDate_debut());
+
+
             debut = format.parse(reservationDTO.getDate_debut());
             fin = format.parse(reservationDTO.getDate_fin());
             reservation.setDate_debut(debut);
@@ -205,9 +215,6 @@ public class ReservationServiceImpl implements ReservationService{
 
         reservationRepository.saveAll(listReserv);
 
-
     }
-
-
 
 }

@@ -9,8 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/batch/reservation")
@@ -23,20 +25,24 @@ public class BReservationController {
 
     //get all first reservation by book
     @GetMapping("/firstAll")
-    public ResponseEntity<List<ReservationDTO>> getFirstReserveByBook()
+    public ResponseEntity<?> getFirstReserveByBook()
     {
         List<Reservation> list = reservationService.getAllFirstReserve();
+        if (list==null)
+        {
+            return new ResponseEntity<String>("Aucun n'a le statut first", HttpStatus.CONFLICT);
+        }
         List<ReservationDTO> listDTO  =reservationService.giveListDTO(list);
 
         return new ResponseEntity<List<ReservationDTO>>(listDTO, HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/save")
-    public HttpStatus saveList(@RequestBody HashMap<Integer,ReservationDTO> list)
-    {
-        saveList(list);
+    public ResponseEntity<?> saveList(@RequestBody HashMap<Integer,ReservationDTO> list) throws ParseException {
+        reservationService.saveList(list);
 
-        return HttpStatus.ACCEPTED;
+        String reponse = "Correct";
+        return new ResponseEntity<String>(reponse, HttpStatus.ACCEPTED);
     }
 
 }
