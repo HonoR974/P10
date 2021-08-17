@@ -28,17 +28,41 @@ public class BReservationController {
     public ResponseEntity<?> getFirstReserveByBook()
     {
         List<Reservation> list = reservationService.getAllFirstReserve();
+
         if (list==null)
         {
             return new ResponseEntity<String>("Aucun n'a le statut first", HttpStatus.CONFLICT);
         }
+
+        System.out.println("\n list : " + list.toString());
         List<ReservationDTO> listDTO  =reservationService.giveListDTO(list);
 
         return new ResponseEntity<List<ReservationDTO>>(listDTO, HttpStatus.ACCEPTED);
     }
 
+    //get all first reservation by book
+    //wich doesn't send mail
+    @GetMapping("/firstNoSendMail")
+    public ResponseEntity<?> getFirstReserveByBookNoSendMail()
+    {
+        List<Reservation> list = reservationService.getAllFirstReserveNoSendMail();
+
+        if (list==null)
+        {
+            return new ResponseEntity<String>("Aucun n'a le statut first", HttpStatus.CONFLICT);
+        }
+
+        System.out.println("\n list : " + list.toString());
+        List<ReservationDTO> listDTO  =reservationService.giveListDTO(list);
+
+        return new ResponseEntity<List<ReservationDTO>>(listDTO, HttpStatus.ACCEPTED);
+    }
+
+
     @PostMapping("/save")
     public ResponseEntity<?> saveList(@RequestBody HashMap<Integer,ReservationDTO> list) throws ParseException {
+
+        System.out.println("\n la liste demandé a save " + list.toString());
         reservationService.saveList(list);
 
         String reponse = "Correct";

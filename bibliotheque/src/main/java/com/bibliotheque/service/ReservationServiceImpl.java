@@ -40,20 +40,49 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public Reservation createReservation(long id_livre)
     {
-
         Livre livre = livreRepository.findById(id_livre);
+
+        //si le le livre n'a pas de reservation avec le statut first
+        Statut statut = statutDisponible(livre);
+
         User user = securityService.getUser();
-        Statut statut = statutRepository.findByNom("En Attente");
+
+
 
 
         Reservation reservation = new Reservation();
         reservation.setLivreReservation(livre);
         reservation.setUserReservation(user);
         reservation.setStatutReservation(statut);
+        System.out.println("\n la reservation crée " + reservation.toString());
 
         reservationRepository.save(reservation);
         return reservation;
     }
+
+    //si le livre a deja une reservation avec le statut first
+    //renvoie statut InLine
+    //sinon renvoie statut First
+    private Statut statutDisponible(Livre livre)
+    {
+        Statut statut = statutRepository.findByNom("First");
+        List<Reservation> reservationList = livre.getReservations();
+
+        for (Reservation reservation : reservationList)
+        {
+            //si la reservation a le statut first il ne peut pas en avoir d'autre
+            //donc InList
+            if (reservation.getStatutReservation().getNom().equals("First"))
+            {
+                System.out.println("\n la reservation : " + reservation.getId() + " est la First ");
+                statut = statutRepository.findByNom("InList");
+                break;
+            }
+
+        }
+        return statut;
+    }
+
     @Override
     public boolean checkEmpruntUser(long id_livre)
     {
@@ -85,6 +114,8 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public ReservationDTO giveReservationDTO(Reservation reservation) {
 
+
+        System.out.println("\n la reservation a convertir " + reservation.toString());
         ReservationDTO reservationDTO = new ReservationDTO();
         reservationDTO.setId(reservation.getId());
         reservationDTO.setUsername(reservation.getUserReservation().getUsername());
@@ -113,6 +144,7 @@ public class ReservationServiceImpl implements ReservationService{
         System.out.println("\n give List  " + listeDTO.toString());
 
         List<Reservation> list = new ArrayList<>();
+        Reservation reservation;
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date debut;
         Date fin;
@@ -126,9 +158,7 @@ public class ReservationServiceImpl implements ReservationService{
                 break;
             }
             //recupere la reserve
-            Reservation reservation = new Reservation();
-            reservation.setId(reservationDTO.getId());
-
+            reservation = reservationRepository.findById(reservationDTO.getId());
 
 
             //statut
@@ -196,7 +226,30 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public List<Reservation> getAllFirstReserve() {
         Statut statut = statutRepository.findByNom("First");
+
+        System.out.println("\n le repos simple " + reservationRepository.findAll());
+        System.out.println("\n getAllFirstReserver " + reservationRepository.findByStatutReservation(statut).toString() );
         return reservationRepository.findByStatutReservation(statut);
+    }
+
+    @Override
+    public List<Reservation> getAllFirstReserveNoSendMail() {
+        Statut statut = statutRepository.findByNom("First");
+
+        List<Reservation> listFirst = reservationRepository.findByStatutReservation(statut);
+        List<Reservation> listFinal = new ArrayList<>();
+
+        for (Reservation reservation : listFirst)
+        {
+            if (!reservation.isMailSend())
+            {
+                listFinal.add(reservation);
+            }
+        }
+
+        System.out.println("\n la liste First NoSendMail " + listFinal.toString());
+
+        return listFinal;
     }
 
     @Override
@@ -206,10 +259,11 @@ public class ReservationServiceImpl implements ReservationService{
 
         for (int i = 0;  i <= list.size(); i++)
         {
+
             listDTO.add(list.get(i));
         }
 
-        System.out.println("\n listDTO " + listDTO.size());
+        System.out.println("\n listDTO " + listDTO.toString());
 
         List<Reservation> listReserv = giveList(listDTO);
 

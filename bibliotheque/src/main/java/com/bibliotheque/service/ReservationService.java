@@ -39,6 +39,8 @@ public interface ReservationService {
 
     List<Reservation> getAllFirstReserve();
 
+    List<Reservation> getAllFirstReserveNoSendMail();
+
     void saveList(HashMap<Integer,ReservationDTO> list) throws ParseException;
 
 }

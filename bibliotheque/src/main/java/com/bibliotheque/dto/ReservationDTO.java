@@ -6,7 +6,7 @@ import lombok.Data;
 public class ReservationDTO
 {
 
-    private Long id;
+    private long id;
     private String username;
     private String titre;
     private String statut;

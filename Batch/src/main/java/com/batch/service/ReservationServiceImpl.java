@@ -59,7 +59,7 @@ public class ReservationServiceImpl implements ReservationService{
         this.jwt = securityService.authticate();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:9001/api/batch/reservation/firstAll"))
+                .uri(URI.create("http://localhost:9001/api/batch/reservation/firstNoSendMail"))
                 .GET()
                 .setHeader(HttpHeaders.CONTENT_TYPE,"application/json")
                 .setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
@@ -190,7 +190,7 @@ public class ReservationServiceImpl implements ReservationService{
         String requestBody = objectMapper.writeValueAsString(param);
 
         System.out.println("\n les params a save " + requestBody);
-        
+
 
 
         this.jwt = securityService.authticate();
