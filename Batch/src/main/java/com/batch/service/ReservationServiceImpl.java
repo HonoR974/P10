@@ -58,6 +58,7 @@ public class ReservationServiceImpl implements ReservationService{
 
         this.jwt = securityService.authticate();
 
+
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("http://localhost:9001/api/batch/reservation/firstNoSendMail"))
                 .GET()
@@ -212,6 +213,51 @@ public class ReservationServiceImpl implements ReservationService{
 
 
     }
+
+
+    public void checkDelai() throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9001/api/batch/reservation/checkDelai"))
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .setHeader(HttpHeaders.CONTENT_TYPE,"application/json")
+                .setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+                .build();
+
+        HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+
+        String reponse = response.body();
+
+        System.out.println("\n response : " +  response + "\n reponse : " + reponse);
+
+
+    }
+
+    @Override
+    public void checkListReservForStatut() throws IOException, InterruptedException {
+
+
+        System.out.println("\n jwt checkListForStatut " + jwt);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9001/api/batch/reservation/checkListeReserv"))
+                .POST(HttpRequest.BodyPublishers.noBody())
+                .setHeader(HttpHeaders.CONTENT_TYPE,"application/json")
+                .setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+                .build();
+
+        HttpResponse<String> response = client.send(request,
+                HttpResponse.BodyHandlers.ofString());
+
+        String reponse = response.body();
+
+        System.out.println("\n response : " +  response + "\n reponse : " + reponse);
+
+
+    }
+
+
+
 
 }
 

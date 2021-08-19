@@ -1,8 +1,11 @@
 package com.bibliotheque.web.controller.batch;
 
 
+import com.bibliotheque.dto.LivreDTO;
 import com.bibliotheque.dto.ReservationDTO;
+import com.bibliotheque.model.Livre;
 import com.bibliotheque.model.Reservation;
+import com.bibliotheque.service.LivreService;
 import com.bibliotheque.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +24,8 @@ public class BReservationController {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private LivreService livreService;
 
 
     //get all first reservation by book
@@ -67,6 +72,47 @@ public class BReservationController {
 
         String reponse = "Correct";
         return new ResponseEntity<String>(reponse, HttpStatus.ACCEPTED);
+    }
+
+    //check le delai de 48 h apres l'envoie de l'email
+    @PostMapping("/checkDelai")
+    public ResponseEntity<?> checkDelai ()
+    {
+        List<Reservation> list = reservationService.checkDelai();
+        List<ReservationDTO> dtoList = reservationService.giveListDTO(list);
+
+        System.out.println("\n la liste des reservation annuler apres le dela de 48 h "
+        + dtoList.toString());
+
+        return new ResponseEntity<List<ReservationDTO>>(dtoList, HttpStatus.ACCEPTED);
+    }
+
+
+
+    //verifie les listes de reservations des livres
+    //si la liste n'a plus de first
+    //en elire une nouvelle reserv
+    @PostMapping("/checkListeReserv")
+    public ResponseEntity<?> checkListeResev()
+    {
+       List<Livre> livreChange =  reservationService.checkListeReservForAllBook();
+
+        System.out.println("\n la liste des livres qui ont eu une réservation changé au statut first "
+        + livreChange.toString());
+
+        List<LivreDTO> listeDTO;
+
+        if (livreChange.isEmpty())
+        {
+            return new ResponseEntity<String>("Aucun livre n'a eu une nouvelle " +
+                    "reservation ", HttpStatus.CONFLICT);
+        }
+        else {
+            listeDTO = livreService.convertListLivre(livreChange);
+
+            return new ResponseEntity<List<LivreDTO>>(listeDTO, HttpStatus.ACCEPTED);
+        }
+
     }
 
 }

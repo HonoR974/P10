@@ -20,11 +20,17 @@ public class Reservation {
     @ManyToOne
     private Statut statutReservation;
 
+    private Date dateDemande;
+
     private boolean mailSend;
 
     private Date date_debut;
 
     private Date date_fin;
+
+
+
+    //access
 
     public Long getId() {
         return id;
@@ -84,6 +90,14 @@ public class Reservation {
         this.date_fin = date_fin;
     }
 
+    public Date getDateDemande() {
+        return dateDemande;
+    }
+
+    public void setDateDemande(Date dateDemande) {
+        this.dateDemande = dateDemande;
+    }
+
     @Override
     public String toString() {
         return "Reservation{" +
@@ -91,6 +105,7 @@ public class Reservation {
                 ", userReservation=" + userReservation +
                 ", livreReservation=" + livreReservation +
                 ", statutReservation=" + statutReservation +
+                ", dateDemande=" + dateDemande +
                 ", mailSend=" + mailSend +
                 ", date_debut=" + date_debut +
                 ", date_fin=" + date_fin +

@@ -1,5 +1,6 @@
 package com.bibliotheque.service;
 
+import com.bibliotheque.dto.LivreDTO;
 import com.bibliotheque.dto.ReservationDTO;
 import com.bibliotheque.model.*;
 import com.bibliotheque.repository.LivreRepository;
@@ -9,6 +10,7 @@ import com.bibliotheque.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,6 +34,9 @@ public class ReservationServiceImpl implements ReservationService{
     @Autowired
     private LivreRepository livreRepository;
 
+    @Autowired
+    private LivreService livreService;
+
     /**
      * Creer une reservation avec l'id du livre
      * @param id_livre
@@ -45,15 +50,20 @@ public class ReservationServiceImpl implements ReservationService{
         //si le le livre n'a pas de reservation avec le statut first
         Statut statut = statutDisponible(livre);
 
+        //l'user avec le jwt
         User user = securityService.getUser();
 
-
+        //la date d'aujourd'hui
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date dateDemande = new Date();
+        System.out.println("\n date de mnt : " + dateFormat.format(dateDemande));
 
 
         Reservation reservation = new Reservation();
         reservation.setLivreReservation(livre);
         reservation.setUserReservation(user);
         reservation.setStatutReservation(statut);
+        reservation.setDateDemande(dateDemande);
         System.out.println("\n la reservation crée " + reservation.toString());
 
         reservationRepository.save(reservation);
@@ -114,6 +124,9 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public ReservationDTO giveReservationDTO(Reservation reservation) {
 
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        String date_demande = dateFormat.format(reservation.getDateDemande());
+
 
         System.out.println("\n la reservation a convertir " + reservation.toString());
         ReservationDTO reservationDTO = new ReservationDTO();
@@ -123,6 +136,9 @@ public class ReservationServiceImpl implements ReservationService{
         reservationDTO.setStatut(reservation.getStatutReservation().getNom());
         reservationDTO.setSendMail(reservationDTO.isSendMail());
         reservationDTO.setMail(reservation.getUserReservation().getEmail());
+
+        reservationDTO.setDate_demande(dateFormat.format(reservation.getDateDemande()));
+
         return reservationDTO;
     }
 
@@ -270,5 +286,123 @@ public class ReservationServiceImpl implements ReservationService{
         reservationRepository.saveAll(listReserv);
 
     }
+
+
+
+    //verifie le delai des reservation statut first
+    @Override
+    public List<Reservation> checkDelai() {
+        Date dateNow = new Date(System.currentTimeMillis());
+        Date dateFinReserv = new Date();
+        Statut statut = statutRepository.findByNom("Annuler");
+        Statut statutFirst = statutRepository.findByNom("First");
+        List<Reservation> liste = reservationRepository.findByStatutReservation(statutFirst);
+        List<Reservation> reservChanged = new ArrayList<>();
+
+
+
+        for (Reservation reservation : liste)
+        {
+            dateFinReserv = reservation.getDate_fin();
+
+            //mail envoyé et delai depassé = annulation
+            if (reservation.isMailSend() && dateFinReserv.before(dateNow))
+            {
+                System.out.println("\n la reservation est dépassé de 48 h ID : " + reservation.getId());
+                reservation.setStatutReservation(statut);
+                reservationRepository.save(reservation);
+                reservChanged.add(reservation);
+            }
+        }
+
+
+        return reservChanged;
+    }
+
+
+   //cherche les reservations qui n'ont pas de statut first
+    @Override
+    public List<Livre> checkListeReservForAllBook()
+    {
+
+        List<Livre> listLivre = livreRepository.findAll();
+        List<Livre> listeSend = new ArrayList<>();
+        List<Reservation> listReservation;
+
+        for (Livre livre : listLivre)
+        {
+            listReservation = livre.getReservations();
+
+
+            //savoir si il a une reserve first
+            if ( !listReservation.isEmpty() && !checkNewFirst(listReservation) )
+            {
+                System.out.println("\n le livre " + livre.getId() +
+                        " n' a pas de reservation first  first");
+
+                //si il n'en a pas
+                //la plus vielle devient first
+
+                findNewReserv(livre.getReservations());
+                listeSend.add(livre);
+            }
+
+        }
+        return listeSend;
+    }
+
+
+    public boolean checkNewFirst(List<Reservation> list)
+    {
+        boolean containFirst = false;
+
+        for (Reservation reservation : list)
+        {
+            if (reservation.getStatutReservation().getNom().equals("First"))
+            {
+                System.out.println("\n la reservation : " + reservation.getId() +
+                        " a le statut first ");
+                containFirst = true;
+            }
+        }
+
+        return containFirst;
+    }
+
+    public void findNewReserv(List<Reservation> list)
+    {
+        System.out.println("\n Find New Reserv ");
+        int index = 0;
+        Date date = new Date(System.currentTimeMillis());
+
+        Statut statut = statutRepository.findByNom("First");
+
+        Reservation reservation;
+        System.out.println("\n taille de la liste " + list.size());
+
+
+        for (int i =0; i < list.size(); i++)
+        {
+            reservation = list.get(i);
+            if (reservation.getDateDemande().before(date))
+            {
+                date = reservation.getDateDemande();
+                index = i;
+            }
+        }
+
+        List<ReservationDTO> dtoList = giveListDTO(list);
+        System.out.println("\n index " + index);
+        System.out.println("\n la liste avant l acces  a la nouvelle reservation  "
+        +  dtoList.toString());
+        reservation = list.get(index);
+        reservation.setStatutReservation(statut);
+        reservationRepository.save(reservation);
+
+        System.out.println("\n la nouvelle reservation first est " + reservation.toString());
+
+        System.out.println("\n --------------------FIN DU JOB --------------------------");
+    }
+
 
 }

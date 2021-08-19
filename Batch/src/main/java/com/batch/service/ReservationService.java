@@ -14,5 +14,7 @@ public interface ReservationService {
 
     void sendListReservation() throws IOException, InterruptedException;
 
+    void checkListReservForStatut() throws IOException, InterruptedException;
 
+    void checkDelai() throws IOException, InterruptedException;
 }

@@ -14,4 +14,5 @@ public class ReservationDTO
     private String mail;
     private String date_debut;
     private String date_fin;
+    private String date_demande;
 }

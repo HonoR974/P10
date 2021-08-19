@@ -35,29 +35,29 @@ public class ReservConfig {
     public Job reservBatch()
     {
         return jobBuilders.get("Reservation")
-                .start(verifFirstUser())
-
+                .start(getFirstReserv())
                 .next(sendList())
+                .next(checkDelai())
+                .next(checkListReservByBook())
                 .build();
     }
 
 
     @Bean
-    public Step verifFirstUser() {
-        return stepBuilders.get("verifUser")
-                .tasklet(verificationUser())
+    public Step getFirstReserv (){
+        return stepBuilders.get("getFirstReservationNoSendMail")
+                .tasklet(getFirstReservation())
                 .build();
     }
 
     @Bean
-    public MethodInvokingTaskletAdapter verificationUser()
+    public MethodInvokingTaskletAdapter getFirstReservation()
     {
         MethodInvokingTaskletAdapter adapter = new MethodInvokingTaskletAdapter();
         adapter.setTargetObject(reservationService());
         adapter.setTargetMethod("getFirstReserv");
         return adapter;
     }
-
 
 
     @Bean
@@ -74,6 +74,47 @@ public class ReservConfig {
         adapter.setTargetObject(reservationService());
         adapter.setTargetMethod("sendListReservation");
 
+        return adapter;
+    }
+
+
+    //cherche les livres qui n'ont pas de reserv statut first
+    //pour un elire une par sa date de demande
+    //la plus vieille sera choisi
+    @Bean
+    public Step checkListReservByBook()
+    {
+        return stepBuilders.get("checkListeReservationByBook")
+                .tasklet(checkList())
+                .build();
+    }
+
+    //
+    @Bean
+    public MethodInvokingTaskletAdapter checkList()
+    {
+        MethodInvokingTaskletAdapter adapter = new MethodInvokingTaskletAdapter();
+        adapter.setTargetObject(reservationService());
+        adapter.setTargetMethod("checkListReservForStatut");
+        return adapter;
+    }
+
+    //verifie le delai de 48 h
+    @Bean
+    public Step checkDelai()
+    {
+        return stepBuilders.get("checkDelail")
+                .tasklet(checkDelaiMethod())
+                .build();
+    }
+
+
+    @Bean
+    public MethodInvokingTaskletAdapter checkDelaiMethod()
+    {
+        MethodInvokingTaskletAdapter adapter = new MethodInvokingTaskletAdapter();
+        adapter.setTargetObject(reservationService());
+        adapter.setTargetMethod("checkDelai");
         return adapter;
     }
 

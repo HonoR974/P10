@@ -1,8 +1,10 @@
 package com.bibliotheque.service;
 
 import com.bibliotheque.dto.ReservationDTO;
+import com.bibliotheque.model.Livre;
 import com.bibliotheque.model.Reservation;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -43,4 +45,8 @@ public interface ReservationService {
 
     void saveList(HashMap<Integer,ReservationDTO> list) throws ParseException;
 
+
+    List<Livre> checkListeReservForAllBook();
+
+    List<Reservation> checkDelai();
 }

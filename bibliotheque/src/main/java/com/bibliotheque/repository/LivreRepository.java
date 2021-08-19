@@ -24,4 +24,5 @@ public interface LivreRepository extends JpaRepository <Livre,Long>{
     List<Livre> findByTitreContainsOrAuteurContains(String titre, String auteur);
 
     List<Livre> findByTitreIsContainingOrAuteurIsContaining(String titre, String auteur);
+
 }
