@@ -17,4 +17,6 @@ public interface ReservationService {
     void checkListReservForStatut() throws IOException, InterruptedException;
 
     void checkDelai() throws IOException, InterruptedException;
+
+    void sendMail(ReservationDTO reservationDTO) throws MessagingException;
 }

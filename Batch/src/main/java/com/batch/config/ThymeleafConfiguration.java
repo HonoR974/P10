@@ -33,16 +33,6 @@ public class ThymeleafConfiguration {
         return templateResolver;
     }
 
-    //css
-    @Bean
-    public SpringResourceTemplateResolver thymeleafTemplateCSSResolver() {
-        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-        templateResolver.setPrefix("classpath:/css/");
-        templateResolver.setSuffix(".css");
-        templateResolver.setTemplateMode("CSS");
-        return templateResolver;
-    }
-
 
 
     @Bean

@@ -30,6 +30,7 @@ public class Scheduler {
 */
 
 
+/*
     @Scheduled(fixedRate = 5000)
     public void performReserve() throws Exception {
 
@@ -37,7 +38,7 @@ public class Scheduler {
         batchLauncher.runReserve();
 
     }
-
+*/
 
 
 }

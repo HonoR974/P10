@@ -114,7 +114,8 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     //envoie du mail
-    private void sendMail(ReservationDTO reservationDTO) throws MessagingException {
+    @Override
+    public void sendMail(ReservationDTO reservationDTO) throws MessagingException {
 
         System.out.println("\n debut de l'envoie du mail a "  + reservationDTO.getUsername());
         System.out.println("\n a l'adresse " + reservationDTO.getMail());
@@ -124,6 +125,7 @@ public class ReservationServiceImpl implements ReservationService{
         user.setUsername(reservationDTO.getUsername());
         user.setLivre(reservationDTO.getTitre());
         context.setVariable("user", user);
+        context.setVariable("icon", "book.png");
 
         System.out.println("\n context fait  ");
 

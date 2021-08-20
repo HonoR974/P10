@@ -8,45 +8,52 @@
 -->
     <title>Le mail envoyé </title>
 </head>
-    <body>
-    <style>
-        .body {
-            background-color: aliceblue;
-        }
-
-        h1
-        {
-            font-size: 50px;
-        }
-
-        .test
-        {
-            background-color: aquamarine;
-        }
+    <body style="
+            background-color: rgba(5,210,248,0.1);
+            margin-left: 20px; margin-right: 20px;
+           ">
 
 
 
-    </style>
+        <div style="width: 100%; height: 15px;">
 
-    <div style="height: 50px;width: 100%; background-color: rgba(234,98,252,0.7)";>
+        </div>
 
-         <h2> Pour l'user : <strong th:utext="${user.username}"></strong>
-            <br>
-             Le livre : <strong th:utext="${user.livre}"></strong> est disponible
-         </h2>
-    </div>
+        <!-- Titre -->
+        <div style="min-height: 50px; width: 100%;
+                           background-color: rgba(5,210,248,0.3);
+                 ">
+            <h3 style="align-content: center;">Votre livre est disponible </h3>
+        </div>
 
-    <h1>On test le css </h1>
 
-    il doit y avoir un nouveau fond le style de l'email n'est clairement pas fini
+        <div style="width: 100%; height: 15px;">
 
-    <div class="test">
-        <p>Hello</p>
-    </div>
+        </div>
 
-    <h1> Le titre de l'email :) </h1>
+        <div style="">
 
-    <p>Le CSS va arriver un jour </p>
+        </div>
+
+        <div style="min-height: 100px;
+                width: 100%; margin: 5px; ">
+            <p style=" position: center">Bonjour   <strong th:utext="${user.username}"></strong>
+                <br>
+                votre bibliotheque a votre livre  <strong th:utext="${user.livre}"></strong>
+                <br>
+                pensez à venir le récupérer.
+            </p>
+
+
+        </div>
+
+
+        <div style="width: 100%; height: 15px;">
+            Les histoires n'attendent pas
+        </div>
+
+
+
 
 
     </body>
