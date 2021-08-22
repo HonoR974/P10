@@ -18,5 +18,5 @@ public interface ReservationService {
 
     void checkDelai() throws IOException, InterruptedException;
 
-    void sendMail(ReservationDTO reservationDTO) throws MessagingException;
+    String sendMail(ReservationDTO reservationDTO) throws MessagingException, IOException;
 }

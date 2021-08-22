@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/batch")
@@ -28,17 +29,15 @@ public class ReservationController {
     }
 
     @GetMapping("/sendMail")
-    public String testMail() throws MessagingException {
+    public String testMail() throws MessagingException, IOException {
         ReservationDTO reservationDTO = new ReservationDTO();
+
         reservationDTO.setUsername("Théo Duchamps");
-        reservationDTO.setMail("honore.guillaudeau1@gmail.com");
+        reservationDTO.setMail("smiirf123@gmail.com");
         reservationDTO.setTitre("Le labyrinth");
 
 
-        reservationService.sendMail(reservationDTO);
-
-
-        return "mail Envoyé";
+        return reservationService.sendMail(reservationDTO);
     }
 
 

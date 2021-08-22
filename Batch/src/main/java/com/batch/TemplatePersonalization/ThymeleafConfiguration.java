@@ -1,4 +1,4 @@
-package com.batch.config;
+package com.batch.TemplatePersonalization;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

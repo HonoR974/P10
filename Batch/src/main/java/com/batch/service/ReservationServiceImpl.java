@@ -1,20 +1,17 @@
 package com.batch.service;
 
+import com.batch.TemplatePersonalization.DynamicTemplatePersonalization;
 import com.batch.model.ReservationDTO;
 import com.batch.model.UserEmail;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sendgrid.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -22,9 +19,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+
 import java.util.*;
 
 @Service
@@ -38,11 +33,6 @@ public class ReservationServiceImpl implements ReservationService{
     @Autowired
     private SecurityService securityService;
 
-    @Autowired
-    private JavaMailSender javaMailSender;
-
-    @Autowired
-    private TemplateEngine templateEngine;
 
     private String jwt;
 
@@ -84,7 +74,7 @@ public class ReservationServiceImpl implements ReservationService{
 
     //verfication si un mail leurs a été envoyé
     //un mail par reserv
-    private List<ReservationDTO> checkFirstReserv(List<ReservationDTO> list) throws MessagingException {
+    private List<ReservationDTO> checkFirstReserv(List<ReservationDTO> list) throws MessagingException, IOException {
         List<ReservationDTO> listFinal = new ArrayList<>();
 
         for (ReservationDTO reservationDTO : list)
@@ -115,7 +105,8 @@ public class ReservationServiceImpl implements ReservationService{
 
     //envoie du mail
     @Override
-    public void sendMail(ReservationDTO reservationDTO) throws MessagingException {
+    public String sendMail(ReservationDTO reservationDTO) throws MessagingException, IOException {
+        /*
 
         System.out.println("\n debut de l'envoie du mail a "  + reservationDTO.getUsername());
         System.out.println("\n a l'adresse " + reservationDTO.getMail());
@@ -143,7 +134,45 @@ public class ReservationServiceImpl implements ReservationService{
 
         System.out.println("\n mail envoyé ");
 
+        */
+        String retour = "envoie de l'email ";
+        Email from = new Email("honore.guillaudeau1@gmail.com");
+        String subject = "le retour de sendgrid";
+        Email to = new Email(reservationDTO.getMail());
+        Content content = new Content("text/plain", "This a test email");
+        Mail mail = new Mail(from, subject, to, content);
+
+        DynamicTemplatePersonalization personalization = new DynamicTemplatePersonalization();
+        personalization.addTo(to);
+        mail.setFrom(from);
+        mail.setSubject(subject);
+
+        //personalization.addDynamicTemplateData("user", "Sami");
+        //personalization.addDynamicTemplateData("subject", "le sujet perso");
+        //personalization.addDynamicTemplateData("livre", "le book ");
+        mail.addPersonalization(personalization);
+
+        mail.setTemplateId("d-b5dafae25e7b440f82a8e5f3e58b6c7c");
+
+        SendGrid sg = new SendGrid("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");
+        Request request= new Request();
+
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            Response response = sg.api(request);
+
+            return "Mail bien envoyé " +  response.getBody();
+        } catch (IOException e)
+        {
+            System.out.println("\n l'erreur du mail " + e.getMessage());
+        }
+        return retour;
+
     }
+
+
 
     //les dates de la reservation
     private ReservationDTO putNewDate()
