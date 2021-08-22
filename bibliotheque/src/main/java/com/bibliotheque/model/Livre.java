@@ -24,6 +24,7 @@ public class Livre {
     @Column(name = "titre")
     private String titre;
 
+    @JsonIgnore
     @ManyToOne
     private Bibliotheque bibliotheque;
 

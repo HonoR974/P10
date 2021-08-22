@@ -114,7 +114,7 @@ public class LivreServiceImpl implements LivreService{
     {
         List<LivreDTO> listFinal = new ArrayList<>();
 
-        List<Examplaire> listExamplaire = new ArrayList<>();
+        List<Examplaire> listExamplaire;
 
 
         for (Livre livre : list)
