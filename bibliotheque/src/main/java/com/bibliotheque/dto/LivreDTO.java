@@ -12,6 +12,12 @@ public class LivreDTO {
     private long examplaires;
     private String titreImage;
 
+    //date retour la plus proche reservation ( la date de fin )
+    private String dateRetour;
+
+    //nmb user ayant réservé
+    private int nmbUserReserv;
+
     public Long getId() {
         return id;
     }
@@ -58,5 +64,21 @@ public class LivreDTO {
 
     public void setTitreImage(String titreImage) {
         this.titreImage = titreImage;
+    }
+
+    public String getDateRetour() {
+        return dateRetour;
+    }
+
+    public void setDateRetour(String dateRetour) {
+        this.dateRetour = dateRetour;
+    }
+
+    public int getNmbUserReserv() {
+        return nmbUserReserv;
+    }
+
+    public void setNmbUserReserv(int nmbUserReserv) {
+        this.nmbUserReserv = nmbUserReserv;
     }
 }

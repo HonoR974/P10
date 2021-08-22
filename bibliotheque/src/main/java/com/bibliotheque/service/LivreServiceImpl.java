@@ -3,12 +3,19 @@ package com.bibliotheque.service;
 import com.bibliotheque.dto.LivreDTO;
 import com.bibliotheque.model.Examplaire;
 import com.bibliotheque.model.Livre;
+import com.bibliotheque.model.Reservation;
+import com.bibliotheque.model.Statut;
 import com.bibliotheque.repository.LivreRepository;
+import com.bibliotheque.repository.ReservationRepository;
+import com.bibliotheque.repository.StatutRepository;
 import com.bibliotheque.web.exception.LivreIntrouvableException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +26,12 @@ public class LivreServiceImpl implements LivreService{
 
     @Autowired
     private LivreRepository livreRepository;
+
+    @Autowired
+    private StatutRepository statutRepository;
+
+    @Autowired
+    private ReservationRepository reservationRepository;
 
     /**
      * Recupere touts les livres
@@ -131,12 +144,12 @@ public class LivreServiceImpl implements LivreService{
                 if (! examplaire.isEmprunt() )
                     countExamplaire++;
             }
-
             livreDTO.setExamplaires(countExamplaire);
 
             livreDTO.setTitreImage(livre.getImage().getName());
             livreDTO.setDescription(livre.getDescription());
-
+            livreDTO.setDateRetour(dateRetourByLivre(livre));
+            livreDTO.setNmbUserReserv(nmbUserReserv(livre));
             listFinal.add(livreDTO);
         }
 
@@ -175,6 +188,43 @@ public class LivreServiceImpl implements LivreService{
         return livreDTO;
     }
 
+    private String dateRetourByLivre(Livre livre)
+    {
+        Statut statut = statutRepository.findByNom("First");
+        List<Reservation> listReserv = reservationRepository.findByStatutReservationAndLivreReservation(statut, livre);
+        Date dateRetour = new Date();
+
+        for (Reservation reservation : listReserv)
+        {
+            if (reservation.getDate_fin().before(dateRetour))
+            {
+                dateRetour = reservation.getDate_fin();
+            }
+
+        }
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+        if (dateRetour==null)
+        {
+            return "null";
+        }
+        return dateFormat.format(dateRetour);
+
+    }
+
+    private int nmbUserReserv(Livre livre)
+    {
+        int nmbUser = 0;
+        Statut statut1 = statutRepository.findByNom("First");
+        Statut statut2 = statutRepository.findByNom("InList");
+
+        List<Reservation> reservationList = reservationRepository.findByStatutReservationOrStatutReservationAndLivreReservation(statut1,statut2,livre);
+        System.out.println("\n nmb de reservation est de " + reservationList.size() + "sur le livre a l'id " + livre.getId());
+
+        nmbUser = reservationList.size();
+        return nmbUser;
+    }
 
     /**
      * Recupere touts les livres
