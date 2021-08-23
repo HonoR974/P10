@@ -80,4 +80,6 @@ public interface LivreService {
      */
     List<Livre> searchLivre(String recherche);
 
+    boolean checkDispo(long id);
+
 }

@@ -50,6 +50,7 @@ public class AuthBiblioServiceImpl implements AuthBiblioService{
     public String authenticate(UserDTO user) throws IOException, InterruptedException
     {
 
+        System.out.println("\n authentification de " + user.getUsername() + " et son mdp : " + user.getPassword());
         //je récupère les valeurs de l'user
         var values = new HashMap<String, String>() {{
             put("username", user.getUsername());

@@ -68,7 +68,7 @@
 
                 <div class="cadreChamps">
                     <div class="champs">
-                        <input type="text" th:field="*{username}" class="form-control" placeholder="Username"
+                        <input type="text" th:field="${utilisateur.username}" class="form-control" placeholder="Username"
                                autofocus="true">
                         <p class="alert alert-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
                     </div>
@@ -76,7 +76,7 @@
 
                     <div class="champs">
                         <input name="password" type="password" class="form-control"  placeholder="Password"
-                               th:field="*{password}"/>
+                               th:field="${utilisateur.password}"/>
                         <p class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                     </div>
 
@@ -84,13 +84,13 @@
 
                     <div class="champs">
                         <input name="matchingPassword" type="password" class="form-control" placeholder="Password"
-                               th:field="*{matchingPassword}"/>
+                               th:field="${utilisateur.matchingPassword}"/>
                         <p class="alert alert-danger" th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}" ></p>
                     </div>
 
                     <div class="champs">
                         <input name="mail" type="email" class="form-control" placeholder="email"
-                               th:field="*{email}"/>
+                               th:field="${utilisateur.email}"/>
                         <p class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" ></p>
 
                     </div>

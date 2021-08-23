@@ -127,31 +127,10 @@ public class LivreServiceImpl implements LivreService{
     {
         List<LivreDTO> listFinal = new ArrayList<>();
 
-        List<Examplaire> listExamplaire;
-
-
-        for (Livre livre : list)
-        {
-            LivreDTO livreDTO = new LivreDTO();
-            livreDTO.setId(livre.getId());
-            livreDTO.setAuteur(livre.getAuteur());
-            livreDTO.setTitre(livre.getTitre());
-
-            listExamplaire = livre.getExamplaires();
-            long countExamplaire = 0 ;
-            for (Examplaire examplaire : listExamplaire)
-            {
-                if (! examplaire.isEmprunt() )
-                    countExamplaire++;
-            }
-            livreDTO.setExamplaires(countExamplaire);
-
-            livreDTO.setTitreImage(livre.getImage().getName());
-            livreDTO.setDescription(livre.getDescription());
-            livreDTO.setDateRetour(dateRetourByLivre(livre));
-            livreDTO.setNmbUserReserv(nmbUserReserv(livre));
-            listFinal.add(livreDTO);
-        }
+       for (Livre livre : list)
+       {
+           listFinal.add(convertLivre(livre));
+       }
 
         return listFinal;
     }
@@ -165,12 +144,15 @@ public class LivreServiceImpl implements LivreService{
     public LivreDTO convertLivre(Livre livre) {
 
         LivreDTO livreDTO = new LivreDTO();
+        List<Examplaire> examplaires = livre.getExamplaires();
+
         livreDTO.setId(livre.getId());
         livreDTO.setAuteur(livre.getAuteur());
         livreDTO.setTitre(livre.getTitre());
+        livreDTO.setDescription(livre.getDescription());
 
-        List<Examplaire> examplaires = livre.getExamplaires();
 
+        //nmb d'exemplaire
         long count = 0 ;
         for (Examplaire examplaire : examplaires)
         {
@@ -179,8 +161,23 @@ public class LivreServiceImpl implements LivreService{
                 count++;
             }
         }
-        livreDTO.setExamplaires(count);
 
+        //si touts ses exemplaires sont emprunté
+        if (count <= 0)
+        {
+            livreDTO.setDisponible(false);
+            livreDTO.setDateRetour(dateRetourByLivre(livre));
+            livreDTO.setNmbUserReserv(nmbUserReserv(livre));
+
+        }
+        else
+        {
+
+            livreDTO.setDisponible(true);
+
+        }
+
+        livreDTO.setExamplaires(count);
         livreDTO.setTitreImage(livre.getImage().getName());
         livreDTO.setDescription(livre.getDescription());
 
@@ -193,6 +190,8 @@ public class LivreServiceImpl implements LivreService{
         Statut statut = statutRepository.findByNom("First");
         List<Reservation> listReserv = reservationRepository.findByStatutReservationAndLivreReservation(statut, livre);
         Date dateRetour = new Date();
+        Date dateVerif = new Date();
+        System.out.println("\n la date retour " + dateRetour.toString());
 
         for (Reservation reservation : listReserv)
         {
@@ -205,8 +204,9 @@ public class LivreServiceImpl implements LivreService{
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
-        if (dateRetour==null)
+        if (dateRetour.equals(dateVerif))
         {
+            System.out.println("\n il n'a pas de date de retour (livre) :  " + livre.getId());
             return "null";
         }
         return dateFormat.format(dateRetour);
@@ -219,7 +219,7 @@ public class LivreServiceImpl implements LivreService{
         Statut statut1 = statutRepository.findByNom("First");
         Statut statut2 = statutRepository.findByNom("InList");
 
-        List<Reservation> reservationList = reservationRepository.findByStatutReservationOrStatutReservationAndLivreReservation(statut1,statut2,livre);
+        List<Reservation> reservationList = reservationRepository.findByLivreReservationAndStatutReservationOrStatutReservation(livre,statut1,statut2);
         System.out.println("\n nmb de reservation est de " + reservationList.size() + "sur le livre a l'id " + livre.getId());
 
         nmbUser = reservationList.size();
@@ -260,4 +260,24 @@ public class LivreServiceImpl implements LivreService{
 
         return list4;
     }
+
+    //verifie si un livre est disponible
+    @Override
+    public boolean checkDispo(long id)
+    {
+        Livre livre = livreRepository.findById(id);
+        boolean disponible = false;
+
+        for (Examplaire examplaire : livre.getExamplaires())
+        {
+            if (!examplaire.isEmprunt())
+            {
+                disponible = true;
+            }
+        }
+
+        return disponible;
+    }
+
+
 }

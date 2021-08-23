@@ -4,6 +4,7 @@ import com.bibliotheque.dto.PretDTO;
 import com.bibliotheque.dto.ReservationDTO;
 import com.bibliotheque.model.Pret;
 import com.bibliotheque.model.Reservation;
+import com.bibliotheque.service.LivreService;
 import com.bibliotheque.service.ReservationService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class ReservationController {
     @Autowired
     private ReservationService reservationService;
 
+    @Autowired
+    private LivreService livreService;
+
     /**
      * Creer une Reservation avec l'id du livre
      * @param id_livre
@@ -32,18 +36,27 @@ public class ReservationController {
     @GetMapping("/create/{id}")
     public ResponseEntity<?> createPret(@PathVariable(name = "id")Long id_livre)
     {
+        long id = id_livre;
+        String message;
+        //si le livre a des examplaire disponible
+        // ( donc l'user peut emprunté )
+        if (livreService.checkDispo(id))
+        {
+            message = "Le livre a des examplaires disponibles ";
+            return new ResponseEntity<String>(message, HttpStatus.CONFLICT);
+        }
 
         //si le livre n'a plus de place
         if (! reservationService.checkPlaceListe(id_livre))
         {
-            String message = "le livre n'a plus de place dans sa fille d'atttente  ";
+             message = "le livre n'a plus de place dans sa fille d'atttente  ";
             return new ResponseEntity<String>(message, HttpStatus.CONFLICT);
         }
 
         //si l'user emprunte le livre
         if ( ! reservationService.checkEmpruntUser(id_livre))
         {
-            String message = "l'user possede deja ce livre ";
+            message = "l'user possede deja ce livre ";
             return new ResponseEntity<String>(message, HttpStatus.CONFLICT);
         }
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -40,8 +41,7 @@ public class EspaceController
      */
     @GetMapping()
     public String espaceAccueil(@RequestParam(name = "jwt")String jwt,
-                                Model model) throws IOException, InterruptedException
-    {
+                                Model model) throws IOException, InterruptedException, ParseException {
         UserDTO user = authBiblioService.getUserDTOByJwt(jwt);
         boolean prolongable=true;
 
@@ -67,7 +67,7 @@ public class EspaceController
      */
     @GetMapping("/pret")
     public String pretDetail(@RequestParam(name = "id")Long id,
-                             Model model) throws IOException, InterruptedException {
+                             Model model) throws IOException, InterruptedException, ParseException {
         PretDTO pretDTO = espaceService.getPretDTOByIdPret(id);
         PretBean pretBean = pretService.givePretBean(pretDTO);
 
@@ -86,7 +86,7 @@ public class EspaceController
      * @throws InterruptedException
      */
     @GetMapping("/admin/prets")
-    public String getPretEmprunter(Model model) throws IOException, InterruptedException {
+    public String getPretEmprunter(Model model) throws IOException, InterruptedException, ParseException {
 
         List<PretDTO> list = pretService.getPretEmprunter();
 

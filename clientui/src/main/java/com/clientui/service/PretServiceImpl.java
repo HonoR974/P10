@@ -12,6 +12,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -76,38 +78,19 @@ public class PretServiceImpl implements PretService
      * @return pretBean
      */
     @Override
-    public PretBean givePretBean(PretDTO pretDTO)
-    {
+    public PretBean givePretBean(PretDTO pretDTO) throws ParseException {
 
         System.out.println("\n givePretBean " + pretDTO.toString() );
-
-       // convertir les dates en local date
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        LocalDate dateDebut = LocalDate.parse((pretDTO.getDate_debut()), formatter);
-        LocalDate dateFin = LocalDate.parse((pretDTO.getDate_fin()), formatter);
-
-        System.out.println("\n dateDebut : " + dateDebut + "\n" + formatter.format(dateDebut));
-        System.out.println("\n dateFin : " + dateFin  + "\n" + formatter.format(dateFin ));
-
-        // localdate a date
-        //default time zone
-        ZoneId defaultZoneId = ZoneId.systemDefault();
-
-
-        Date dateBegin = Date.from(dateDebut.atStartOfDay(defaultZoneId).toInstant());
-        Date dateFinish = Date.from(dateFin.atStartOfDay(defaultZoneId).toInstant());
-
-
-
 
         PretBean pretBean = new PretBean();
 
         pretBean.setId(pretDTO.getId());
 
         //ajouter les dates
-        pretBean.setDate_debut(dateBegin);
-        pretBean.setDate_fin(dateFinish);
+        Date date1=new SimpleDateFormat("yyyy/MM/dd").parse(pretDTO.getDate_debut());
+        Date date2=new SimpleDateFormat("dd/MM/yyyy").parse(pretDTO.getDate_fin());
+        pretBean.setDate_debut(date1);
+        pretBean.setDate_fin(date2);
 
 
         pretBean.setUsername(pretDTO.getUsername());
@@ -272,7 +255,7 @@ public class PretServiceImpl implements PretService
     }
 
     @Override
-    public List<PretBean> convertList(List<PretDTO> list) {
+    public List<PretBean> convertList(List<PretDTO> list) throws ParseException {
 
         List<PretBean> listBean = new ArrayList<>();
 

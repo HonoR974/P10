@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 
@@ -47,8 +48,7 @@ public class PretController
      */
     @GetMapping("/pret")
     public String createPret(@RequestParam(value = "id")Long id_examplaire,
-                             Model model) throws IOException, InterruptedException
-    {
+                             Model model) throws IOException, InterruptedException, ParseException {
 
         TesterUser user = authBiblioService.testConnection();
 
@@ -59,6 +59,7 @@ public class PretController
 
             PretDTO pretDTO = pretService.createPret(id_examplaire);
 
+            System.out.println("\n le pretDTO créer " + pretDTO.toString());
             PretBean pretBean = pretService.givePretBean(pretDTO);
 
             model.addAttribute("pret", pretBean);
@@ -83,7 +84,7 @@ public class PretController
      */
     @GetMapping("/validate")
     public String validePret(@RequestParam(value = "id")Long id_pret,
-                             Model model) throws IOException, InterruptedException {
+                             Model model) throws IOException, InterruptedException, ParseException {
 
         PretDTO pretDTO = pretService.validePret(id_pret);
         PretBean pretBean = pretService.givePretBean(pretDTO);
@@ -129,7 +130,7 @@ public class PretController
      */
     @GetMapping("/prolong")
     public String prolongPret(@RequestParam(value = "id")Long id,
-                              Model model) throws IOException, InterruptedException {
+                              Model model) throws IOException, InterruptedException, ParseException {
 
        PretDTO pretDTO2 = pretService.getPretDTOById(id);
 

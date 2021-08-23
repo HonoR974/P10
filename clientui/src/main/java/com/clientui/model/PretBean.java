@@ -79,4 +79,6 @@ public class PretBean
     public void setDate_fin(Date date_fin) {
         this.date_fin = date_fin;
     }
+
+
 }

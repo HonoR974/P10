@@ -4,6 +4,7 @@ import com.clientui.model.PretBean;
 import com.clientui.dto.PretDTO;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public interface PretService
      * @param pretDTO
      * @return pretBean
      */
-    PretBean givePretBean(PretDTO pretDTO);
+    PretBean givePretBean(PretDTO pretDTO) throws ParseException;
 
     /**
      * Recupere un pret dto par l'id
@@ -76,5 +77,5 @@ public interface PretService
      * @param list
      * @return liste
      */
-    List<PretBean> convertList(List<PretDTO> list);
+    List<PretBean> convertList(List<PretDTO> list) throws ParseException;
 }
