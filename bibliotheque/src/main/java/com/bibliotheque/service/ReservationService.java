@@ -49,4 +49,6 @@ public interface ReservationService {
     List<Livre> checkListeReservForAllBook();
 
     List<Reservation> checkDelai();
+
+    List<Reservation> getReservByBook(Long id_livre);
 }

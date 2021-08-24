@@ -302,12 +302,6 @@ td
 }
 
 
-
-.espaceListeLivre
-{
-    background-color: rgba(152,163,245,0.5);
-}
-
 .cadreButtonLivre button
 {
     background-color: white;
@@ -327,5 +321,81 @@ td
     text-decoration: underline;
     text-decoration-color: red;
 
+}
+
+/* Partie Reservation Cadre Liste Livres */
+
+.cadreReservation
+{
+    box-shadow: 0 4px 8px 0 rgb(0 0 0);
+    width: auto;
+    background-color: rgba(222,190,47,0.2);
+    margin: 10px;
+    border-radius: 10px;
+}
+
+
+.infoCardReservation
+{
+    max-width: 300px;
+    padding-left: 10px;
+    padding-top: 5px;
+    font-size: 20px;
+}
+
+.cadreButtonReservation
+{
+    max-width: 300px;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+
+.cadreButtonReservation button
+{
+    background-color: white;
+    background-color: rgba(245,194,64,0.2);
+    border-radius: 5px;
+}
+
+.cadreButtonReservation a
+{
+    font-size: 25px;
+}
+
+.cadreButtonReservation a:hover
+{
+    color: white;
+    text-decoration: underline;
+    text-decoration-color: red;
+
+}
+
+.infoReservation
+{
+
+}
+
+.infoReservation strong
+{
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.espaceListeLivre
+{
+background-color: rgba(152,163,245,0.5);
 }
 

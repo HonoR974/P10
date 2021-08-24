@@ -86,6 +86,16 @@ public class ReservationController {
         return new ResponseEntity<List<ReservationDTO>>(reservationListDTO,HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("/get/livre/{id}")
+    public ResponseEntity<?> getReservationByBook(@PathVariable(name = "id")Long id_livre)
+    {
+        List<Reservation> reservationList = reservationService.getReservByBook(id_livre);
+
+        List<ReservationDTO> dtoList = reservationService.giveListDTO(reservationList);
+
+        return new ResponseEntity<List<ReservationDTO>>(dtoList, HttpStatus.ACCEPTED);
+    }
+
     /**
      * Get Reservation By User
      * @return

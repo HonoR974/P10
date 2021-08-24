@@ -288,7 +288,6 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
 
-
     //verifie le delai des reservation statut first
     @Override
     public List<Reservation> checkDelai() {
@@ -405,4 +404,16 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
 
+    @Override
+    public List<Reservation> getReservByBook(Long id_livre)
+    {
+        long id = id_livre;
+        Livre livre = livreRepository.findById(id);
+        Statut statut1 = statutRepository.findByNom("First");
+        Statut statut2 = statutRepository.findByNom("InList");
+
+        return reservationRepository.findByLivreReservationAndStatutReservationOrStatutReservation(livre,statut1,statut2);
+    }
 }
+
+

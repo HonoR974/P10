@@ -21,4 +21,5 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
     List<Reservation> findByStatutReservationAndLivreReservation(Statut statut, Livre livre);
 
     List<Reservation> findByLivreReservationAndStatutReservationOrStatutReservation(Livre livre, Statut statut1, Statut statut2);
+
 }
