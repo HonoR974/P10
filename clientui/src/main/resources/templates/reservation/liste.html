@@ -4,27 +4,118 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/reservation.css}"/>
     <title>Title</title>
 </head>
 <body>
 
-    <div>
-        <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>Statut</th>
-        </tr>
+
+<!-- Menu -->
+<header>
+
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <a class="navbar-brand" th:href="@{/}" >Bibliotheque </a>
+
+        <!-- btn toggle -->
+        <div>
+            <button class="navbar-toggler" type="button"
+                    data-toggle="collapse" data-target="#navbarContent">
+                <span class="navbar-toggler-icon" ></span>
+            </button>
+        </div>
+
+        <div  class="collapse navbar-collapse" id="navbarContent" >
+            <ul class="navbar-nav  mr-auto mt-2 mt-lg-0  ">
+
+                <!-- Livres -->
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/livres/all}">Livres</a>
+                </li>
+
+                <!-- Espace Perso-->
+                <li class="nav-item" th:if="${user.connected}">
+                    <a class="nav-link" th:href="@{/espace(jwt=${user.jwt})}">Espace</a>
+                </li>
+
+                <!-- Login -->
+                <li class="nav-item " th:if="${!user.connected}">
+                    <a class="nav-link" th:href="@{/login}">Sign in</a>
+                </li>
+
+                <!-- Inscription  -->
+                <li class="nav-item " th:if="${!user.connected}">
+                    <a class="nav-link" th:href="@{/register}">Sign up</a>
+                </li>
 
 
-        <tr th:each="reserv : ${listeReserv}">
-            <td th:utext="${reserv.id}"></td>
-            <td th:utext="${reserv.username}"></td>
-            <td th:utext="${reserv.statut}"></td>
-        </tr>
+                <!-- btn logout -->
+                <li class="nav-item"  th:if="${user.connected}" >
+
+                    <!--  <a th:url="/logout">">Logout</a> -->
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
+
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0" th:action="@{/search}">
+                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Recherche" aria-label="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Recherche</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+
+<div class="container">
+
+    <div class="fondListeReservation">
+        <div class="cadreTitre">
+            <h1>Les réservation en cours : </h1>
+        </div>
+
+        <div class="cadreListe">
+            <table>
+                <tr>
+                    <th>Username</th>
+                    <th>Statut</th>
+                    <th>Date de la demande</th>
+                </tr>
+
+                <tr th:each="reserv: ${listeReserv}">
+                    <td th:utext="${reserv.username}"></td>
+                    <td th:utext="${reserv.statut}"></td>
+                    <td th:utext="${reserv.date_demande}"></td>
+                </tr>
+
+            </table>
+
+        </div>
+
+        <div class="infoResev">
+        il va y avoir un text et un bel espace ici
+        </div>
+
+        <div class="cadreButton">
+            <button class="btn btn-outline-primary">
+                <a th:href="@{/createReservation(id=${livre.id})}">S'inscrire à la file d'attente </a>
+            </button>
+        </div>
+
+
+
     </div>
 
+    <div class="alertReserv" th:if="${message!=null}">
+        <span class="closebtn">X</span>
+        <strong th:utext="${message}">
+        </strong>
+    </div>
+
+</div>
 
 
+
+    <script th:src="@{/js/script.js}"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>

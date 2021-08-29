@@ -50,6 +50,8 @@ public class ReservationServiceImpl implements ReservationService{
         //si le le livre n'a pas de reservation avec le statut first
         Statut statut = statutDisponible(livre);
 
+        System.out.println("\n creation le statut " + statut.getNom());
+
         //l'user avec le jwt
         User user = securityService.getUser();
 
@@ -80,16 +82,29 @@ public class ReservationServiceImpl implements ReservationService{
 
         for (Reservation reservation : reservationList)
         {
+            System.out.println("\n reservation taille " + reservationList.size());
+
+            //premiere reservation
+            if (reservationList.size() < 2 )
+            {
+
+                System.out.println("\n statut a retourner " + statut.toString());
+              return statut;
+            }
+
             //si la reservation a le statut first il ne peut pas en avoir d'autre
             //donc InList
-            if (reservation.getStatutReservation().getNom().equals("First"))
+             else if (reservation.getStatutReservation().getNom().equals("First") )
             {
                 System.out.println("\n la reservation : " + reservation.getId() + " est la First ");
                 statut = statutRepository.findByNom("InList");
-                break;
+                System.out.println("\n statut a retourner " + statut.toString());
+                return statut;
             }
 
         }
+
+        System.out.println("\n statut a retourner " + statut.toString());
         return statut;
     }
 
@@ -134,10 +149,10 @@ public class ReservationServiceImpl implements ReservationService{
         reservationDTO.setUsername(reservation.getUserReservation().getUsername());
         reservationDTO.setTitre(reservation.getLivreReservation().getTitre());
         reservationDTO.setStatut(reservation.getStatutReservation().getNom());
-        reservationDTO.setSendMail(reservationDTO.isSendMail());
         reservationDTO.setMail(reservation.getUserReservation().getEmail());
-
+        reservationDTO.setSendMail(reservationDTO.isSendMail());
         reservationDTO.setDate_demande(dateFormat.format(reservation.getDateDemande()));
+        reservationDTO.setTitreImage(reservation.getLivreReservation().getImage().getName());
 
         return reservationDTO;
     }
@@ -222,12 +237,41 @@ public class ReservationServiceImpl implements ReservationService{
         return condition;
     }
 
+    //verifie si l'user ne possede pas deja une reservation sur le livre
+    @Override
+    public boolean checkReservDispo(long id_livre) {
+
+        Livre livre = livreRepository.findById(id_livre);
+        User user = securityService.getUser();
+        boolean reservDispo = true;
+
+        System.out.println("\n check Reserv Dispo ");
+        //le livre a des reservations
+        if (!livre.getReservations().isEmpty())
+        {
+
+            for (Reservation reservation : livre.getReservations())
+            {
+                System.out.println("\n la reservation " + reservation.getId());
+                if (reservation.getUserReservation().getUsername().equals(user.getUsername())) {
+                    System.out.println("\n l'user :" + user + " possede deja le livre ");
+                    reservDispo = false;
+                    break;
+                }
+            }
+        }
+
+        return reservDispo;
+
+    }
+
     @Override
     public List<Reservation> getByUser() {
         User user = securityService.getUser();
-        Statut statut = statutRepository.findByNom("En Attente");
+        Statut statut = statutRepository.findByNom("First");
+        Statut statut2 = statutRepository.findByNom("InList");
 
-        return reservationRepository.findByStatutReservationAndUserReservation(statut,user);
+        return reservationRepository.findByUserReservationAndStatutReservationOrStatutReservation(user, statut, statut2);
     }
 
     @Override
@@ -414,6 +458,9 @@ public class ReservationServiceImpl implements ReservationService{
 
         return reservationRepository.findByLivreReservationAndStatutReservationOrStatutReservation(livre,statut1,statut2);
     }
+
+
+
 }
 
 

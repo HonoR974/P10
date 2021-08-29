@@ -1,0 +1,129 @@
+body
+{
+    background-color: rgba(99,230,214,0.2);
+}
+
+
+nav
+{
+    background-color: rgb(203, 153, 126) ;
+}
+
+
+.nav-item
+{
+    margin-left: 20px;
+}
+
+.topnav-right
+{
+    float: right;
+}
+
+
+
+a
+{
+    text-decoration: none;
+    font-size: 22px;
+    color: black;
+}
+
+button:hover, a:hover
+{
+    opacity: 0.7;
+}
+
+.fondListeReservation
+{
+    margin-top: 20px;
+   display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+}
+
+
+/*-----------   Titre   ------------*/
+.cadreTitre
+{
+    margin: 10px;
+    display: flex;
+    justify-content: center;
+
+}
+
+/*-----------   Liste   ------------*/
+
+.cadreListe
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.cadreListe
+{
+    width: 100%;
+    font-size: 20px;
+}
+
+
+.cadreListe table
+{
+    width: 100%;
+}
+
+.cadreListe tr
+{
+    text-align: center;
+}
+
+.cadreListe th
+{
+    background-color: rgba(161,210,230,0.8);
+    padding: 10px;
+    text-decoration: underline;
+}
+
+.cadreListe td
+{
+    background-color: rgba(204,215,230,0.5);
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+/*------------ Info Reservation ------------ */
+
+.infoReserv
+{
+    height: 200px;
+
+    background-color: rgba(187,245,201,0.5);
+}
+
+
+/*-----------   Button   ------------*/
+.cadreButton
+{
+
+}
+
+
+
+/*--------- Alert -------*/
+.alertReserv
+{
+    width: 100%;
+    background-color: rgba(100,100,100,0.4);
+    height: 50px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+
+

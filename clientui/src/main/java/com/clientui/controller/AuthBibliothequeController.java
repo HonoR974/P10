@@ -77,19 +77,26 @@ public class AuthBibliothequeController {
         String jwtBrut;
         String jwt = null;
         String username = "vide";
+
         try {
             jwt = authBiblioService.authenticate(userDTO);
 
             username = authBiblioService.getUserNameByToken(jwt);
 
-
-        } catch (IOException e) {
+        }
+        catch (NullPointerException e)
+        {
+            System.out.println("\n l'user n'est pas inscrit ");
+            return "redirect:/register";
+        }
+        catch (IOException e) {
             System.out.println("\n ca ne marche pas " );
         } catch (InterruptedException e) {
             System.out.println("\n ca ne fonctionne pas " );
         } catch (URISyntaxException e) {
             System.out.println("\n Mauvaise URI " );
         }
+
 
         model.addAttribute("username", username);
         model.addAttribute("jwt", jwt);

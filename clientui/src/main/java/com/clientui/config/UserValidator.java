@@ -71,7 +71,7 @@ public class UserValidator implements Validator {
     public String valid(Object o, Errors errors) {
         String message ="";
         UserDTO user = (UserDTO) o;
-
+        System.out.println("\n l'object " + o.toString());
 
         //Username
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");

@@ -80,15 +80,14 @@ public class PretServiceImpl implements PretService
     @Override
     public PretBean givePretBean(PretDTO pretDTO) throws ParseException {
 
-        System.out.println("\n givePretBean " + pretDTO.toString() );
 
         PretBean pretBean = new PretBean();
 
         pretBean.setId(pretDTO.getId());
 
         //ajouter les dates
-        Date date1=new SimpleDateFormat("yyyy/MM/dd").parse(pretDTO.getDate_debut());
-        Date date2=new SimpleDateFormat("dd/MM/yyyy").parse(pretDTO.getDate_fin());
+        Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(pretDTO.getDate_debut());
+        Date date2=new SimpleDateFormat("yyyy-MM-dd").parse(pretDTO.getDate_fin());
         pretBean.setDate_debut(date1);
         pretBean.setDate_fin(date2);
 

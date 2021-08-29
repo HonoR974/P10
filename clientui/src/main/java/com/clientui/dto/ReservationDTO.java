@@ -13,4 +13,5 @@ public class ReservationDTO {
     private String date_debut;
     private String date_fin;
     private String date_demande;
+    private String titreImage;
 }

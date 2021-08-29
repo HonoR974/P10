@@ -1,11 +1,13 @@
 package com.clientui.controller;
 
 import com.clientui.dto.PretDTO;
+import com.clientui.dto.ReservationDTO;
 import com.clientui.dto.UserDTO;
 import com.clientui.model.PretBean;
 import com.clientui.service.AuthBiblioService;
 import com.clientui.service.EspaceService;
 import com.clientui.service.PretService;
+import com.clientui.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +35,8 @@ public class EspaceController
     @Autowired
     private PretService pretService;
 
+    @Autowired
+    private ReservationService reservationService;
 
     /**
      * Accueil espace user
@@ -43,15 +47,22 @@ public class EspaceController
     public String espaceAccueil(@RequestParam(name = "jwt")String jwt,
                                 Model model) throws IOException, InterruptedException, ParseException {
         UserDTO user = authBiblioService.getUserDTOByJwt(jwt);
+
+        //alert box
         boolean prolongable=true;
 
+        //liste de prets
         List<PretDTO> list = espaceService.getListePretByIdUser(user.getId());
 
+        //liste de reservations
+        List<ReservationDTO> reservationDTOList = reservationService.getReserByUser();
+        System.out.println("\n la liste des reserv " + reservationDTOList);
 
         model.addAttribute("user", authBiblioService.testConnection());
         model.addAttribute("utilisateur", espaceService.getUserDTOByID(user.getId()));
         model.addAttribute("liste",  pretService.convertList(list));
         model.addAttribute("prolongable", prolongable);
+        model.addAttribute("listeReserv", reservationDTOList);
 
         return "espace/Accueil";
     }

@@ -33,6 +33,9 @@ public interface ReservationService {
     //verification : la liste d'attente d'un livre peut contenir une autre reservation
     boolean checkPlaceListe(long id_livre);
 
+    //verification : l'user ne reserve pas deja le livre
+    boolean checkReservDispo(long id_livre);
+
     //Get Reservation By User
     List<Reservation> getByUser();
 
@@ -44,7 +47,6 @@ public interface ReservationService {
     List<Reservation> getAllFirstReserveNoSendMail();
 
     void saveList(HashMap<Integer,ReservationDTO> list) throws ParseException;
-
 
     List<Livre> checkListeReservForAllBook();
 

@@ -111,7 +111,44 @@
              </div>
         </div>
 
+        <div class="row">
+            <div class="title">
+                Mes Réservations
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="cadreReservation">
+                <div class="cardReserv" th:each="reserv : ${listeReserv}">
+                    <img th:src="@{'/image/' + ${reserv.titreImage}}" th:alt="${reserv.titreImage}"/>
+
+                    <div class="infoCard" th:if="${reserv.sendMail}">
+                        <div class="titleCard" th:utext="${reserv.titre}"></div>
+                        <div class="dateCard"> <div class="titreDate">Date Début</div> <div class="date" th:utext="${#dates.format(reserv.date_debut, 'dd-MM-yyyy')}"></div></div>
+                        <div class="dateCard"> <div class="titreDate">Date Fin</div> <div class="date" th:utext="${#dates.format(reserv.date_fin, 'dd-MM-yyyy')}"></div></div>
+                    </div>
+
+                    <div class="infoCard" th:if="${!reserv.sendMail}">
+                        <div class="titleCard" th:utext="${reserv.titre}"></div>
+                        <div class="textCard"> <div class="titreDate">Statut</div> <div class="text" th:utext="${reserv.statut}"></div></div>
+                        <div class="dateCard"> <div class="titreDate">Date Demande </div> <div class="date" th:utext="${#dates.format(reserv.date_demande, 'dd-MM-yyyy')}"></div></div>
+
+
+                    </div>
+
+                    <div class="buttonCard">
+                        <button >
+                            <a>Sélectionner</a>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
     </div>
+
+
 
 
     <div class="Footer">

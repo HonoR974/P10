@@ -30,7 +30,6 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public List<ReservationDTO> getReservByBook(Long id) throws IOException, InterruptedException {
 
-        System.out.println("\n getReservByBook");
 
         this.jwt = authBiblioService.getJwt();
         HttpRequest request = HttpRequest.newBuilder()
@@ -49,9 +48,55 @@ public class ReservationServiceImpl implements ReservationService{
 
         ObjectMapper mapper= new ObjectMapper();
 
-        List<ReservationDTO> list = mapper.readValue(response.body().toString(),
+        return mapper.readValue(response.body().toString(),
                 new TypeReference<List<ReservationDTO>>() {});
-        return list;
     }
+
+    @Override
+    public String createReserv(Long id_livre) throws IOException, InterruptedException {
+        System.out.println("\n jwt " + jwt);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9001/api/reservation/create/" + id_livre))
+               .GET()
+                .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+                .setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+                .build();
+
+        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+
+        String reponse = response.body();
+
+        System.out.println("\n response " + response + "\n reponse " + reponse);
+
+
+        return reponse;
+    }
+
+    @Override
+    public List<ReservationDTO> getReserByUser() throws IOException, InterruptedException {
+
+        this.jwt = authBiblioService.getJwt();
+        System.out.println("\n jwt : " + jwt );
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9001/api/reservation/get/user" ))
+                .GET()
+                .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+                .setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+                .build();
+
+        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+
+        String reponse = response.body();
+
+        System.out.println("\n response " + response + "\n reponse " + reponse);
+
+        ObjectMapper mapper= new ObjectMapper();
+
+        return mapper.readValue(response.body().toString(),
+                new TypeReference<List<ReservationDTO>>() {});
+    }
+
 
 }

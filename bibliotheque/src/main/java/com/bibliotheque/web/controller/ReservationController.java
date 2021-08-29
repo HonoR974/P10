@@ -38,6 +38,9 @@ public class ReservationController {
     {
         long id = id_livre;
         String message;
+
+
+
         //si le livre a des examplaire disponible
         // ( donc l'user peut emprunté )
         if (livreService.checkDispo(id))
@@ -45,29 +48,33 @@ public class ReservationController {
             message = "Le livre a des examplaires disponibles ";
             return new ResponseEntity<String>(message, HttpStatus.CONFLICT);
         }
-
         //si le livre n'a plus de place
-        if (! reservationService.checkPlaceListe(id_livre))
+        else  if (! reservationService.checkPlaceListe(id_livre))
         {
-             message = "le livre n'a plus de place dans sa fille d'atttente  ";
+            message = "le livre n'a plus de place dans sa fille d'atttente  ";
             return new ResponseEntity<String>(message, HttpStatus.CONFLICT);
         }
 
         //si l'user emprunte le livre
-        if ( ! reservationService.checkEmpruntUser(id_livre))
+        else if ( ! reservationService.checkEmpruntUser(id_livre))
         {
             message = "l'user possede deja ce livre ";
             return new ResponseEntity<String>(message, HttpStatus.CONFLICT);
         }
 
+        //si l'user reserve deja le livre
+         else if ( ! reservationService.checkReservDispo(id_livre))
+        {
+            message = "L'user reserve deja le livre";
+            return new ResponseEntity<String>(message, HttpStatus.CONFLICT);
+        }
+
         Reservation reservation = reservationService.createReservation(id_livre);
 
+        System.out.println("\n la reservation a convertire  : " + reservation.toString());
 
         ReservationDTO reservationDTO = reservationService.giveReservationDTO(reservation);
         return new ResponseEntity<ReservationDTO>(reservationDTO, HttpStatus.ACCEPTED);
-
-
-
 
     }
 

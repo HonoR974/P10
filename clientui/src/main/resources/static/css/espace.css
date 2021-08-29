@@ -56,6 +56,7 @@ a
     font-family: Georgia, serif;
 }
 
+/**-------------Cadre Pret---------- */
 .cadreListe
 {
     width: 100%;
@@ -141,7 +142,7 @@ a
     color: white;
 }
 
-/* The alert message box */
+/* -----------The alert message box ---------*/
 .alert {
     padding: 20px;
     background-color: #f44336; /* Red */
@@ -166,6 +167,42 @@ a
     color: black;
 }
 
+/**--------- Cadre Reservation  ------------**/
+.cadreReservation
+{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgba(277,159,240,0.8);
+}
+
+
+.cardReserv
+{
+
+    height: 550px;
+    margin: 10px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 10px;
+    background-color: rgba(172,163,240,0.8);
+
+}
+
+.cardReserv img
+{
+    height: 350px;
+    width: 250px;
+}
+
+
+
+
+
+/**----------Footer -----------*/
 .Footer
 {
     width: 100%;

@@ -165,8 +165,13 @@ public class LivreServiceImpl implements LivreService{
         //si touts ses exemplaires sont emprunté
         if (count <= 0)
         {
+            //plus dispo
             livreDTO.setDisponible(false);
+
+            //la date de retour si il est first
             livreDTO.setDateRetour(dateRetourByLivre(livre));
+
+
             livreDTO.setNmbUserReserv(nmbUserReserv(livre));
 
         }
@@ -187,6 +192,8 @@ public class LivreServiceImpl implements LivreService{
 
     private String dateRetourByLivre(Livre livre)
     {
+        String reponseDate = "";
+
         Statut statut = statutRepository.findByNom("First");
         List<Reservation> listReserv = reservationRepository.findByStatutReservationAndLivreReservation(statut, livre);
         Date dateRetour = new Date();
@@ -195,7 +202,12 @@ public class LivreServiceImpl implements LivreService{
 
         for (Reservation reservation : listReserv)
         {
-            if (reservation.getDate_fin().before(dateRetour))
+
+            if (listReserv.size() <= 2 )
+            {
+                break;
+            }
+            else if (reservation.getDate_fin().before(dateRetour) )
             {
                 dateRetour = reservation.getDate_fin();
             }
