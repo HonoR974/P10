@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sendgrid.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,11 @@ public class ReservationServiceImpl implements ReservationService{
     @Autowired
     private SecurityService securityService;
 
+    @Value("template.id")
+    private String templateID;
+
+    @Value("sg.id")
+    private String sgID;
 
     private String jwt;
 
@@ -70,7 +76,7 @@ public class ReservationServiceImpl implements ReservationService{
         return checkFirstReserv(list);
 
     }
-
+    
     //verfication si un mail leurs a été envoyé
     //un mail par reserv
     private List<ReservationDTO> checkFirstReserv(List<ReservationDTO> list) throws MessagingException, IOException {
@@ -151,9 +157,9 @@ public class ReservationServiceImpl implements ReservationService{
         //personalization.addDynamicTemplateData("livre", "le book ");
         mail.addPersonalization(personalization);
 
-        mail.setTemplateId("d-b5dafae25e7b440f82a8e5f3e58b6c7c");
+        mail.setTemplateId(templateID);
 
-        SendGrid sg = new SendGrid("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");
+        SendGrid sg = new SendGrid(sgID);
         Request request= new Request();
 
         try {
