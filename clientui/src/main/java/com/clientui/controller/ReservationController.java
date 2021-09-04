@@ -1,5 +1,6 @@
 package com.clientui.controller;
 
+import com.clientui.dto.ExamplaireDTO;
 import com.clientui.dto.LivreDTO;
 import com.clientui.dto.ReservationDTO;
 import com.clientui.model.TesterUser;
@@ -91,5 +92,30 @@ public class ReservationController {
 
 
     }
+
+
+    //annulation de la reservation
+    @GetMapping("/cancelReservation")
+    public String cancelReserv(@RequestParam("id")Long id_reserv) throws IOException, InterruptedException {
+
+        String message = reservationService.cancelReservation(id_reserv);
+        return "redirect:/espace?jwt="+authBiblioService.getJwt();
+    }
+
+
+    //emprunter le livre ( sendMail is true )
+    //pour la creation du pret
+    //l'id de l'exemplaire est necessaire
+    @GetMapping("/finishReservation")
+    public String finishReserv(@RequestParam("id")Long id_reserv) throws IOException, InterruptedException {
+
+        ExamplaireDTO examplaireDTO = reservationService.finishReserv(id_reserv);
+        System.out.println("\n l'examplaire choisi pôur la reserv est " + examplaireDTO.toString());
+
+        //le return possede l'id de l'exemplaire disponible
+        return "redirect:/pret/" + examplaireDTO.getId();
+    }
+
+
 
 }

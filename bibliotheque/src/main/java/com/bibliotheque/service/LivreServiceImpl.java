@@ -152,6 +152,7 @@ public class LivreServiceImpl implements LivreService{
         livreDTO.setDescription(livre.getDescription());
 
 
+
         //nmb d'exemplaire
         long count = 0 ;
         for (Examplaire examplaire : examplaires)
@@ -291,7 +292,28 @@ public class LivreServiceImpl implements LivreService{
         return disponible;
     }
 
-    //
+    @Override
+    public void checkDispoAllLivres() {
+
+        List<Livre> list = livreRepository.findAll();
+        List<Livre> listeFinal = new ArrayList<>();
+
+        System.out.println("\n checkDispoAllLivres ");
+
+        for (Livre livre : list)
+        {
+
+            livre.setDisponible(false);
+            for (Examplaire examplaire : livre.getExamplaires())
+            {
+                if (!examplaire.isEmprunt())
+                {
+                    livre.setDisponible(true);
+                }
+            }
+            livreRepository.save(livre);
+        }
+    }
 
 
 }

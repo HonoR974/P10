@@ -1,9 +1,12 @@
 package com.bibliotheque.web.controller;
 
+import com.bibliotheque.dto.ExamplaireDTO;
 import com.bibliotheque.dto.PretDTO;
 import com.bibliotheque.dto.ReservationDTO;
+import com.bibliotheque.model.Examplaire;
 import com.bibliotheque.model.Pret;
 import com.bibliotheque.model.Reservation;
+import com.bibliotheque.service.ExamplaireService;
 import com.bibliotheque.service.LivreService;
 import com.bibliotheque.service.ReservationService;
 import org.modelmapper.ModelMapper;
@@ -27,6 +30,9 @@ public class ReservationController {
 
     @Autowired
     private LivreService livreService;
+
+    @Autowired
+    private ExamplaireService examplaireService;
 
     /**
      * Creer une Reservation avec l'id du livre
@@ -112,6 +118,8 @@ public class ReservationController {
     {
         List<Reservation> reservationList = reservationService.getByUser();
 
+
+
         List<ReservationDTO> reservationDTOS = reservationService.giveListDTO(reservationList);
 
         return new ResponseEntity<List<ReservationDTO>>(reservationDTOS, HttpStatus.ACCEPTED);
@@ -125,4 +133,24 @@ public class ReservationController {
         return HttpStatus.ACCEPTED;
     }
 
+    //get reservation by id
+    @GetMapping("/get/{id}")
+    public ResponseEntity<?> getReservById(@PathVariable("id")Long id_reserv)
+    {
+        Reservation reservation = reservationService.getReservById(id_reserv);
+        ReservationDTO reservationDTO = reservationService.giveReservationDTO(reservation);
+
+        return new ResponseEntity<ReservationDTO>(reservationDTO, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("finish/{id}")
+    public ResponseEntity<?> finishReservation(@PathVariable("id")Long id_reserv)
+    {
+        Examplaire examplaire = reservationService.finishReservation(id_reserv);
+
+        ExamplaireDTO examplaireDTO = examplaireService.convertExamplaire(examplaire);
+
+        return new ResponseEntity<ExamplaireDTO>(examplaireDTO, HttpStatus.ACCEPTED);
+
+    }
 }

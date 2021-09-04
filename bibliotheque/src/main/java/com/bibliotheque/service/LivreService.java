@@ -82,4 +82,7 @@ public interface LivreService {
 
     boolean checkDispo(long id);
 
+
+    //verifie les livres disponibles
+    void checkDispoAllLivres();
 }

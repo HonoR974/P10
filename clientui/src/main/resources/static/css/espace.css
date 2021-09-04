@@ -109,11 +109,12 @@ a
 .titreDate
 {
     text-decoration: underline;
+    font-size: 22px;
 }
 
 .date
 {
-    background-color: rgba(227,237,135,0.5);
+    background-color: rgba(227,237,135,0.1);
 }
 
 .buttonCard
@@ -173,7 +174,7 @@ a
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    background-color: rgba(277,159,240,0.8);
+    background-color: rgba(277,159,240,0.2);
 }
 
 
@@ -188,7 +189,7 @@ a
     justify-content: space-evenly;
     align-items: center;
     border-radius: 10px;
-    background-color: rgba(172,163,240,0.8);
+    background-color: rgba(172,163,240,0.4);
 
 }
 
@@ -198,8 +199,17 @@ a
     width: 250px;
 }
 
+.textCard
+{
+    display: flex;
+    justify-content: space-between;
+    font-size: 22px;
 
+}
 
+.text{
+    width: 30%;
+}
 
 
 /**----------Footer -----------*/

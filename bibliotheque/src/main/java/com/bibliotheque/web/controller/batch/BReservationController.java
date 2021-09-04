@@ -50,6 +50,8 @@ public class BReservationController {
     @GetMapping("/firstNoSendMail")
     public ResponseEntity<?> getFirstReserveByBookNoSendMail()
     {
+        //verifie les livres qui sont dispo
+        livreService.checkDispoAllLivres();
         List<Reservation> list = reservationService.getAllFirstReserveNoSendMail();
 
         if (list==null)

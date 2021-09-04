@@ -4,6 +4,7 @@ import com.clientui.dto.PretDTO;
 import com.clientui.dto.ReservationDTO;
 import com.clientui.dto.UserDTO;
 import com.clientui.model.PretBean;
+import com.clientui.model.TesterUser;
 import com.clientui.service.AuthBiblioService;
 import com.clientui.service.EspaceService;
 import com.clientui.service.PretService;
@@ -107,4 +108,21 @@ public class EspaceController
         return "admin/ListePrets";
     }
 
+
+    //page reservation detail
+    @GetMapping("/reservation")
+    public String reservationDetail(@RequestParam("id")Long id_reservation, Model model) throws IOException, InterruptedException {
+
+        ReservationDTO reservationDTO = reservationService.getReservById(id_reservation);
+        model.addAttribute("reserv", reservationDTO);
+
+
+        //recupere l'id de l'examplaire disponible
+        //pour la demande de pret
+
+        TesterUser user = authBiblioService.testConnection();
+        model.addAttribute("user", user);
+
+        return "reservation/reservation";
+    }
 }

@@ -1,6 +1,7 @@
 package com.clientui.service;
 
 import com.clientui.dto.ExamplaireDTO;
+import com.clientui.dto.LivreDTO;
 import com.clientui.dto.ReservationDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -97,6 +98,74 @@ public class ReservationServiceImpl implements ReservationService{
         return mapper.readValue(response.body().toString(),
                 new TypeReference<List<ReservationDTO>>() {});
     }
+
+    @Override
+    public ReservationDTO getReservById(long id_reserv) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9001/api/reservation/get/" + id_reserv))
+                .GET()
+                .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+                .setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+                .build();
+
+        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+
+        String reponse = response.body();
+
+        System.out.println("\n response " + response + "\n reponse " + reponse);
+
+        ObjectMapper mapper= new ObjectMapper();
+
+        return  mapper.readValue(response.body().toString(),
+                new TypeReference<ReservationDTO>() {});
+    }
+
+    @Override
+    public String cancelReservation(long id_reserv) throws IOException, InterruptedException {
+
+        this.jwt = authBiblioService.getJwt();
+        String message = "\n le cancel reserv : ";
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9001/api/reservation/cancel/" + id_reserv))
+                .DELETE()
+                .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+                .setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+                .build();
+
+        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+
+        String reponse = response.body();
+
+        System.out.println("\n response " + response + "\n reponse " + reponse);
+
+        message += reponse;
+        return message;
+    }
+
+    @Override
+    public ExamplaireDTO finishReserv(long id_reserv) throws IOException, InterruptedException {
+
+
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://localhost:9001/api/reservation/finish/" + id_reserv))
+                .GET()
+                .setHeader(HttpHeaders.CONTENT_TYPE, "application/json")
+                .setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+                .build();
+
+        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+
+        String reponse = response.body();
+
+        System.out.println("\n response " + response + "\n reponse " + reponse);
+
+        ObjectMapper mapper= new ObjectMapper();
+
+        return mapper.readValue(response.body().toString(),
+                new TypeReference<ExamplaireDTO>() {});
+    }
+
 
 
 }

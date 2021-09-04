@@ -71,7 +71,6 @@ public class ReservationServiceImpl implements ReservationService{
 
     }
 
-
     //verfication si un mail leurs a été envoyé
     //un mail par reserv
     private List<ReservationDTO> checkFirstReserv(List<ReservationDTO> list) throws MessagingException, IOException {
@@ -154,7 +153,7 @@ public class ReservationServiceImpl implements ReservationService{
 
         mail.setTemplateId("d-b5dafae25e7b440f82a8e5f3e58b6c7c");
 
-        SendGrid sg = new SendGrid("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");
+        SendGrid sg = new SendGrid("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");
         Request request= new Request();
 
         try {

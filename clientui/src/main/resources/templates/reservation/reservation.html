@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/reservation.css}"/>
+
+</head>
+<body>
+
+<!-- Menu -->
+<header>
+
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <a class="navbar-brand" th:href="@{/}" >Bibliotheque </a>
+
+        <!-- btn toggle -->
+        <div>
+            <button class="navbar-toggler" type="button"
+                    data-toggle="collapse" data-target="#navbarContent">
+                <span class="navbar-toggler-icon" ></span>
+            </button>
+        </div>
+
+        <div  class="collapse navbar-collapse" id="navbarContent" >
+            <ul class="navbar-nav  mr-auto mt-2 mt-lg-0  ">
+
+                <!-- Livres -->
+                <li class="nav-item  ">
+                    <a class="nav-link" th:href="@{/livres/all}">Livres</a>
+                </li>
+
+                <!-- Espace Perso-->
+                <li class="nav-item active" th:if="${user.connected}">
+                    <a class="nav-link" th:href="@{/espace(jwt=${user.jwt})}">Espace</a>
+                </li>
+
+                <!-- Login -->
+                <li class="nav-item " th:if="${!user.connected}">
+                    <a class="nav-link" th:href="@{/login}">Sign in</a>
+                </li>
+
+                <!-- Inscription  -->
+                <li class="nav-item " th:if="${!user.connected}">
+                    <a class="nav-link" th:href="@{/register}">Sign up</a>
+                </li>
+
+                <!-- btn logout -->
+                <li class="nav-item"  th:if="${user.connected}" >
+
+                    <!--  <a th:url="/logout">">Logout</a> -->
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
+
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0" th:action="@{/search}">
+                <input class="form-control mr-sm-2" type="search" name="search" placeholder="Recherche" aria-label="Search">
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Recherche</button>
+            </form>
+        </div>
+    </nav>
+</header>
+
+<div class="container mt-5">
+
+    <div class="fondDetailReserv">
+        <div class="livreReserv">
+            <img th:src="@{'/image/' + ${reserv.titreImage}}" th:alt="${reserv.titreImage}"/>
+        </div>
+
+        <div class="detailReserv">
+            <div class="cadreDetailReserv">
+
+                <div class="info"> <div class="titreInfo">Numero : </div> <div class="reponse" th:utext="${reserv.id}"></div></div>
+                <div class="info"> <div class="titreInfo">Titre : </div> <div class="reponse" th:utext="${reserv.titre}"></div></div>
+                <div class="info"> <div class="titreInfo">Statut : </div> <div class="reponse" th:utext="${reserv.statut}"></div></div>
+                <div class="info"> <div class="titreInfo">Date demande : </div> <div class="reponse" th:utext="${reserv.date_demande}"></div></div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+
+        <div class="cadreButtonReserv" >
+
+            <button class="btn btn-outline-primary" th:if="${!reserv.sendMail}">
+                <a th:href="@{/cancelReservation(id=${reserv.id})}">Annuler la Reservation </a>
+            </button>
+
+            <button class="btn btn-outline-primary"  th:if="${reserv.sendMail}" >
+                <a th:href="@{/finishReservation(id=${reserv.id})}">Emprunter le livre </a>
+            </button>
+
+        </div>
+
+        <div class="cadreButtonReserv">
+
+            <button class="btn btn-outline-primary">
+                <a th:href="@{/}">Retour</a>
+            </button>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

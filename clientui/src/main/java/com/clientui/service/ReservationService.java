@@ -1,5 +1,7 @@
 package com.clientui.service;
 
+import com.clientui.dto.ExamplaireDTO;
+import com.clientui.dto.LivreDTO;
 import com.clientui.dto.ReservationDTO;
 
 import java.io.IOException;
@@ -12,4 +14,11 @@ public interface ReservationService {
     String createReserv(Long id_livre) throws IOException, InterruptedException;
 
     List<ReservationDTO> getReserByUser() throws IOException, InterruptedException;
+
+    ReservationDTO getReservById(long id) throws IOException, InterruptedException;
+
+    String cancelReservation(long id) throws IOException, InterruptedException;
+
+    ExamplaireDTO finishReserv(long id) throws IOException, InterruptedException;
+
 }

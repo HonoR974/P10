@@ -127,3 +127,65 @@ button:hover, a:hover
 
 
 
+
+/**---------- Espace Reservation --------------*/
+
+.fondDetailReserv
+{
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    justify-content: space-around;
+    margin-bottom: 50px;
+}
+
+.livreReserv
+{
+
+}
+
+
+.detailReserv
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 40%;
+}
+
+.cadreDetailReserv
+{
+    background-color: antiquewhite;
+    padding: 20px;
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.info
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.titreInfo
+{
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

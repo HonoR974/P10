@@ -66,6 +66,7 @@ public class ReservationServiceImpl implements ReservationService{
         reservation.setUserReservation(user);
         reservation.setStatutReservation(statut);
         reservation.setDateDemande(dateDemande);
+        reservation.setMailSend(false);
         System.out.println("\n la reservation crée " + reservation.toString());
 
         reservationRepository.save(reservation);
@@ -137,6 +138,13 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
     @Override
+    public Reservation getReservById(long id) {
+
+
+        return reservationRepository.findById(id);
+    }
+
+    @Override
     public ReservationDTO giveReservationDTO(Reservation reservation) {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -145,12 +153,14 @@ public class ReservationServiceImpl implements ReservationService{
 
         System.out.println("\n la reservation a convertir " + reservation.toString());
         ReservationDTO reservationDTO = new ReservationDTO();
+
         reservationDTO.setId(reservation.getId());
         reservationDTO.setUsername(reservation.getUserReservation().getUsername());
         reservationDTO.setTitre(reservation.getLivreReservation().getTitre());
         reservationDTO.setStatut(reservation.getStatutReservation().getNom());
+
         reservationDTO.setMail(reservation.getUserReservation().getEmail());
-        reservationDTO.setSendMail(reservationDTO.isSendMail());
+        reservationDTO.setSendMail(reservation.isMailSend());
         reservationDTO.setDate_demande(dateFormat.format(reservation.getDateDemande()));
         reservationDTO.setTitreImage(reservation.getLivreReservation().getImage().getName());
 
@@ -271,7 +281,11 @@ public class ReservationServiceImpl implements ReservationService{
         Statut statut = statutRepository.findByNom("First");
         Statut statut2 = statutRepository.findByNom("InList");
 
-        return reservationRepository.findByUserReservationAndStatutReservationOrStatutReservation(user, statut, statut2);
+        List<Reservation> list1 = reservationRepository.findByStatutReservationAndUserReservation(statut, user);
+        list1.addAll(reservationRepository.findByStatutReservationAndUserReservation(statut2, user));
+
+
+        return list1;
     }
 
     @Override
@@ -287,11 +301,17 @@ public class ReservationServiceImpl implements ReservationService{
     public List<Reservation> getAllFirstReserve() {
         Statut statut = statutRepository.findByNom("First");
 
+        System.out.println("\n ------- get all first reserve ---------- ");
+
         System.out.println("\n le repos simple " + reservationRepository.findAll());
         System.out.println("\n getAllFirstReserver " + reservationRepository.findByStatutReservation(statut).toString() );
+
+
         return reservationRepository.findByStatutReservation(statut);
     }
 
+    //recupere tout les reserve ayant un examplaire disponible
+    //et qui n'ont pas recu d'email
     @Override
     public List<Reservation> getAllFirstReserveNoSendMail() {
         Statut statut = statutRepository.findByNom("First");
@@ -299,9 +319,12 @@ public class ReservationServiceImpl implements ReservationService{
         List<Reservation> listFirst = reservationRepository.findByStatutReservation(statut);
         List<Reservation> listFinal = new ArrayList<>();
 
+
         for (Reservation reservation : listFirst)
         {
-            if (!reservation.isMailSend())
+
+            System.out.println("\n reservation " + reservation.getId() + " / " + reservation.getLivreReservation().getDisponible());
+            if (reservation.getLivreReservation().getDisponible() && !reservation.isMailSend())
             {
                 listFinal.add(reservation);
             }
@@ -459,6 +482,27 @@ public class ReservationServiceImpl implements ReservationService{
         return reservationRepository.findByLivreReservationAndStatutReservationOrStatutReservation(livre,statut1,statut2);
     }
 
+    @Override
+    public Examplaire finishReservation(long id_reserv) {
+
+        Reservation reservation = reservationRepository.findById(id_reserv);
+
+        Livre livre = reservation.getLivreReservation();
+
+        Examplaire examplairetest = new Examplaire();
+
+        for (Examplaire examplaire : livre.getExamplaires())
+        {
+            if (!examplaire.isEmprunt())
+            {
+                return examplaire;
+            }
+        }
+
+        System.out.println("\n examplaire " + examplairetest.getId());
+
+        return examplairetest;
+    }
 
 
 }

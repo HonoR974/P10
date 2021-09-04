@@ -1,6 +1,7 @@
 package com.bibliotheque.service;
 
 import com.bibliotheque.dto.ReservationDTO;
+import com.bibliotheque.model.Examplaire;
 import com.bibliotheque.model.Livre;
 import com.bibliotheque.model.Reservation;
 
@@ -19,6 +20,7 @@ public interface ReservationService {
     // Read
     List<Reservation> getAll();
 
+    Reservation getReservById(long id);
     //conversion reserv to DTO
     ReservationDTO giveReservationDTO(Reservation reservation);
     //conversion listReserv to  ListDTO
@@ -53,4 +55,7 @@ public interface ReservationService {
     List<Reservation> checkDelai();
 
     List<Reservation> getReservByBook(Long id_livre);
+
+    //Apres avoir recu le mail l'user emprunte le livre
+    Examplaire finishReservation(long id_reserv);
 }
