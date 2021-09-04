@@ -486,6 +486,7 @@ public class ReservationServiceImpl implements ReservationService{
     public Examplaire finishReservation(long id_reserv) {
 
         Reservation reservation = reservationRepository.findById(id_reserv);
+        Statut statut = statutRepository.findByNom("Fini");
 
         Livre livre = reservation.getLivreReservation();
 
@@ -495,9 +496,13 @@ public class ReservationServiceImpl implements ReservationService{
         {
             if (!examplaire.isEmprunt())
             {
+                reservation.setStatutReservation(statut);
+                reservationRepository.save(reservation);
                 return examplaire;
             }
         }
+
+
 
         System.out.println("\n examplaire " + examplairetest.getId());
 
