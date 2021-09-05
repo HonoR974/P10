@@ -125,8 +125,8 @@
                     <div class="infoCard" th:if="${reserv.sendMail}">
 
                         <div class="titleCard" th:utext="${reserv.titre}"></div>
-                        <div class="dateCard"> <div class="titreDate">Date Début</div> <div class="date" th:utext="${#dates.format(reserv.date_debut, 'dd-MM-yyyy')}"></div></div>
-                        <div class="dateCard"> <div class="titreDate">Date Fin</div> <div class="date" th:utext="${#dates.format(reserv.date_fin, 'dd-MM-yyyy')}"></div></div>
+                        <div class="dateCard"> <div class="titreDate">Date Début</div> <div class="date" th:utext="${#dates.format(reserv.date_debut, 'dd/MM/yyyy')}"></div></div>
+                        <div class="dateCard"> <div class="titreDate">Date Fin</div> <div class="date" th:utext="${#dates.format(reserv.date_fin, 'dd/MM/yyyy')}"></div></div>
                     </div>
 
                     <div class="infoCard" th:if="${!reserv.sendMail}">

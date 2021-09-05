@@ -2,11 +2,11 @@ package com.clientui.controller;
 
 import com.clientui.dto.ExamplaireDTO;
 import com.clientui.dto.LivreDTO;
+import com.clientui.dto.PretDTO;
 import com.clientui.dto.ReservationDTO;
+import com.clientui.model.PretBean;
 import com.clientui.model.TesterUser;
-import com.clientui.service.AuthBiblioService;
-import com.clientui.service.LivreService;
-import com.clientui.service.ReservationService;
+import com.clientui.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -30,6 +31,12 @@ public class ReservationController {
 
     @Autowired
     private LivreService livreService;
+
+    @Autowired
+    private PretService pretService;
+
+    @Autowired
+    private ExamplaireService examplaireService;
 
     //l'user demande une reservation d'un livre
     //il accede à la page récapitulatif des reservations présentes
@@ -107,13 +114,16 @@ public class ReservationController {
     //pour la creation du pret
     //l'id de l'exemplaire est necessaire
     @GetMapping("/finishReservation")
-    public String finishReserv(@RequestParam("id")Long id_reserv) throws IOException, InterruptedException {
+    public String finishReserv(@RequestParam("id")Long id_reserv, Model model) throws IOException, InterruptedException, ParseException {
 
         ExamplaireDTO examplaireDTO = reservationService.finishReserv(id_reserv);
         System.out.println("\n l'examplaire choisi pôur la reserv est " + examplaireDTO.toString());
 
-        //le return possede l'id de l'exemplaire disponible
-        return "redirect:/pret/" + examplaireDTO.getId();
+        PretDTO pretDTO = pretService.createPret(examplaireDTO.getId());
+
+
+
+        return "redirect:/validate?id="+pretDTO.getId();
     }
 
 
