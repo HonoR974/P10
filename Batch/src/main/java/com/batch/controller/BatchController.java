@@ -40,12 +40,6 @@ public class BatchController {
         return new ResponseEntity<String>(jwt, HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/")
-    public String test()
-    {
-        System.out.println("\n test ");
-        return "salut";
-    }
 
     @GetMapping("/Prets")
     public ResponseEntity<List<PretDTO>> getPretsRetard() throws IOException, InterruptedException {
@@ -53,5 +47,19 @@ public class BatchController {
         List<PretDTO> list = pretService.getPretRetard();
 
         return new ResponseEntity<List<PretDTO>>(list,HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/sendMailPret")
+    public ResponseEntity<?> sendMailPret()
+    {
+        PretDTO pretDTO = new PretDTO();
+        pretDTO.setDate_fin("10-10-2021");
+        pretDTO.setUsername("sami");
+        pretDTO.setEmail("smiirf123@gmail.com");
+        pretDTO.setTitre("la belle au bois dormant");
+
+        String message = pretService.sendMailPret(pretDTO);
+
+        return new ResponseEntity<String>(message, HttpStatus.ACCEPTED);
     }
 }

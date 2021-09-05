@@ -10,7 +10,6 @@
       "type": "java.lang.String",
       "description": "Description for sendgrid.emailFrom."
     },
-
     {
       "name": "batch.username",
       "type": "java.lang.String",
@@ -20,5 +19,25 @@
       "name": "batch.password",
       "type": "java.lang.String",
       "description": "Description for batch.password."
+    },
+    {
+      "name": "template.id",
+      "type": "java.lang.String",
+      "description": "Description for template.id."
+    },
+    {
+      "name": "sg.id",
+      "type": "java.lang.String",
+      "description": "Description for sg.id."
+    },
+    {
+      "name": "sendgrid.email.from",
+      "type": "java.lang.String",
+      "description": "Description for sendgrid.email.from."
+    },
+    {
+      "name": "template.pret.id",
+      "type": "java.lang.String",
+      "description": "Description for template.pret.id."
     }
   ] }

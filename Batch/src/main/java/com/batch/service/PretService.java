@@ -39,4 +39,6 @@ public interface PretService {
      * @throws InterruptedException
      */
     void sendPret() throws IOException, InterruptedException;
+
+    String sendMailPret(PretDTO pretDTO);
 }

@@ -1,10 +1,12 @@
 package com.batch.service;
 
+import com.batch.TemplatePersonalization.DynamicTemplatePersonalization;
 import com.batch.model.PretDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
+import com.sendgrid.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -38,6 +40,14 @@ public class PretServiceImpl implements PretService{
 
     private List<PretDTO> listePretEnCours;
 
+    @Value("${template.pret.id}")
+    private String templateId;
+
+    @Value("${sg.id")
+    private String sendGridID;
+
+    @Value("${sendgrid.email.from}")
+    private String emailFrom;
 
     /**
      * Recupere les pret qui sont valider et non fini
@@ -285,6 +295,59 @@ public class PretServiceImpl implements PretService{
 
     }
 
+
+    @Override
+    public String sendMailPret(PretDTO pretDTO) {
+
+        Email from = new Email(emailFrom);
+        String subject = "Rappel : " + pretDTO.getTitre();
+        Email to = new Email(pretDTO.getEmail());
+        String message ="envoie de l'email ";
+        Mail mail = new Mail( );
+
+        DynamicTemplatePersonalization personalization = new DynamicTemplatePersonalization();
+       personalization.addTo(to);
+        mail.setFrom(from);
+        mail.setSubject(subject);
+        mail.setTemplateId(templateId);
+
+
+        personalization.addDynamicTemplateData("subject", subject);
+         personalization.addDynamicTemplateData("user", pretDTO.getUsername());
+        personalization.addDynamicTemplateData("date_fin", pretDTO.getDate_fin());
+        personalization.addDynamicTemplateData("livre", pretDTO.getTitre());
+         mail.addPersonalization(personalization);
+
+        SendGrid sendGrid = new SendGrid(sendGridID);
+
+        Request request = new Request();
+        Response response;
+
+
+
+        System.out.println("\n le mail " + mail.toString());
+
+
+        try {
+            request.setMethod(Method.POST);
+            request.setEndpoint("mail/send");
+            request.setBody(mail.build());
+            System.out.println("\n mail " + mail.build());
+
+            response = sendGrid.api(request);
+
+            System.out.println(response.getStatusCode());
+            System.out.println(response.getBody());
+            System.out.println(response.getHeaders());
+
+            return "le mail est envoyé correctement ";
+        } catch (IOException ex) {
+            System.out.println("\n l'envoi a fail " + "\n "+ ex.toString() +
+                    "\n la cause " + ex.getCause());
+            return "le mail a fail ";
+        }
+
+    }
 
 
     /**

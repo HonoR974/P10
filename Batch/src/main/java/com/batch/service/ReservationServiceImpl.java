@@ -2,7 +2,7 @@ package com.batch.service;
 
 import com.batch.TemplatePersonalization.DynamicTemplatePersonalization;
 import com.batch.model.ReservationDTO;
-import com.batch.model.UserEmail;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sendgrid.*;
@@ -34,10 +34,10 @@ public class ReservationServiceImpl implements ReservationService{
     @Autowired
     private SecurityService securityService;
 
-    @Value("template.id")
+    @Value("${template.id}")
     private String templateID;
 
-    @Value("sg.id")
+    @Value("${sg.id}")
     private String sgID;
 
     private String jwt;
@@ -111,62 +111,35 @@ public class ReservationServiceImpl implements ReservationService{
     //envoie du mail
     @Override
     public String sendMail(ReservationDTO reservationDTO) throws MessagingException, IOException {
-        /*
 
-        System.out.println("\n debut de l'envoie du mail a "  + reservationDTO.getUsername());
-        System.out.println("\n a l'adresse " + reservationDTO.getMail());
-        UserEmail user = new UserEmail();
-        Context context = new Context();
-
-        user.setUsername(reservationDTO.getUsername());
-        user.setLivre(reservationDTO.getTitre());
-        context.setVariable("user", user);
-        context.setVariable("icon", "book.png");
-
-        System.out.println("\n context fait  ");
-
-
-        String process = templateEngine.process("Reservation", context);
-        System.out.println("\n process fait  ");
-
-        javax.mail.internet.MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
-        helper.setFrom("damien.dorval1@gmail.com");
-        helper.setSubject("Votre livre est disponible :  " + reservationDTO.getTitre());
-        helper.setText(process, true);
-        helper.setTo(reservationDTO.getMail());
-        javaMailSender.send(mimeMessage);
-
-        System.out.println("\n mail envoyé ");
-
-        */
         String retour = "envoie de l'email ";
         Email from = new Email("honore.guillaudeau1@gmail.com");
-        String subject = "le retour de sendgrid";
+        String subject = "Votre livre est disponible ! ";
         Email to = new Email(reservationDTO.getMail());
-        Content content = new Content("text/plain", "This a test email");
-        Mail mail = new Mail(from, subject, to, content);
+        Mail mail = new Mail();
 
         DynamicTemplatePersonalization personalization = new DynamicTemplatePersonalization();
         personalization.addTo(to);
         mail.setFrom(from);
         mail.setSubject(subject);
-
-        //personalization.addDynamicTemplateData("user", "Sami");
-        //personalization.addDynamicTemplateData("subject", "le sujet perso");
-        //personalization.addDynamicTemplateData("livre", "le book ");
-        mail.addPersonalization(personalization);
-
         mail.setTemplateId(templateID);
 
-        SendGrid sg = new SendGrid(sgID);
-        Request request= new Request();
+        personalization.addDynamicTemplateData("user", reservationDTO.getUsername());
+        personalization.addDynamicTemplateData("subject", subject);
+        personalization.addDynamicTemplateData("livre", reservationDTO.getTitre());
+        mail.addPersonalization(personalization);
 
+        System.out.println("\n le mail " + mail.toString());
+
+        SendGrid sg = new SendGrid(sgID);
+
+        Request request= new Request();
+        Response response;
         try {
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
-            Response response = sg.api(request);
+            response = sg.api(request);
 
             return "Mail bien envoyé " +  response.getBody();
         } catch (IOException e)
