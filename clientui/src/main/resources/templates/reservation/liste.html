@@ -68,6 +68,16 @@
 
 <div class="container">
 
+
+
+    <div class="alertReserv" th:if="${message!=null}">
+        <span class="closebtn">X</span>
+
+        <strong th:utext="${message}">
+        </strong>
+    </div>
+
+
     <div class="fondListeReservation">
         <div class="cadreTitre">
             <h1>Les réservation en cours : </h1>
@@ -91,8 +101,23 @@
 
         </div>
 
-        <div class="infoResev">
-        il va y avoir un text et un bel espace ici
+        <div class="infoReserv">
+            <div class="contentInfo">
+                <div>
+                    Lorsque votre livre n'est pas disponible, vous pouvez le réserver.
+                </div>
+
+                <div>
+                    Le premier de la liste d'attente aura le statut "First", les autres auront le statut "InList".
+                </div>
+                 <div>
+                     Dès que le livre sera disponible un mail vous sera envoyé, vous disposerez de 2 jours
+                     pour emprunter le livre réservé.
+                 </div>
+                <div>
+                    Vous pouvez retrouvez vos réservations dans votre espace personnel.
+                </div>
+            </div>
         </div>
 
         <div class="cadreButton">
@@ -105,11 +130,7 @@
 
     </div>
 
-    <div class="alertReserv" th:if="${message!=null}">
-        <span class="closebtn">X</span>
-        <strong th:utext="${message}">
-        </strong>
-    </div>
+
 
 </div>
 
