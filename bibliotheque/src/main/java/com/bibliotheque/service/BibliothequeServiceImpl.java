@@ -7,6 +7,8 @@ import com.bibliotheque.repository.LivreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +30,12 @@ public class BibliothequeServiceImpl implements BibliothequeService {
      */
     @Override
     public List<Bibliotheque> getAllBibliotheque() {
-        return bibliothequeRepository.findAll();
+        return  bibliothequeRepository.findAll();
+    }
+
+    @Override
+    public Bibliotheque getByName(String nom) {
+        return bibliothequeRepository.findByNom(nom);
     }
 
 

@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface BibliothequeRepository extends JpaRepository<Bibliotheque,Long> {
 
     Bibliotheque findById(long id);
+
+    Bibliotheque findByNom(String nom);
 }

@@ -3,6 +3,7 @@ package com.bibliotheque.service;
 import com.bibliotheque.model.Bibliotheque;
 import com.bibliotheque.model.Livre;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,6 +16,8 @@ public interface BibliothequeService {
      * @return liste Bibliotheque
      */
     List<Bibliotheque> getAllBibliotheque();
+
+    Bibliotheque getByName(String nom);
 
     /**
      * Creer une bibliothèque
