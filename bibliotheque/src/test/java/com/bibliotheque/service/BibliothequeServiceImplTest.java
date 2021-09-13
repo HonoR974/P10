@@ -45,20 +45,26 @@ public class BibliothequeServiceImplTest {
 
         list = new ArrayList<>();
 
+
         b1 = new Bibliotheque("B1", "rue 1");
         b2 = new Bibliotheque("B2", "rue 2");
 
         list.add(b1);
         list.add(b2);
 
+        //create
         b3 = new Bibliotheque("B3", "rue 3");
-
+        //update
+        b4 = new Bibliotheque("B4", "rue 4");
        initMocks(this);
 
 
         when(bibliothequeRepository.findAll()).thenReturn(list);
         when(bibliothequeRepository.findByNom("B1")).thenReturn(b1);
         when(bibliothequeRepository.save(any(Bibliotheque.class))).thenReturn(b3);
+        //update
+        when(bibliothequeRepository.save(b1)).thenReturn(b4);
+        //delete
 
     }
 
@@ -94,14 +100,23 @@ public class BibliothequeServiceImplTest {
     }
 
     @Test
-   public  void updateBibliotheque()
+   public void updateBibliotheque()
     {
-        Bibliotheque bibliotheque = new Bibliotheque("B3", "rue 3");
-        bibliothequeService.updateBibliotheque(b3.getId(), bibliotheque);
+        //recupere b1 et l'update en b4
+
+        Bibliotheque b1 = bibliothequeService.getByName("B1");
+
+        b1.setNom("B4");
+        b1.setAdresse("rue 4");
+        Bibliotheque bibliotheque = bibliothequeRepository.save(b1);
+
+        assertThat(bibliotheque.getNom()).isEqualTo("B4");
 
     }
 
     @Test
-    public void deleteBibliotheque() {
+    public void deleteBibliotheque()
+    {
+
     }
 }
