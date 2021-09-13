@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -40,7 +41,6 @@ public class BibliothequeServiceImplTest {
     @Before
     public void setUp()
     {
-        System.out.println("\n la classe before ");
         bibliothequeRepository = mock(BibliothequeRepository.class);
 
         list = new ArrayList<>();
@@ -51,12 +51,15 @@ public class BibliothequeServiceImplTest {
         list.add(b1);
         list.add(b2);
 
+        b3 = new Bibliotheque("B3", "rue 3");
+
        initMocks(this);
 
-        System.out.println("\n la liste " + list.toString());
+
         when(bibliothequeRepository.findAll()).thenReturn(list);
         when(bibliothequeRepository.findByNom("B1")).thenReturn(b1);
-        System.out.println("\n la liste findAll" + bibliothequeRepository.findAll());
+        when(bibliothequeRepository.save(any(Bibliotheque.class))).thenReturn(b3);
+
     }
 
 
@@ -83,11 +86,19 @@ public class BibliothequeServiceImplTest {
     @Test
     public void createBibliotheque()
     {
+        Bibliotheque bibliotheque = new Bibliotheque("B3","rue 3");
 
+        Bibliotheque b3 = bibliothequeService.createBibliotheque(bibliotheque);
+
+        assertThat(b3.getNom()).isEqualTo("B3");
     }
 
     @Test
-   public  void updateBibliotheque() {
+   public  void updateBibliotheque()
+    {
+        Bibliotheque bibliotheque = new Bibliotheque("B3", "rue 3");
+        bibliothequeService.updateBibliotheque(b3.getId(), bibliotheque);
+
     }
 
     @Test
