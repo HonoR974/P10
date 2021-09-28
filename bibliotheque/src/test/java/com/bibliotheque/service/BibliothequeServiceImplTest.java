@@ -14,9 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
@@ -56,24 +56,25 @@ public class BibliothequeServiceImplTest {
         b3 = new Bibliotheque("B3", "rue 3");
         //update
         b4 = new Bibliotheque("B4", "rue 4");
-       initMocks(this);
 
+        initMocks(this);
 
         when(bibliothequeRepository.findAll()).thenReturn(list);
         when(bibliothequeRepository.findByNom("B1")).thenReturn(b1);
         when(bibliothequeRepository.save(any(Bibliotheque.class))).thenReturn(b3);
         //update
         when(bibliothequeRepository.save(b1)).thenReturn(b4);
-        //delete
+
 
     }
-
 
 
     @Test
     public void getAllBibliotheque  ()
     {
-        List<Bibliotheque> listBiblio = bibliothequeRepository.findAll();
+
+
+        List<Bibliotheque> listBiblio = bibliothequeService.getAllBibliotheque();
         System.out.println("\n la liste des bibliotheque " + listBiblio.toString());
 
         assertThat(listBiblio.size()).isEqualTo(2);
@@ -117,6 +118,16 @@ public class BibliothequeServiceImplTest {
     @Test
     public void deleteBibliotheque()
     {
+        long id = 1L;
 
+        bibliothequeService.deleteBibliotheque(id);
+
+        verify(bibliothequeRepository, times(1)).deleteById(eq(id));
     }
 }
+
+
+
+
+
+

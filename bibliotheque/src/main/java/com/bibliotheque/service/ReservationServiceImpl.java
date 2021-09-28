@@ -50,7 +50,7 @@ public class ReservationServiceImpl implements ReservationService{
         //si le le livre n'a pas de reservation avec le statut first
         Statut statut = statutDisponible(livre);
 
-        System.out.println("\n creation le statut " + statut.getNom());
+//        System.out.println("\n creation le statut " + statut.getNom());
 
         //l'user avec le jwt
         User user = securityService.getUser();
@@ -58,7 +58,6 @@ public class ReservationServiceImpl implements ReservationService{
         //la date d'aujourd'hui
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Date dateDemande = new Date();
-        System.out.println("\n date de mnt : " + dateFormat.format(dateDemande));
 
 
         Reservation reservation = new Reservation();
@@ -97,9 +96,7 @@ public class ReservationServiceImpl implements ReservationService{
             //donc InList
              else if (reservation.getStatutReservation().getNom().equals("First") )
             {
-                System.out.println("\n la reservation : " + reservation.getId() + " est la First ");
                 statut = statutRepository.findByNom("InList");
-                System.out.println("\n statut a retourner " + statut.toString());
                 return statut;
             }
 
@@ -109,6 +106,9 @@ public class ReservationServiceImpl implements ReservationService{
         return statut;
     }
 
+    //- verifie si l'user emprunte deja le livre, par l'id
+    //le titre du livre ne doit pas correspondre a ceux deja emprunté
+    //par l'user
     @Override
     public boolean checkEmpruntUser(long id_livre)
     {
@@ -122,6 +122,7 @@ public class ReservationServiceImpl implements ReservationService{
             Livre livreEmprunter = pret.getExamplaire().getLivre();
 
             //si le livre emprunter à le meme titre que le livre demandé à reservé
+            //verifie avec le titre
             if (livreEmprunter.getTitre().equals(livre.getTitre())) {
                 condition = false;
                 break;
@@ -225,6 +226,8 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
 
+    //verifie la taille de la liste d'attente des reserv
+    //elle ne doit pas etre superieur à aux double d'examplaire  du livre
     @Override
     public boolean checkPlaceListe(long id_livre) {
         boolean condition = false;
@@ -232,7 +235,9 @@ public class ReservationServiceImpl implements ReservationService{
         Livre livre = livreRepository.findById(id_livre);
         Statut statut = statutRepository.findByNom("En Attente");
 
-        long max = livre.getExamplaires().size();
+        long max = (long)livre.getExamplaires().size() * 2L;
+
+
 
         long liste = reservationRepository.findByStatutReservationAndLivreReservation(statut,livre).size();
 

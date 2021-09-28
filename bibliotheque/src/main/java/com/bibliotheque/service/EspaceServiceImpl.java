@@ -41,8 +41,9 @@ public class EspaceServiceImpl implements EspaceService
         return userRepository.findById(id);
     }
 
+
     /**
-     * retourne une liste de pret selon l'id user et le statut
+     * retourne une liste de pret selon l'id user et les statuts
      * @param id_user
      * @return
      */
@@ -93,6 +94,7 @@ public class EspaceServiceImpl implements EspaceService
     public PretDTO givePretDTO(Pret pret)
     {
         PretDTO pretDTO = new PretDTO();
+
 
         String date_debut = pret.getDate_debut().toString();
         String date_fin = pret.getDate_fin().toString();

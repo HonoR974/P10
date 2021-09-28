@@ -40,6 +40,8 @@ public class Livre {
     @ManyToOne
     private ImageGallery image;
 
+    public Livre (){};
+
     public Long getId() {
         return id;
     }

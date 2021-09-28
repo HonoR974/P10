@@ -32,11 +32,15 @@ public class UserServiceImpl implements UserService{
      * @return user
      */
     public User save(UserDTO userDTO) {
+        System.out.println("\n userDTO"  + userDTO.toString());
+
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         user.setMatchingPassword(user.getPassword());
         user.setEnabled(false);
+
+        System.out.println("\n user " + user.toString());
         return userRepository.save(user);
     }
 

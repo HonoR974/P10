@@ -191,7 +191,8 @@ public class LivreServiceImpl implements LivreService{
         return livreDTO;
     }
 
-    private String dateRetourByLivre(Livre livre)
+    @Override
+    public String dateRetourByLivre(Livre livre)
     {
         String reponseDate = "";
 
@@ -199,7 +200,7 @@ public class LivreServiceImpl implements LivreService{
         List<Reservation> listReserv = reservationRepository.findByStatutReservationAndLivreReservation(statut, livre);
         Date dateRetour = new Date();
         Date dateVerif = new Date();
-        System.out.println("\n la date retour " + dateRetour.toString());
+        System.out.println("\n before each ");
 
         for (Reservation reservation : listReserv)
         {
@@ -217,6 +218,8 @@ public class LivreServiceImpl implements LivreService{
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
+        System.out.println("\n last if ");
+
         if (dateRetour.equals(dateVerif))
         {
             System.out.println("\n il n'a pas de date de retour (livre) :  " + livre.getId());
@@ -226,7 +229,8 @@ public class LivreServiceImpl implements LivreService{
 
     }
 
-    private int nmbUserReserv(Livre livre)
+    @Override
+    public int nmbUserReserv(Livre livre)
     {
         int nmbUser = 0;
         Statut statut1 = statutRepository.findByNom("First");
@@ -257,19 +261,9 @@ public class LivreServiceImpl implements LivreService{
     @Override
     public List<Livre> searchLivre(String recherche) {
 
-
-       // List<Livre> list3 = livreRepository.findByTitreContainingOrAuteurContaining(recherche,recherche);
-
-      //  System.out.println("\n list 3  " + list3);
-
         List<Livre> list4 = livreRepository.findByTitreContainsOrAuteurContains(recherche,recherche);
 
-        System.out.println("\n list 4  " + list4);
-
-        //List<Livre> list5 = livreRepository.findByTitreIsContainingOrAuteurIsContaining(recherche,recherche);
-
-        //System.out.println("\n list   " + list5);
-
+        System.out.println("\n list  " + list4);
 
         return list4;
     }
@@ -292,25 +286,31 @@ public class LivreServiceImpl implements LivreService{
         return disponible;
     }
 
+    //
     @Override
     public void checkDispoAllLivres() {
 
         List<Livre> list = livreRepository.findAll();
         List<Livre> listeFinal = new ArrayList<>();
 
-        System.out.println("\n checkDispoAllLivres ");
+        System.out.println("\n checkDispoAllLivres " );
 
         for (Livre livre : list)
         {
 
             livre.setDisponible(false);
-            for (Examplaire examplaire : livre.getExamplaires())
+
+            if (livre.getExamplaires() != null )
             {
-                if (!examplaire.isEmprunt())
+                for (Examplaire examplaire : livre.getExamplaires())
                 {
-                    livre.setDisponible(true);
+                    if (!examplaire.isEmprunt())
+                    {
+                        livre.setDisponible(true);
+                    }
                 }
             }
+
             livreRepository.save(livre);
         }
     }

@@ -25,6 +25,9 @@ public class Statut
     @OneToMany(mappedBy = "statutReservation")
     private List<Reservation> listeReservation;
 
+    public Statut()
+    {}
+
     public Long getId() {
         return id;
     }

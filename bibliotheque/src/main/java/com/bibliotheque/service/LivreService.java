@@ -85,4 +85,8 @@ public interface LivreService {
 
     //verifie les livres disponibles
     void checkDispoAllLivres();
+
+     String dateRetourByLivre(Livre livre);
+
+     int nmbUserReserv(Livre livre);
 }

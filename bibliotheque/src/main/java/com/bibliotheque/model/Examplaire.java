@@ -23,6 +23,8 @@ public class Examplaire {
     @Column(name = "emprunt", nullable = true)
     private Boolean emprunt;
 
+    public Examplaire(){};
+
     public Long getId() {
         return id;
     }

@@ -32,6 +32,8 @@ public class User {
     @OneToMany(mappedBy = "userReservation")
     private List<Reservation> listReservation;
 
+    public User()
+    { }
 
     public Long getId() {
         return id;
@@ -95,5 +97,19 @@ public class User {
 
     public void setListReservation(List<Reservation> listReservation) {
         this.listReservation = listReservation;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", matchingPassword='" + matchingPassword + '\'' +
+                ", email='" + email + '\'' +
+                ", enabled=" + enabled +
+                ", listeDePret=" + listeDePret +
+                ", listReservation=" + listReservation +
+                '}';
     }
 }

@@ -18,6 +18,8 @@ public class LivreDTO {
     //nmb user ayant réservé
     private int nmbUserReserv;
 
+    public LivreDTO(){};
+
     public Long getId() {
         return id;
     }

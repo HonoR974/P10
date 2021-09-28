@@ -39,6 +39,10 @@ public class Pret
 
     private Boolean email;
 
+    public Pret ()
+    {}
+
+
     public Long getId() {
         return id;
     }
