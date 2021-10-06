@@ -287,6 +287,8 @@ public class ReservationServiceImpl implements ReservationService{
         Statut statut2 = statutRepository.findByNom("InList");
 
         List<Reservation> list1 = reservationRepository.findByStatutReservationAndUserReservation(statut, user);
+
+        System.out.println("\n list1 " + list1.toString() );
         list1.addAll(reservationRepository.findByStatutReservationAndUserReservation(statut2, user));
 
 
@@ -361,15 +363,21 @@ public class ReservationServiceImpl implements ReservationService{
 
 
     //verifie le delai des reservation statut first
+    //si la reserv a recu est first, a recu un mail et le delai
+    //est depassé alors la reserv est annulé
     @Override
     public List<Reservation> checkDelai() {
+
         Date dateNow = new Date(System.currentTimeMillis());
         Date dateFinReserv = new Date();
+
         Statut statut = statutRepository.findByNom("Annuler");
         Statut statutFirst = statutRepository.findByNom("First");
-        List<Reservation> liste = reservationRepository.findByStatutReservation(statutFirst);
-        List<Reservation> reservChanged = new ArrayList<>();
 
+        List<Reservation> liste = reservationRepository.findByStatutReservation(statutFirst);
+
+        System.out.println("\n liste " + liste.size());
+        List<Reservation> reservChanged = new ArrayList<>();
 
 
         for (Reservation reservation : liste)
@@ -440,6 +448,8 @@ public class ReservationServiceImpl implements ReservationService{
         return containFirst;
     }
 
+    //cherche la reserve ayant la date de demande la plus ancienne
+    //pour la faire passer first
     public void findNewReserv(List<Reservation> list)
     {
         System.out.println("\n Find New Reserv ");
@@ -462,10 +472,6 @@ public class ReservationServiceImpl implements ReservationService{
             }
         }
 
-        List<ReservationDTO> dtoList = giveListDTO(list);
-        System.out.println("\n index " + index);
-        System.out.println("\n la liste avant l acces  a la nouvelle reservation  "
-        +  dtoList.toString());
         reservation = list.get(index);
         reservation.setStatutReservation(statut);
         reservationRepository.save(reservation);

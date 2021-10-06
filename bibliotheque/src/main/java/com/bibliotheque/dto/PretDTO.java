@@ -19,6 +19,8 @@ public class PretDTO
     private boolean enabled;
     private String titreImage;
 
+
+
     public Long getId() {
         return id;
     }
