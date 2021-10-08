@@ -28,6 +28,11 @@ public class Statut
     public Statut()
     {}
 
+    public Statut (String name)
+    {
+        this.nom = name;
+    }
+
     public Long getId() {
         return id;
     }

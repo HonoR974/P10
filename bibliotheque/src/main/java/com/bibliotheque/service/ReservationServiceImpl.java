@@ -184,7 +184,6 @@ public class ReservationServiceImpl implements ReservationService{
     public List<Reservation> giveList(List<ReservationDTO> listeDTO) throws ParseException {
 
         System.out.println("\n give List  " + listeDTO.toString());
-
         List<Reservation> list = new ArrayList<>();
         Reservation reservation;
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -208,7 +207,7 @@ public class ReservationServiceImpl implements ReservationService{
             reservation.setStatutReservation(statut);
 
             //date
-            System.out.println("\n la date a convertire : " + reservationDTO.getDate_debut());
+             //System.out.println("\n la date a convertire : " + reservationDTO.getDate_debut());
 
 
             debut = format.parse(reservationDTO.getDate_debut());
@@ -220,8 +219,10 @@ public class ReservationServiceImpl implements ReservationService{
             reservation.setMailSend(reservationDTO.isSendMail());
 
             list.add(reservation);
+
         }
 
+        System.out.println("\n list " + list.toString()) ;
         return list;
     }
 
@@ -310,8 +311,8 @@ public class ReservationServiceImpl implements ReservationService{
 
         System.out.println("\n ------- get all first reserve ---------- ");
 
-        System.out.println("\n le repos simple " + reservationRepository.findAll());
-        System.out.println("\n getAllFirstReserver " + reservationRepository.findByStatutReservation(statut).toString() );
+    //    System.out.println("\n le repos simple " + reservationRepository.findAll());
+      //  System.out.println("\n getAllFirstReserver " + reservationRepository.findByStatutReservation(statut).toString() );
 
 
         return reservationRepository.findByStatutReservation(statut);
@@ -400,6 +401,8 @@ public class ReservationServiceImpl implements ReservationService{
 
 
    //cherche les reservations qui n'ont pas de statut first
+    //si le livre n'en a pas la plus ancienne des reservation en attente
+    //devient first
     @Override
     public List<Livre> checkListeReservForAllBook()
     {
@@ -431,6 +434,7 @@ public class ReservationServiceImpl implements ReservationService{
     }
 
 
+    //verifie que la liste ne contient pas de reservation first
     public boolean checkNewFirst(List<Reservation> list)
     {
         boolean containFirst = false;
@@ -493,6 +497,8 @@ public class ReservationServiceImpl implements ReservationService{
         return reservationRepository.findByLivreReservationAndStatutReservationOrStatutReservation(livre,statut1,statut2);
     }
 
+
+    //retourne un examplaire vide
     @Override
     public Examplaire finishReservation(long id_reserv) {
 
@@ -509,13 +515,14 @@ public class ReservationServiceImpl implements ReservationService{
             {
                 reservation.setStatutReservation(statut);
                 reservationRepository.save(reservation);
+
                 return examplaire;
             }
         }
 
 
 
-        System.out.println("\n examplaire " + examplairetest.getId());
+   //     System.out.println("\n examplaire " + examplairetest.getId());
 
         return examplairetest;
     }

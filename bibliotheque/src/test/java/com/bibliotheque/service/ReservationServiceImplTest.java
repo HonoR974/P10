@@ -1,5 +1,6 @@
 package com.bibliotheque.service;
 
+import com.bibliotheque.dto.ReservationDTO;
 import com.bibliotheque.model.*;
 import com.bibliotheque.repository.LivreRepository;
 import com.bibliotheque.repository.ReservationRepository;
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.text.ParseException;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -232,7 +234,32 @@ public class ReservationServiceImplTest {
     }
 
     @Test
-    public void checkReservDispo() {
+    public void checkReservDispo()
+    {
+
+        Livre livre = new Livre();
+        livre.setId(1L);
+
+        User user = new User();
+        user.setUsername("userTest");
+
+        Reservation r1 = new Reservation();
+        r1.setUserReservation(user);
+
+        List<Reservation> list = new ArrayList<>();
+
+        list.add(r1);
+        livre.setReservations(list);
+
+
+        when(securityService.getUser()).thenReturn(user);
+        when(livreRepository.findById(1L)).thenReturn(livre);
+
+        //
+
+        boolean testBool = reservationService.checkReservDispo(1L);
+
+        assertThat(testBool).isFalse();
     }
 
     @Test
@@ -299,7 +326,34 @@ public class ReservationServiceImplTest {
     }
 
     @Test
-    public void getAllFirstReserve() {
+    public void getAllFirstReserve()
+    {
+        //
+        Statut statut = new Statut();
+        statut.setNom("First");
+
+        List<Reservation> list = new ArrayList<>();
+
+
+        Reservation r1 = new Reservation();
+        Reservation r2 = new Reservation();
+        Reservation r3 = new Reservation();
+
+        r1.setStatutReservation(statut);
+        r2.setStatutReservation(statut);
+
+        list.add(r1);
+        list.add(r2);
+
+        when(statutRepository.findByNom("First")).thenReturn(statut);
+
+        when(reservationRepository.findByStatutReservation(statut)).thenReturn(list);
+
+        // test
+
+        List<Reservation> listTest = reservationService.getAllFirstReserve();
+
+        assertThat(listTest.get(0).getStatutReservation().getNom()).isEqualTo("First");
     }
 
     @Test
@@ -348,11 +402,156 @@ public class ReservationServiceImplTest {
     }
 
     @Test
-    public void checkListeReservForAllBook() {
+    public void checkListeReservForAllBook()
+    {
+
+        //intro
+        /**
+         * 2 livre
+         * 4 reserv
+         * 1 livre avec une reserv first
+         */
+      Livre livre = new Livre();
+      Livre livre2 = new Livre();
+
+
+      List<Reservation> listReserv = new ArrayList<>();
+      List<Reservation> listReserv2 = new ArrayList<>();
+
+      Reservation r1 = new Reservation();
+        Reservation r2 = new Reservation();
+        Reservation r3 = new Reservation();
+        Reservation r4 = new Reservation();
+
+
+        Statut statut = new Statut("First");
+        Statut statut2 = new Statut("En Attente");
+
+        r1.setStatutReservation(statut);
+        r2.setStatutReservation(statut2);
+        r3.setStatutReservation(statut2);
+        r4.setStatutReservation(statut2);
+
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2021);
+        cal.set(Calendar.MONTH, Calendar.OCTOBER);
+        cal.set(Calendar.DAY_OF_MONTH, 5);
+
+
+        r3.setDateDemande(cal.getTime());
+
+        cal.set(Calendar.MONTH, Calendar.SEPTEMBER);
+        r4.setDateDemande(cal.getTime());
+
+        listReserv.add(r1);
+        listReserv.add(r2);
+
+        listReserv2.add(r3);
+        listReserv2.add(r4);
+
+        livre.setReservations(listReserv);
+
+        livre2.setReservations(listReserv2);
+
+
+
+        //les livres sont appele ensemble
+
+        List<Livre> listLivre = new ArrayList<>();
+        listLivre.add(livre);
+        listLivre.add(livre2);
+
+        when(livreRepository.findAll()).thenReturn(listLivre);
+
+        when(statutRepository.findByNom("First")).thenReturn(statut);
+
+        //test
+
+        List<Livre> listTest = reservationService.checkListeReservForAllBook();
+
+        //assert r4 first
+
+        assertThat(listTest.size()).isEqualTo(1);
+        assertThat(listTest.get(0).getReservations().get(1).getStatutReservation().getNom()).isEqualTo("First");
+
     }
 
     @Test
-    public void checkNewFirst() {
+    public void checkNewFirst()
+    {
+
+        // intro reprise de checkListe au dessus
+        /**
+         * 2 livre
+         * 4 reserv
+         * 1 livre avec une reserv first
+         */
+        Livre livre = new Livre();
+        Livre livre2 = new Livre();
+
+
+        List<Reservation> listReserv = new ArrayList<>();
+        List<Reservation> listReserv2 = new ArrayList<>();
+
+        Reservation r1 = new Reservation();
+        Reservation r2 = new Reservation();
+        Reservation r3 = new Reservation();
+        Reservation r4 = new Reservation();
+
+
+        Statut statut = new Statut("First");
+        Statut statut2 = new Statut("En Attente");
+
+        r1.setStatutReservation(statut);
+        r2.setStatutReservation(statut2);
+        r3.setStatutReservation(statut2);
+        r4.setStatutReservation(statut2);
+
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2021);
+        cal.set(Calendar.MONTH, Calendar.OCTOBER);
+        cal.set(Calendar.DAY_OF_MONTH, 5);
+
+
+        r3.setDateDemande(cal.getTime());
+
+        cal.set(Calendar.MONTH, Calendar.SEPTEMBER);
+        r4.setDateDemande(cal.getTime());
+
+        listReserv.add(r1);
+        listReserv.add(r2);
+
+        listReserv2.add(r3);
+        listReserv2.add(r4);
+
+        livre.setReservations(listReserv);
+
+        livre2.setReservations(listReserv2);
+
+
+
+        //les livres sont appele ensemble
+
+        List<Livre> listLivre = new ArrayList<>();
+        listLivre.add(livre);
+        listLivre.add(livre2);
+
+        when(livreRepository.findAll()).thenReturn(listLivre);
+
+        when(statutRepository.findByNom("First")).thenReturn(statut);
+
+
+
+        //test
+
+        boolean boolTest = reservationService.checkNewFirst(livre.getReservations());
+
+        boolean secondTest = reservationService.checkNewFirst(livre2.getReservations());
+
+        assertThat(boolTest).isTrue();
+        assertThat(secondTest).isFalse();
     }
 
 
@@ -399,7 +598,49 @@ public class ReservationServiceImplTest {
     }
 
     @Test
-    public void finishReservation() {
+    public void finishReservation()
+    {
+
+        //
+        Reservation r1 = new Reservation();
+        r1.setId(1L);
+
+        Statut statut = new Statut();
+        statut.setNom("Fini");
+
+        Examplaire examplaire = new Examplaire();
+        Examplaire examplaire1 = new Examplaire();
+        examplaire.setEmprunt(true);
+        examplaire1.setEmprunt(false);
+
+        Livre livre = new Livre();
+
+        List<Examplaire> listeExamplaire = new ArrayList<>();
+        listeExamplaire.add(examplaire);
+        listeExamplaire.add(examplaire1);
+        livre.setExamplaires(listeExamplaire);
+
+        List<Reservation> list = new ArrayList<>();
+        list.add(r1);
+        livre.setReservations(list);
+
+        r1.setLivreReservation(livre);
+
+
+        when(reservationRepository.findById(1L)).thenReturn(r1);
+        when(statutRepository.findByNom("Fini")).thenReturn(statut);
+
+        //
+
+
+        Examplaire examplaireTest = reservationService.finishReservation(1L);
+        Reservation reservationTest = reservationRepository.findById(1L);
+
+        //
+        verify(reservationRepository,times(1)).save(any(Reservation.class));
+        assertThat(reservationTest.getStatutReservation().getNom()).isEqualTo("Fini");
+
+
     }
 
     @Test
@@ -417,4 +658,114 @@ public class ReservationServiceImplTest {
 
         assertThat(reservation.getLivreReservation().getTitre()).isEqualTo("le soleil");
     }
+
+
+    @Test
+    public void giveList() throws ParseException {
+        // big intro
+        List<ReservationDTO> reservationDTOList = new ArrayList<>();
+
+        ReservationDTO rDTO1 = new ReservationDTO();
+        ReservationDTO rDTO2 = new ReservationDTO();
+
+        Reservation r1 = new Reservation();
+        Reservation r2 = new Reservation();
+
+        Statut statut1 = new Statut();
+        Statut statut2 = new Statut();
+
+        statut1.setNom("First");
+        statut2.setNom("En Attente");
+
+        rDTO1.setId(1L);
+        rDTO1.setStatut(statut1.getNom());
+        rDTO1.setDate_debut("2020/01/01 12:00:00");
+        rDTO1.setDate_fin("2020/02/01 12:00:00");
+        rDTO1.setSendMail(true);
+
+        rDTO2.setId(2L);
+        rDTO2.setStatut(statut2.getNom());
+        rDTO2.setDate_debut("2021/02/03 15:00:00");
+        rDTO2.setDate_fin("2021/03/03 16:00:00");
+        rDTO2.setSendMail(false);
+
+
+        when(reservationRepository.findById(1L)).thenReturn(r1);
+        when(reservationRepository.findById(2L)).thenReturn(r2);
+
+        when(statutRepository.findByNom("First")).thenReturn(statut1);
+        when(statutRepository.findByNom("En Attente")).thenReturn(statut2);
+
+
+        // test
+
+        reservationDTOList.add(rDTO1);
+        reservationDTOList.add(rDTO2);
+
+        List<Reservation> listTest = reservationService.giveList(reservationDTOList);
+
+        //
+
+        assertThat(listTest.size()).isEqualTo(2);
+        assertThat(listTest.get(0).isMailSend()).isTrue();
+        assertThat(listTest.get(1).isMailSend()).isFalse();
+    }
+
+    @Test
+    public void giveReservationDTO()
+    {
+        User user = new User();
+        user.setUsername("UserTest");
+        user.setEmail("test@gmail.t");
+
+        ImageGallery imageGallery = new ImageGallery();
+        imageGallery.setName("image.test");
+
+        Livre livre = new Livre();
+        livre.setTitre("Le beau Test");
+        livre.setImage(imageGallery);
+
+
+        Statut statut = new Statut();
+        statut.setNom("First");
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2021);
+        cal.set(Calendar.MONTH, Calendar.OCTOBER);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        Date date = cal.getTime();
+
+        Reservation r1 = new Reservation();
+        r1.setId(1L);
+        r1.setUserReservation(user);
+        r1.setLivreReservation(livre);
+        r1.setStatutReservation(statut);
+        r1.setMailSend(false);
+        r1.setDateDemande(cal.getTime());
+
+
+
+        //
+
+        ReservationDTO reservationDTO = reservationService.giveReservationDTO(r1);
+
+        //
+
+        assertThat(reservationDTO.getId()).isEqualTo(1L);
+    }
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
