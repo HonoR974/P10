@@ -63,11 +63,13 @@ public class BatchServiceImpl implements BatchService{
     {
         List<PretBatchDTO> list = new ArrayList<>();
 
+        int index = 0;
         for (Map.Entry mapentry : map.entrySet()) {
             System.out.println("clé: "+mapentry.getKey()
                     + " | valeur: " + mapentry.getValue());
 
-            list.add((Integer) mapentry.getKey(),(PretBatchDTO) mapentry.getValue());
+            list.add(index,(PretBatchDTO) mapentry.getValue());
+            index++;
         }
 
         verfication(list);
@@ -80,9 +82,10 @@ public class BatchServiceImpl implements BatchService{
      * @param prets
      * @return
      */
-    private void verfication(List<PretBatchDTO> prets)
+    @Override
+    public void verfication(List<PretBatchDTO> prets)
     {
-        List<Pret> list;
+
         Pret pret ;
         Statut statut;
 
@@ -92,6 +95,7 @@ public class BatchServiceImpl implements BatchService{
             pret =  pretRepository.findById(id);
 
             //si ils ont un statut different on le save
+            //pretBatch et pret peuvent etre different
             if (! pret.getStatut().getNom().equals(pretBatch.getStatut()))
             {
 
@@ -124,7 +128,8 @@ public class BatchServiceImpl implements BatchService{
      * @param prets
      * @return
      */
-    private List<PretBatchDTO> convertForBatch(List<Pret> prets)
+    @Override
+    public List<PretBatchDTO> convertForBatch(List<Pret> prets)
     {
         List<PretBatchDTO> list = new ArrayList<>();
 
@@ -161,11 +166,13 @@ public class BatchServiceImpl implements BatchService{
 
         List<PretBatchDTO> pretList = new ArrayList<>();
 
+        int index = 0;
         for (Map.Entry mapentry : map.entrySet()) {
             System.out.println("clé: "+mapentry.getKey()
                     + " | valeur: " + mapentry.getValue());
 
-            pretList.add((Integer) mapentry.getKey(),(PretBatchDTO) mapentry.getValue());
+            pretList.add(index,(PretBatchDTO) mapentry.getValue());
+            index ++;
         }
 
 
@@ -178,7 +185,8 @@ public class BatchServiceImpl implements BatchService{
      * @param list List<PretBatchDTO>
      * @return List<PretBatchDTO>
      */
-    private List<PretBatchDTO> saveRappel(List<PretBatchDTO> list)
+    @Override
+    public List<PretBatchDTO> saveRappel(List<PretBatchDTO> list)
     {
         List<PretBatchDTO> listPret = new ArrayList<>();
         Pret pret ;

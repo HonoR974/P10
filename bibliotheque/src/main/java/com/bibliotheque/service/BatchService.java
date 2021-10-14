@@ -40,5 +40,11 @@ public interface BatchService {
      */
     List<PretBatchDTO> sendPretRappel(Map<Integer, PretBatchDTO> map);
 
+     List<PretBatchDTO> convertForBatch(List<Pret> prets);
+
+     List<PretBatchDTO> saveRappel(List<PretBatchDTO> list);
+
+     void verfication(List<PretBatchDTO> prets);
+
 
 }

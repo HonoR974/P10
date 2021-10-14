@@ -1,5 +1,6 @@
 package com.bibliotheque.service;
 
+import com.bibliotheque.dto.PretDTO;
 import com.bibliotheque.model.*;
 import com.bibliotheque.repository.ExamplaireRepository;
 import com.bibliotheque.repository.PretRepository;
@@ -37,6 +38,8 @@ public class PretServiceImplTest {
     @Mock
     SecurityServiceImpl securityService;
 
+    @Mock
+    ExamplaireService examplaireService;
 
     @Mock
     UserRepository userRepository;
@@ -125,10 +128,56 @@ public class PretServiceImplTest {
     public void createPret()
     {
 
+        String username = "userCreate";
+        User user = new User();
+        user.setUsername(username);
+
+        Statut statut = new Statut("En Creation");
+
+        Examplaire examplaire = new Examplaire();
+
+        examplaire.setId(10L);
+
+
+        when(examplaireService.getExamplaireById(10L)).thenReturn(examplaire);
+        when(userRepository.findByUsername(username)).thenReturn(user);
+        when(securityService.getUsername()).thenReturn(username);
+        when(statutRepository.findByNom("En Creation")).thenReturn(statut);
+
+        // test
+        Pret pret = pretService.createPret(10L);
+
+        verify(pretRepository, times(1)).save(any(Pret.class));
+        assertThat(pret.getExamplaire().getId()).isEqualTo(10L);
     }
 
     @Test
-    public void givePretDTO() {
+    public void givePretDTO()
+    {
+        User user = new User();
+        user.setUsername("userTest");
+
+        Livre livre = new Livre();
+        livre.setTitre("livre des test ");
+
+        Examplaire examplaire = new Examplaire();
+        examplaire.setLivre(livre);
+
+        Pret pret = new Pret();
+        pret.setId(10L);
+        stat1.setNom("Valider");
+        pret.setStatut(stat1);
+        pret.setDate_debut(LocalDate.of(2000,1,1));
+        pret.setDate_fin(LocalDate.of(2000, 2,1));
+        pret.setProlonger(false);
+        pret.setExamplaire(examplaire);
+        pret.setUser(user);
+
+        // test
+        PretDTO pretDTO = pretService.givePretDTO(pret);
+
+        assertThat(pretDTO.getId()).isEqualTo(10L);
+
     }
 
     @Test
@@ -178,6 +227,7 @@ public class PretServiceImplTest {
         assertThat(list.size()).isEqualTo(2);
 
     }
+
 }
 
 

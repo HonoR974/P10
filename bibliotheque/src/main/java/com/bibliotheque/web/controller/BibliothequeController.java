@@ -91,7 +91,7 @@ public class BibliothequeController {
 
         Bibliotheque bibliotheque = bibliothequeService.updateBibliotheque(id, bibliothequeRequest);
 
-        BibliothequeDTO bibliothequeResponse =modelMapper.map(bibliotheque, BibliothequeDTO.class);
+        BibliothequeDTO bibliothequeResponse = modelMapper.map(bibliotheque, BibliothequeDTO.class);
 
         return new ResponseEntity<BibliothequeDTO>(bibliothequeResponse, HttpStatus.ACCEPTED);
     }
