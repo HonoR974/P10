@@ -39,6 +39,8 @@ public class LivreController {
         List<LivreDTO> livreDTOList = livreService.convertListLivre(livreService.getAllLivres());
 
         if(livreDTOList.size() == 0 ) throw new LivreIntrouvableException( "il n' y a pas de livre ");
+
+        System.out.println("\n les livres " + livreDTOList.toString());
         return livreDTOList;
     }
 
@@ -71,8 +73,11 @@ public class LivreController {
     {
         Livre livre = livreService.getLivreById(id);
 
-        if(livre==null) throw new LivreIntrouvableException( "Le produit avec l'id "
-                + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
+        if(livre==null)
+        {
+            throw new LivreIntrouvableException( "Le produit avec l'id "
+                    + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
+        }
 
         LivreDTO  livreResponse = livreService.convertLivre(livre);
 
@@ -97,7 +102,7 @@ public class LivreController {
                 + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
 
         //entity a dto
-        LivreDTO livreResponse = modelMapper.map(livre, LivreDTO.class);
+        LivreDTO livreResponse = livreService.convertLivre(livre);
 
         return ResponseEntity.ok().body(livreResponse);
     }

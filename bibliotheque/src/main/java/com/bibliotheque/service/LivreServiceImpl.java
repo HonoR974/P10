@@ -51,6 +51,9 @@ public class LivreServiceImpl implements LivreService{
     @Override
     public Livre createLivre(Livre livre)
     {
+        List<Livre> list = livreRepository.findAll();
+
+
         livreRepository.save(livre);
         return livre;
     }
@@ -184,7 +187,12 @@ public class LivreServiceImpl implements LivreService{
         }
 
         livreDTO.setExamplaires(count);
-        livreDTO.setTitreImage(livre.getImage().getName());
+        
+        if(livre.getImage() != null)
+        {
+            livreDTO.setTitreImage(livre.getImage().getName());
+        }
+      
         livreDTO.setDescription(livre.getDescription());
 
 

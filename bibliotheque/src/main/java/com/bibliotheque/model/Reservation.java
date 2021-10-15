@@ -1,6 +1,5 @@
 package com.bibliotheque.model;
 
-import lombok.NonNull;
 
 import javax.persistence.*;
 import java.util.Date;
