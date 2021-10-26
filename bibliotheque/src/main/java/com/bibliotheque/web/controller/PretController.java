@@ -36,6 +36,7 @@ public class PretController {
     @GetMapping("/create/{id}")
     public ResponseEntity<PretDTO> createPret(@PathVariable(name = "id")Long id_examplaire)
     {
+        System.out.println("\n creation du pret ");
 
         Pret pret = pretService.createPret(id_examplaire);
 

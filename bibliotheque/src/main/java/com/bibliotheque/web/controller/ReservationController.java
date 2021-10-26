@@ -85,9 +85,11 @@ public class ReservationController {
 
         Reservation reservation = reservationService.createReservation(id_livre);
 
-        //System.out.println("\n la reservation a convertire  : " + reservation.toString());
-
+       
         ReservationDTO reservationDTO = reservationService.giveReservationDTO(reservation);
+        
+         System.out.println("\n la reservation creer  : " + reservationDTO.toString());
+
         return new ResponseEntity<ReservationDTO>(reservationDTO, HttpStatus.ACCEPTED);
 
     }
