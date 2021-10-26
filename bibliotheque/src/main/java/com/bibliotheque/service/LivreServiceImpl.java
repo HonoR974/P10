@@ -160,7 +160,8 @@ public class LivreServiceImpl implements LivreService{
         long count = 0 ;
         for (Examplaire examplaire : examplaires)
         {
-            if (!examplaire.isEmprunt())
+        
+            if ( examplaire.isEmprunt() == null || !examplaire.isEmprunt() )
             {
                 count++;
             }

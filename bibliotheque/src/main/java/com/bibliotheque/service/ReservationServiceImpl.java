@@ -1,12 +1,10 @@
 package com.bibliotheque.service;
 
-import com.bibliotheque.dto.LivreDTO;
 import com.bibliotheque.dto.ReservationDTO;
 import com.bibliotheque.model.*;
 import com.bibliotheque.repository.LivreRepository;
 import com.bibliotheque.repository.ReservationRepository;
 import com.bibliotheque.repository.StatutRepository;
-import com.bibliotheque.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,8 +32,6 @@ public class ReservationServiceImpl implements ReservationService{
     @Autowired
     private LivreRepository livreRepository;
 
-    @Autowired
-    private LivreService livreService;
 
     /**
      * Creer une reservation avec l'id du livre
@@ -152,10 +148,10 @@ public class ReservationServiceImpl implements ReservationService{
         String date_demande = dateFormat.format(reservation.getDateDemande());
 
 
-        System.out.println("\n la reservation a convertir " + reservation.toString());
         ReservationDTO reservationDTO = new ReservationDTO();
 
         reservationDTO.setId(reservation.getId());
+
         reservationDTO.setUsername(reservation.getUserReservation().getUsername());
         reservationDTO.setTitre(reservation.getLivreReservation().getTitre());
         reservationDTO.setStatut(reservation.getStatutReservation().getNom());
@@ -171,11 +167,14 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public List<ReservationDTO> giveListDTO(List<Reservation> reservationList) {
 
+        System.out.println("\n give listeDTO ");
+
         List<ReservationDTO> list = new ArrayList<>();
 
         for (Reservation reservation : reservationList)
         {
             list.add(giveReservationDTO(reservation));
+            
         }
         return list;
     }
@@ -289,7 +288,7 @@ public class ReservationServiceImpl implements ReservationService{
 
         List<Reservation> list1 = reservationRepository.findByStatutReservationAndUserReservation(statut, user);
 
-        System.out.println("\n list1 " + list1.toString() );
+    
         list1.addAll(reservationRepository.findByStatutReservationAndUserReservation(statut2, user));
 
 

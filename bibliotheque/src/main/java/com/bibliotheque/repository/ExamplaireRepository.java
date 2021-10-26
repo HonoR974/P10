@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ExamplaireRepository extends JpaRepository<Examplaire,Long> {
     Examplaire findById(long id);
+
 }

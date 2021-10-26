@@ -80,7 +80,7 @@ public class PretServiceImpl implements PretService
     public PretDTO givePretDTO(Pret pret)
     {
 
-        System.out.println("\n give pretDTO " +  pret.toString());
+        System.out.println("\n give pretDTO " );
         PretDTO pretDTO = new PretDTO();
 
         String date_debut = pret.getDate_debut().toString();
@@ -106,7 +106,7 @@ public class PretServiceImpl implements PretService
         }
 
 
-        System.out.println("\n pretDTO : " + pretDTO.toString());
+        System.out.println("\n pretDTO : ");
 
         return pretDTO;
     }

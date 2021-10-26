@@ -43,9 +43,22 @@ public class ExamplaireServiceImpl implements ExamplaireService{
      */
     @Override
     public Examplaire updateExamplaire(long id, Examplaire examplaireRequest) {
+
         Examplaire examplaire = examplaireRepository.findById(id);
-        examplaire.setEdition(examplaireRequest.getEdition());
-        examplaireRepository.save(examplaire);
+
+        try
+        {
+            long idTest = examplaire.getId();
+            examplaire.setEdition(examplaireRequest.getEdition());
+            examplaireRepository.save(examplaire);
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("\n l'examplaire n'existe pas ");
+        }
+
+      
         return examplaire;
     }
 
@@ -55,6 +68,9 @@ public class ExamplaireServiceImpl implements ExamplaireService{
      */
     @Override
     public void deleteExamplaire(long id) {
+
+        
+
             examplaireRepository.deleteById(id);
     }
 
@@ -96,4 +112,7 @@ public class ExamplaireServiceImpl implements ExamplaireService{
 
         return examplaireDTO;
     }
+
+
+
 }

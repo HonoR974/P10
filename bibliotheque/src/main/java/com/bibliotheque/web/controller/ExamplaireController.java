@@ -6,11 +6,15 @@ import com.bibliotheque.model.Examplaire;
 import com.bibliotheque.model.Livre;
 import com.bibliotheque.service.ExamplaireService;
 import com.bibliotheque.service.LivreService;
+import com.bibliotheque.web.exception.ExamplaireIntrouvableException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static org.mockito.Mockito.never;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,7 +63,7 @@ public class ExamplaireController {
 
         ExamplaireDTO examplaireResponse = modelMapper.map(examplaire, ExamplaireDTO.class);
 
-        return new ResponseEntity<ExamplaireDTO>(HttpStatus.CREATED);
+        return new ResponseEntity<ExamplaireDTO>(examplaireResponse, HttpStatus.CREATED);
     }
 
     /**
@@ -86,11 +90,16 @@ public class ExamplaireController {
     @PutMapping("/{id}")
     public ResponseEntity<ExamplaireDTO> updateExamplaire(@PathVariable(name = "id") Long id,
                                                        @RequestBody ExamplaireDTO examplaireDTO)
-    {
+    {   
+
+
         Examplaire examplaireRequest = modelMapper.map(examplaireDTO,Examplaire.class);
 
         Examplaire examplaire = examplaireService.updateExamplaire(id, examplaireRequest);
 
+        if(examplaire==null) throw new ExamplaireIntrouvableException ( "L'examplaire avec " +
+        " l'id " + id + " n'existe pas ");
+      
         ExamplaireDTO examplaireResponse = modelMapper.map(examplaire,ExamplaireDTO.class);
 
         return new ResponseEntity<ExamplaireDTO>(examplaireResponse,HttpStatus.ACCEPTED);
@@ -104,8 +113,25 @@ public class ExamplaireController {
     @DeleteMapping("/{id}")
     public HttpStatus deleteExamplaire(@PathVariable(name = "id")Long id)
     {
+        Examplaire examplaire = examplaireService.getExamplaireById(id);
+        if(examplaireService.getExamplaireById(id)==null) throw new ExamplaireIntrouvableException (  "L'examplaire avec " +
+        " l'id " + id + " n'existe pas ");
+
+       try
+       {
+
         examplaireService.deleteExamplaire(id);
         return HttpStatus.ACCEPTED;
+       
+        }
+        catch(Exception e)
+        {
+            throw new ExamplaireIntrouvableException("l'examplaire "  + id + " ne peut etre supprimé pour le moment ");
+        }
+        
+
+
+      
     }
 
     /**

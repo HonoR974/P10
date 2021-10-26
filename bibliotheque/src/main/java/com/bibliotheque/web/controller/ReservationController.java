@@ -3,13 +3,13 @@ package com.bibliotheque.web.controller;
 import com.bibliotheque.dto.ExamplaireDTO;
 import com.bibliotheque.dto.PretDTO;
 import com.bibliotheque.dto.ReservationDTO;
+import com.bibliotheque.web.exception.LivreIntrouvableException;
 import com.bibliotheque.model.Examplaire;
 import com.bibliotheque.model.Pret;
 import com.bibliotheque.model.Reservation;
 import com.bibliotheque.service.ExamplaireService;
 import com.bibliotheque.service.LivreService;
 import com.bibliotheque.service.ReservationService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +46,14 @@ public class ReservationController {
         String message;
 
 
+        System.out.println("\n create ");
+
+        // si le livre existe
+        if (livreService.getLivreById(id) == null )
+        {
+            throw new LivreIntrouvableException( "Le livre avec l'id "
+            + id + " est INTROUVABLE.");
+        }
 
         //si le livre a des examplaire disponible
         // ( donc l'user peut emprunté )
@@ -77,7 +85,7 @@ public class ReservationController {
 
         Reservation reservation = reservationService.createReservation(id_livre);
 
-        System.out.println("\n la reservation a convertire  : " + reservation.toString());
+        //System.out.println("\n la reservation a convertire  : " + reservation.toString());
 
         ReservationDTO reservationDTO = reservationService.giveReservationDTO(reservation);
         return new ResponseEntity<ReservationDTO>(reservationDTO, HttpStatus.ACCEPTED);
@@ -91,6 +99,7 @@ public class ReservationController {
     @GetMapping("/all")
     public ResponseEntity<?> getAll()
     {
+        System.out.println("\n get all ");
         List<Reservation> reservationList = reservationService.getAll();
 
 

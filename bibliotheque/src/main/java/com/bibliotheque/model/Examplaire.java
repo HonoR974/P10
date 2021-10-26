@@ -57,13 +57,20 @@ public class Examplaire {
         this.listeDePret = listeDePret;
     }
 
-    public boolean isEmprunt() {
+    public Boolean isEmprunt() {
         return emprunt;
     }
 
     public void setEmprunt(boolean emprunt) {
         this.emprunt = emprunt;
     }
+
+    @Override
+    public String toString() {
+        return "Examplaire [edition=" + edition + ", emprunt=" + emprunt + ", id=" + id + ", listeDePret=" + listeDePret
+                + ", livre=" + livre + "]";
+    }
+
 
 
 }

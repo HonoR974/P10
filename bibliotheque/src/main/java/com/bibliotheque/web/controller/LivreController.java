@@ -115,6 +115,14 @@ public class LivreController {
     @DeleteMapping("/{id}")
     public HttpStatus deleteLivre(@PathVariable(name = "id")Long id)
     {
+
+        if(livreService.getLivreById(id)==null)
+        {
+            throw new LivreIntrouvableException( "Le produit avec l'id "
+                    + id + " est INTROUVABLE. Écran Bleu si je pouvais.");
+        }
+
+
         livreService.deleteLivre(id);
         return HttpStatus.ACCEPTED;
     }
