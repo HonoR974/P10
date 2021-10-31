@@ -51,7 +51,12 @@ public class LivreServiceImpl implements  LivreService{
 
         ObjectMapper mapper = new ObjectMapper();
 
-       HttpResponse httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+       HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+       String reponse = httpResponse.body();
+
+       System.out.println("\n response " + httpResponse + "\n reponse " + reponse);
+
 
 
         List<LivreDTO> list = mapper.readValue(httpResponse.body().toString(), new TypeReference<List<LivreDTO>>(){});

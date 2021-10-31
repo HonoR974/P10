@@ -8,7 +8,7 @@ import com.bibliotheque.model.Statut;
 import com.bibliotheque.repository.LivreRepository;
 import com.bibliotheque.repository.ReservationRepository;
 import com.bibliotheque.repository.StatutRepository;
-import com.bibliotheque.web.exception.LivreIntrouvableException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,9 +40,11 @@ public class LivreServiceImpl implements LivreService{
     @Override
     public List<Livre> getAllLivres()
     {
+
         return livreRepository.findAll();
     }
 
+    
     /**
      * Créer un livre
      * @param livre
@@ -51,9 +53,6 @@ public class LivreServiceImpl implements LivreService{
     @Override
     public Livre createLivre(Livre livre)
     {
-        List<Livre> list = livreRepository.findAll();
-
-
         livreRepository.save(livre);
         return livre;
     }
@@ -130,11 +129,15 @@ public class LivreServiceImpl implements LivreService{
     {
         List<LivreDTO> listFinal = new ArrayList<>();
 
+        LivreDTO livreDTO ;
        for (Livre livre : list)
        {
-           listFinal.add(convertLivre(livre));
+           livreDTO = convertLivre(livre);
+           listFinal.add(livreDTO);
+           System.out.println("\n le livre convertie est " + livreDTO.toString());
        }
 
+       
         return listFinal;
     }
 
@@ -245,7 +248,9 @@ public class LivreServiceImpl implements LivreService{
         Statut statut1 = statutRepository.findByNom("First");
         Statut statut2 = statutRepository.findByNom("InList");
 
-        List<Reservation> reservationList = reservationRepository.findByLivreReservationAndStatutReservationOrStatutReservation(livre,statut1,statut2);
+        List<Reservation> reservationList = reservationRepository.findByLivreReservationAndStatutReservation(livre, statut1);
+        
+        reservationList.addAll(reservationRepository.findByLivreReservationAndStatutReservation(livre, statut2));
         System.out.println("\n nmb de reservation est de " + reservationList.size() + "sur le livre a l'id " + livre.getId());
 
         nmbUser = reservationList.size();

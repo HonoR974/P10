@@ -41,8 +41,6 @@ public class LivreController {
         model.addAttribute("liste", list);
         model.addAttribute("user", user);
 
-        System.out.println("\n les liste de livre au total " + list.toString());
-
         return "livres/Livres";
     }
 

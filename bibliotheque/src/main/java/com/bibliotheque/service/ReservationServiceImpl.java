@@ -41,10 +41,12 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public Reservation createReservation(long id_livre)
     {
+        System.out.println("\n create ");
         Livre livre = livreRepository.findById(id_livre);
 
         //si le le livre n'a pas de reservation avec le statut first
         Statut statut = statutDisponible(livre);
+        System.out.println("\n statut a donner à la reserv " + statut.getNom());
 
 //        System.out.println("\n creation le statut " + statut.getNom());
 
@@ -76,29 +78,28 @@ public class ReservationServiceImpl implements ReservationService{
         Statut statut = statutRepository.findByNom("First");
         List<Reservation> reservationList = livre.getReservations();
 
-        for (Reservation reservation : reservationList)
+        System.out.println("\n statutDispo " );
+
+        if(!reservationList.isEmpty())
         {
-            System.out.println("\n reservation taille " + reservationList.size());
-
-            //premiere reservation
-            if (reservationList.size() < 2 )
+            for (Reservation reservation : reservationList)
             {
-
-                System.out.println("\n statut a retourner " + statut.toString());
-              return statut;
+    
+                //si la reservation a le statut first il ne peut pas en avoir d'autre
+                //donc InList
+                if (reservation.getStatutReservation().getNom().equals("First") )
+                {
+                    statut = statutRepository.findByNom("InList");
+                    return statut;
+                }
+             
+    
             }
-
-            //si la reservation a le statut first il ne peut pas en avoir d'autre
-            //donc InList
-             else if (reservation.getStatutReservation().getNom().equals("First") )
-            {
-                statut = statutRepository.findByNom("InList");
-                return statut;
-            }
-
+    
         }
+      
+        System.out.println("\n statut a retourner " + statut.getNom());
 
-        System.out.println("\n statut a retourner " + statut.toString());
         return statut;
     }
 
@@ -125,6 +126,8 @@ public class ReservationServiceImpl implements ReservationService{
             }
 
         }
+
+        System.out.println("\n checkEmruntUser " + condition);
         return condition;
     }
 
@@ -240,10 +243,6 @@ public class ReservationServiceImpl implements ReservationService{
 
 
         long liste = reservationRepository.findByStatutReservationAndLivreReservation(statut,livre).size();
-
-
-        System.out.println("\n max " + max + "\n liste " + liste);
-
         if (liste < max)
         {
             condition = true;
@@ -261,20 +260,29 @@ public class ReservationServiceImpl implements ReservationService{
         boolean reservDispo = true;
 
         System.out.println("\n check Reserv Dispo ");
-        //le livre a des reservations
+        System.out.println("\n test ");
+
         if (!livre.getReservations().isEmpty())
         {
-
+            System.out.println("\n le livre a des reserv");
             for (Reservation reservation : livre.getReservations())
             {
                 System.out.println("\n la reservation " + reservation.getId());
-                if (reservation.getUserReservation().getUsername().equals(user.getUsername())) {
-                    System.out.println("\n l'user :" + user + " possede deja le livre ");
+
+                if (reservation.getUserReservation().getUsername().equals(user.getUsername()))
+                 {
+                    System.out.println("\n l'user :" + user.getUsername() + " possede deja le livre ");
                     reservDispo = false;
                     break;
                 }
             }
         }
+        else
+        {
+            System.out.println("\n le livre n' a pas de reservation ");
+        }
+
+        System.out.println("\n checkReserv Dispo  FIN " + reservDispo);
 
         return reservDispo;
 
@@ -493,7 +501,9 @@ public class ReservationServiceImpl implements ReservationService{
         Statut statut1 = statutRepository.findByNom("First");
         Statut statut2 = statutRepository.findByNom("InList");
 
-        return reservationRepository.findByLivreReservationAndStatutReservationOrStatutReservation(livre,statut1,statut2);
+        List<Reservation>list = reservationRepository.findByLivreReservationAndStatutReservation(livre, statut1);
+        list.addAll(reservationRepository.findByLivreReservationAndStatutReservation(livre, statut2));
+        return  list;
     }
 
 

@@ -89,12 +89,14 @@
                     <th>Username</th>
                     <th>Statut</th>
                     <th>Date de la demande</th>
+                    <th>Titre</th>
                 </tr>
 
                 <tr th:each="reserv: ${listeReserv}">
                     <td th:utext="${reserv.username}"></td>
                     <td th:utext="${reserv.statut}"></td>
                     <td th:utext="${reserv.date_demande}"></td>
+                    <td th:utext="${reserv.titre}"></td>
                 </tr>
 
             </table>

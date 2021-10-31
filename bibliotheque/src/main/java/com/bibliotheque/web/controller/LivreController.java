@@ -36,6 +36,8 @@ public class LivreController {
     public List<LivreDTO> getAllLivres()
     {
 
+        //verifie l'attribut dispo 
+
         List<LivreDTO> livreDTOList = livreService.convertListLivre(livreService.getAllLivres());
 
         if(livreDTOList.size() == 0 ) throw new LivreIntrouvableException( "il n' y a pas de livre ");

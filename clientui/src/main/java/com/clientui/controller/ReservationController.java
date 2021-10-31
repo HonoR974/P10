@@ -4,7 +4,7 @@ import com.clientui.dto.ExamplaireDTO;
 import com.clientui.dto.LivreDTO;
 import com.clientui.dto.PretDTO;
 import com.clientui.dto.ReservationDTO;
-import com.clientui.model.PretBean;
+
 import com.clientui.model.TesterUser;
 import com.clientui.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
@@ -35,9 +34,6 @@ public class ReservationController {
     @Autowired
     private PretService pretService;
 
-    @Autowired
-    private ExamplaireService examplaireService;
-
     //l'user demande une reservation d'un livre
     //il accede à la page récapitulatif des reservations présentes
     //de l'email lorsque celui-ci sera First et le delai
@@ -54,6 +50,8 @@ public class ReservationController {
         if (user.isConnected())
         {
             List<ReservationDTO> reservationDTOList =  reservationService.getReservByBook(id_livre);
+            
+            
             LivreDTO livreDTO = livreService.getLivreByIdLivre(id_livre);
 
             model.addAttribute("user", user);
