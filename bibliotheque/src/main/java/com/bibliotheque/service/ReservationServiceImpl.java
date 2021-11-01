@@ -325,7 +325,7 @@ public class ReservationServiceImpl implements ReservationService{
         return reservationRepository.findByStatutReservation(statut);
     }
 
-    //recupere tout les reserve ayant un examplaire disponible
+    //recupere tout les reserve first qui n'ont pas envoyé leur mail 
     //et qui n'ont pas recu d'email
     @Override
     public List<Reservation> getAllFirstReserveNoSendMail() {
@@ -334,18 +334,22 @@ public class ReservationServiceImpl implements ReservationService{
         List<Reservation> listFirst = reservationRepository.findByStatutReservation(statut);
         List<Reservation> listFinal = new ArrayList<>();
 
+        System.out.println("\n list First size " + listFirst.size());
 
         for (Reservation reservation : listFirst)
         {
 
             System.out.println("\n reservation " + reservation.getId() + " / " + reservation.getLivreReservation().getDisponible());
-            if (reservation.getLivreReservation().getDisponible() && !reservation.isMailSend())
+           
+            //if (!reservation.getLivreReservation().getDisponible() && !reservation.isMailSend())
+            if ( !reservation.isMailSend())
             {
                 listFinal.add(reservation);
             }
+
         }
 
-        System.out.println("\n la liste First NoSendMail " + listFinal.toString());
+        System.out.println("\n la liste First NoSendMail " + listFinal.size());
 
         return listFinal;
     }

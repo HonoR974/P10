@@ -305,7 +305,6 @@ public class LivreServiceImpl implements LivreService{
     public void checkDispoAllLivres() {
 
         List<Livre> list = livreRepository.findAll();
-        List<Livre> listeFinal = new ArrayList<>();
 
         System.out.println("\n checkDispoAllLivres " );
 
@@ -324,6 +323,7 @@ public class LivreServiceImpl implements LivreService{
                     }
                 }
             }
+            System.out.println("\n le livre " + livre.getId() + " est dispo : " + livre.getDisponible());
 
             livreRepository.save(livre);
         }

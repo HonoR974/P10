@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/batch/reservation")
@@ -59,7 +59,6 @@ public class BReservationController {
             return new ResponseEntity<String>("Aucun n'a le statut first", HttpStatus.CONFLICT);
         }
 
-        System.out.println("\n list : " + list.toString());
         List<ReservationDTO> listDTO  =reservationService.giveListDTO(list);
 
         return new ResponseEntity<List<ReservationDTO>>(listDTO, HttpStatus.ACCEPTED);
