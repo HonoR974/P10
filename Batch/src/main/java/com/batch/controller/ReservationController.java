@@ -36,7 +36,7 @@ public class ReservationController {
         ReservationDTO reservationDTO = new ReservationDTO();
 
         reservationDTO.setUsername("Théo Duchamps");
-        reservationDTO.setMail("smiirf123@gmail.com");
+        reservationDTO.setMail("damien.dorval1@gmail.com");
         reservationDTO.setTitre("Le labyrinth");
 
 

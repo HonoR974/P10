@@ -14,13 +14,10 @@ public class Scheduler {
     @Autowired
     private BatchLauncher batchLauncher;
 
-    //toutes les 8 sec
-   // @Scheduled(fixedDelay = 8000)
 
-    //tout les min a 19 h le 27/05
-
-//    @Scheduled(cron = "0 */1 19 27 05 ? ")
-/*
+    /*
+    // Batch Pret   
+    @Scheduled(fixedDelay = 8000)
     public void perform() throws Exception {
 
         System.out.println("\n ----------- Perform -------- ");
@@ -29,14 +26,16 @@ public class Scheduler {
     }
 */
 
-/*
-    @Scheduled(fixedRate = 5000)
+    //Batch Reserv 
+   // @Scheduled(fixedRate = 5000)
+    //@Scheduled(cron = "0 */1 10 04 11 ? ")
+   /*
+   
     public void performReserve() throws Exception {
 
         System.out.println("\n ----------- Perform Test -------- ");
         batchLauncher.runReserve();
 
     }
-
 */
 }

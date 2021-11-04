@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.List;
 
+import javax.mail.MessagingException;
+
 /**
  * RestController BatchController
  *
@@ -50,7 +52,7 @@ public class BatchController {
     }
 
     @GetMapping("/sendMailPret")
-    public ResponseEntity<?> sendMailPret()
+    public ResponseEntity<?> sendMailPret() throws MessagingException, IOException 
     {
         PretDTO pretDTO = new PretDTO();
         pretDTO.setDate_fin("10-10-2021");

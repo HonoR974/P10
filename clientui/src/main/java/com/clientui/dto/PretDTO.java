@@ -1,12 +1,7 @@
 package com.clientui.dto;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.util.Date;
-
-@Data
 public class PretDTO {
 
     private Long id;

@@ -58,6 +58,7 @@ public class ExamplaireServiceImplTest {
         //---- livre
 
         l1 = new Livre();
+        l1.setId(1L);
         l1.setTitre("Pour une vie");
         e1.setLivre(l1);
 
@@ -94,7 +95,9 @@ public class ExamplaireServiceImplTest {
         long id = 1L;
         ex.setId(id);
 
-        Examplaire examplaire = examplaireService.createExamplaire(ex);
+        
+
+        Examplaire examplaire = examplaireService.createExamplaire(ex, l1.getId());
 
         assertThat(examplaire.getId()).isEqualTo(id);
     }

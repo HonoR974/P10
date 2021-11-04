@@ -2,15 +2,18 @@ package com.batch.service;
 
 import com.batch.TemplatePersonalization.DynamicTemplatePersonalization;
 import com.batch.model.PretDTO;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 import com.sendgrid.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+
+import javax.mail.MessagingException;
 
 import java.io.IOException;
 import java.net.URI;
@@ -220,10 +223,11 @@ public class PretServiceImpl implements PretService{
      */
     @Override
     public void sendMailRetard() throws IOException, InterruptedException {
-/*
-        Email from = new Email(fromEmail);
+
+        Email from = new Email(emailFrom);
         String subject;
-        Email to = null;
+     
+        Email to = new Email();
 
 
         for(int i = 0; i<= listPretRetard.size() -1 ; i++)
@@ -243,66 +247,66 @@ public class PretServiceImpl implements PretService{
 
                 mail.setFrom(from);
                 mail.setSubject(subject);
-                mail.setTemplateId(EMAIL_TEMPLATE_ID);
+                mail.setTemplateId(templateId);
+                
                  DynamicTemplatePersonalization personalization = new DynamicTemplatePersonalization();
                  personalization.addTo(to);
-                 //personalization.setSubject(subject);
+            
                  personalization.addDynamicTemplateData("subject", subject);
 
                  mail.addPersonalization(personalization);
-
-
-                System.out.println("\n template id : " + EMAIL_TEMPLATE_ID);
-
                 System.out.println("email corps (from,subject,to) : " + from.getEmail() + "   "
-                                  + subject + "   " + to );
+                                  + subject + "   " + to.getEmail() );
 
+                System.out.println("\n personalization " + personalization.toString());
 
-
+                SendGrid sg = new SendGrid(sendGridID);
 
                 Request request = new Request();
                 Response response;
-
-
 
                 try {
                     request.setMethod(Method.POST);
                     request.setEndpoint("mail/send");
                     request.setBody(mail.build());
 
+                    response = sg.api(request);
 
-                    System.out.println("\n mail " + mail.build());
-
-                    response = sendGrid.api(request);
-
+                    System.out.println("\n reponse de l'envoie d'email ");
                     System.out.println(response.getStatusCode());
                     System.out.println(response.getBody());
                     System.out.println(response.getHeaders());
+
                 } catch (IOException ex) {
                     System.out.println("\n l'envoi a fail ");
+
                 }
 
 
 
                 listPretRetard.get(i).setEnvoieEmail(true);
             }
+            else
+            {
+                System.out.println("\n il a recu l'email ");
+            }
 
             sendListPretRappel(listPretRetard);
 
 
         }
-        */
+   
 
     }
 
 
     @Override
-    public String sendMailPret(PretDTO pretDTO) {
+    public String sendMailPret(PretDTO pretDTO) throws MessagingException, IOException{
 
         Email from = new Email(emailFrom);
         String subject = "Rappel : " + pretDTO.getTitre();
         Email to = new Email(pretDTO.getEmail());
-        String message ="envoie de l'email ";
+    
         Mail mail = new Mail( );
 
         DynamicTemplatePersonalization personalization = new DynamicTemplatePersonalization();
@@ -316,13 +320,13 @@ public class PretServiceImpl implements PretService{
          personalization.addDynamicTemplateData("user", pretDTO.getUsername());
         personalization.addDynamicTemplateData("date_fin", pretDTO.getDate_fin());
         personalization.addDynamicTemplateData("livre", pretDTO.getTitre());
+    
          mail.addPersonalization(personalization);
 
         SendGrid sendGrid = new SendGrid(sendGridID);
 
         Request request = new Request();
-        Response response;
-
+      
 
 
         System.out.println("\n le mail " + mail.toString());
@@ -334,7 +338,7 @@ public class PretServiceImpl implements PretService{
             request.setBody(mail.build());
             System.out.println("\n mail " + mail.build());
 
-            response = sendGrid.api(request);
+            Response response = sendGrid.api(request);
 
             System.out.println(response.getStatusCode());
             System.out.println(response.getBody());
@@ -342,8 +346,7 @@ public class PretServiceImpl implements PretService{
 
             return "le mail est envoyé correctement ";
         } catch (IOException ex) {
-            System.out.println("\n l'envoi a fail " + "\n "+ ex.toString() +
-                    "\n la cause " + ex.getCause());
+            System.out.println("\n l'envoi a fail " + "\n "+ ex.toString());
             return "le mail a fail ";
         }
 

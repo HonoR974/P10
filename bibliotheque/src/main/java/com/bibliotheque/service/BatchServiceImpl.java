@@ -6,8 +6,6 @@ import com.bibliotheque.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +23,6 @@ public class BatchServiceImpl implements BatchService{
     @Autowired
     private StatutRepository statutRepository;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private LivreRepository livreRepository;
-
-    @Autowired
-    private ExamplaireRepository examplaireRepository;
 
 
     /**

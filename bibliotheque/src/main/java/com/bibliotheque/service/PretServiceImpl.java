@@ -53,6 +53,7 @@ public class PretServiceImpl implements PretService
         User user = userRepository.findByUsername(username);
 
         Statut statut = statutRepository.findByNom("En Creation");
+        Examplaire examplaire = examplaireService.getExamplaireById(id_examplaire);
 
         LocalDate localDate = LocalDate.now();
         LocalDate lastDate = localDate.plusDays(28);
@@ -60,13 +61,14 @@ public class PretServiceImpl implements PretService
 
 
         pret.setUser(user);
-        pret.setExamplaire(examplaireService.getExamplaireById(id_examplaire));
+        pret.setExamplaire(examplaire);
 
         pret.setStatut(statut);
         pret.setDate_debut(localDate);
         pret.setDate_fin(lastDate);
         pret.setProlonger(false);
         pret.setEmail(false);
+        pret.setImage(examplaire.getLivre().getImage());
         pretRepository.save(pret);
         return pret;
     }
@@ -99,14 +101,13 @@ public class PretServiceImpl implements PretService
         pretDTO.setEnabled(pret.getProlonger());
         pretDTO.setTitre(titre);
 
-        if (pret.getImage() != null)
+
+
+        if (!pret.getExamplaire().getLivre().getImage().getName().isEmpty())
         {
-            System.out.println("\n pret.getImage est different de null ");
-            pretDTO.setTitreImage(pret.getImage().getName());
+            System.out.println("\n le pret  va avoir une image  ");
+            pretDTO.setTitreImage(pret.getExamplaire().getLivre().getImage().getName());
         }
-
-
-        System.out.println("\n pretDTO : ");
 
         return pretDTO;
     }

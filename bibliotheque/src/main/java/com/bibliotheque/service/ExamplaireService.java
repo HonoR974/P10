@@ -23,7 +23,7 @@ public interface ExamplaireService {
      * @param examplaire
      * @return exemplaire
      */
-    Examplaire createExamplaire(Examplaire examplaire);
+    Examplaire createExamplaire(Examplaire examplaire, long id_livre);
 
     /**
      * Modifie un exemplaire

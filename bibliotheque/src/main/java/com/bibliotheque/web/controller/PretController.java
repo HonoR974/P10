@@ -2,9 +2,7 @@ package com.bibliotheque.web.controller;
 
 import com.bibliotheque.dto.PretDTO;
 import com.bibliotheque.model.Pret;
-import com.bibliotheque.model.User;
 import com.bibliotheque.service.PretService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +17,6 @@ import java.util.List;
 @RequestMapping("/api/pret")
 public class PretController {
 
-
-    @Autowired
-    private ModelMapper modelMapper;
 
     @Autowired
     private PretService pretService;
@@ -58,7 +53,6 @@ public class PretController {
 
         PretDTO pretDTO = pretService.givePretDTO(pret);
 
-        System.out.println("\n apres la validation " + pretDTO.toString());
 
         return new ResponseEntity<PretDTO>(pretDTO, HttpStatus.CREATED);
     }

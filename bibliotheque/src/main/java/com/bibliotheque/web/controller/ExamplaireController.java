@@ -54,12 +54,21 @@ public class ExamplaireController {
      * @param examplaireDTO
      * @return exemplaire
      */
-    @PostMapping
-    public ResponseEntity<ExamplaireDTO> createExamplaire(@RequestBody ExamplaireDTO examplaireDTO)
+
+    @PostMapping("/{id}")
+    public ResponseEntity<?> createExamplaire(@RequestBody ExamplaireDTO examplaireDTO, @PathVariable("id") long id_livre)
     {
+
+
+        Livre livre = livreService.getLivreById(id_livre);
+        if (livre == null)
+        {
+            return new ResponseEntity<String>("Le livre de l'examplaire n'existe pas  ", HttpStatus.BAD_REQUEST);
+        }
+
         Examplaire examplaireRequest = modelMapper.map(examplaireDTO,Examplaire.class);
 
-        Examplaire examplaire = examplaireService.createExamplaire(examplaireRequest);
+        Examplaire examplaire = examplaireService.createExamplaire(examplaireRequest ,id_livre);
 
         ExamplaireDTO examplaireResponse = modelMapper.map(examplaire, ExamplaireDTO.class);
 

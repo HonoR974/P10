@@ -2,6 +2,7 @@ package com.batch.service;
 
 import com.batch.model.PretDTO;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.List;
 
@@ -40,5 +41,5 @@ public interface PretService {
      */
     void sendPret() throws IOException, InterruptedException;
 
-    String sendMailPret(PretDTO pretDTO);
+    String sendMailPret(PretDTO pretDTO) throws MessagingException, IOException;
 }

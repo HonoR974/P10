@@ -1,5 +1,7 @@
 package com.bibliotheque.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -23,4 +25,6 @@ public class ExamplaireDTO {
     public void setEdition(String edition) {
         this.edition = edition;
     }
+
+    
 }

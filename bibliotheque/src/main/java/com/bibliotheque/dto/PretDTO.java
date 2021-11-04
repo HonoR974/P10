@@ -3,9 +3,6 @@ package com.bibliotheque.dto;
 
 import lombok.Data;
 
-
-
-@Data
 public class PretDTO
 {
 
@@ -84,4 +81,13 @@ public class PretDTO
     public void setTitreImage(String titreImage) {
         this.titreImage = titreImage;
     }
+
+    @Override
+    public String toString() {
+        return "PretDTO [date_debut=" + date_debut + ", date_fin=" + date_fin + ", enabled=" + enabled + ", id=" + id
+                + ", statut=" + statut + ", titre=" + titre + ", titreImage=" + titreImage + ", username=" + username
+                + "]";
+    }
+
+    
 }

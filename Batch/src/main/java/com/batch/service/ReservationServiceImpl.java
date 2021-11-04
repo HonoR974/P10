@@ -5,7 +5,9 @@ import com.batch.model.ReservationDTO;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.sendgrid.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -39,6 +41,9 @@ public class ReservationServiceImpl implements ReservationService{
 
     @Value("${sg.id}")
     private String sgID;
+
+    @Value("${sendgrid.email.from}")
+    private String from;
 
     private String jwt;
 
@@ -113,14 +118,14 @@ public class ReservationServiceImpl implements ReservationService{
     public String sendMail(ReservationDTO reservationDTO) throws MessagingException, IOException {
 
         String retour = "envoie de l'email ";
-        Email from = new Email("honore.guillaudeau1@gmail.com");
+        Email emailfrom = new Email(from);
         String subject = "Votre livre est disponible ! ";
         Email to = new Email(reservationDTO.getMail());
         Mail mail = new Mail();
 
         DynamicTemplatePersonalization personalization = new DynamicTemplatePersonalization();
         personalization.addTo(to);
-        mail.setFrom(from);
+        mail.setFrom(emailfrom);
         mail.setSubject(subject);
         mail.setTemplateId(templateID);
 
@@ -140,6 +145,9 @@ public class ReservationServiceImpl implements ReservationService{
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
             response = sg.api(request);
+
+            System.out.println("\n mail bien envoyé a  " + to.getEmail());
+            System.out.println("\n corps de l'email " + mail.build());
 
             return "Mail bien envoyé " +  response.getBody();
         } catch (IOException e)

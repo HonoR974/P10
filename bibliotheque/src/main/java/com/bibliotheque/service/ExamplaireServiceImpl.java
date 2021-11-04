@@ -4,6 +4,8 @@ import com.bibliotheque.dto.ExamplaireDTO;
 import com.bibliotheque.model.Examplaire;
 import com.bibliotheque.model.Livre;
 import com.bibliotheque.repository.ExamplaireRepository;
+import com.bibliotheque.repository.LivreRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,9 @@ public class ExamplaireServiceImpl implements ExamplaireService{
     @Autowired
     private ExamplaireRepository examplaireRepository;
 
+    @Autowired
+    private LivreRepository livreRepository;
+
     @Override
     public List<Examplaire> getAllExamplaire() {
         return examplaireRepository.findAll();
@@ -29,8 +34,14 @@ public class ExamplaireServiceImpl implements ExamplaireService{
      * @return exemplaire
      */
     @Override
-    public Examplaire createExamplaire(Examplaire examplaire) {
+    public Examplaire createExamplaire(Examplaire examplaire, long id_livre) {
+
+        Livre livre = livreRepository.findById(id_livre);
+        examplaire.setLivre(livre);
+
         examplaireRepository.save(examplaire);
+
+
         return examplaire;
     }
 
@@ -74,6 +85,7 @@ public class ExamplaireServiceImpl implements ExamplaireService{
             examplaireRepository.deleteById(id);
     }
 
+
     /**
      * Recupere un exemplaire
      * @param id id-exemplaire
@@ -115,4 +127,5 @@ public class ExamplaireServiceImpl implements ExamplaireService{
 
 
 
+    
 }
