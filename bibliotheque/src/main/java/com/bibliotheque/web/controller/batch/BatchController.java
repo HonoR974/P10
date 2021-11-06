@@ -78,6 +78,10 @@ public class BatchController {
 
         List<PretBatchDTO> listBatch = batchService.sendPretRappel(list);
 
+        System.out.println("\n rappel "  );
+
+        System.out.println("\n list " + list.size() + list.get(0).getEnvoieEmail());
+
         System.out.println("\n listeBatch " + listBatch);
 
         return new ResponseEntity<List<PretBatchDTO>>(listBatch, HttpStatus.ACCEPTED);

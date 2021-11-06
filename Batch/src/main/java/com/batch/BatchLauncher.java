@@ -36,7 +36,7 @@ public class BatchLauncher {
      */
     public BatchStatus run() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
 
-        System.out.println("\n ----------- batchLauncher ------------- ");
+        System.out.println("\n ----------- batchLauncher Pret ------------- ");
         JobParameters parameters = new JobParametersBuilder().addLong("time", System.currentTimeMillis()).toJobParameters();
         JobExecution jobExecution = jobLauncher.run(job, parameters);
         return jobExecution.getStatus();

@@ -71,7 +71,7 @@ public class Pret
         return prolonger;
     }
 
-    public void setProlonger(Boolean prolonger) {
+    public void setProlonger(boolean prolonger) {
         this.prolonger = prolonger;
     }
 

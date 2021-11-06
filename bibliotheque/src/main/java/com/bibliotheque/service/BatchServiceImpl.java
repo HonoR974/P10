@@ -184,17 +184,24 @@ public class BatchServiceImpl implements BatchService{
         for (PretBatchDTO pretBatch : list)
         {
             long id = pretBatch.getId();
+           
             pret =  pretRepository.findById(id);
+            System.out.println("\n le save Rappel avec " + id );
+            System.out.println("\n il a " + pret.getEmail());
 
-            //si c'est leur premier mail
-            if (! pretBatch.getEnvoieEmail() )
+            
+            if ( pretBatch.getEnvoieEmail() )
             {
+              System.out.println("\n on met true ");
                pret.setEmail(true);
                pretBatch.setEnvoieEmail(true);
             }
 
-            listPret.add(pretBatch);
+            
             pretRepository.save(pret);
+            listPret.add(pretBatch);
+
+            System.out.println("\n apres le save " + pret.getEmail());
         }
 
         return listPret;

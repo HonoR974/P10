@@ -1,6 +1,5 @@
 package com.batch.config;
 
-
 import com.batch.model.ReservationDTO;
 import com.batch.service.ReservationService;
 import com.batch.service.ReservationServiceImpl;

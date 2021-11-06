@@ -1,19 +1,16 @@
 package com.batch.service;
 
-import com.batch.TemplatePersonalization.DynamicTemplatePersonalization;
 import com.batch.model.ReservationDTO;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.sendgrid.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 
 import java.io.IOException;
 import java.net.URI;
@@ -24,6 +21,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import java.util.*;
+
+import javax.mail.MessagingException;
 
 @Service
 public class ReservationServiceImpl implements ReservationService{
@@ -36,13 +35,13 @@ public class ReservationServiceImpl implements ReservationService{
     @Autowired
     private SecurityService securityService;
 
-    @Value("${template.id}")
+  
     private String templateID;
 
-    @Value("${sg.id}")
+
     private String sgID;
 
-    @Value("${sendgrid.email.from}")
+
     private String from;
 
     private String jwt;
@@ -117,6 +116,7 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public String sendMail(ReservationDTO reservationDTO) throws MessagingException, IOException {
 
+        /*
         String retour = "envoie de l'email ";
         Email emailfrom = new Email(from);
         String subject = "Votre livre est disponible ! ";
@@ -155,7 +155,8 @@ public class ReservationServiceImpl implements ReservationService{
             System.out.println("\n l'erreur du mail " + e.getMessage());
         }
         return retour;
-
+*/
+return " en attente ";
     }
 
 
