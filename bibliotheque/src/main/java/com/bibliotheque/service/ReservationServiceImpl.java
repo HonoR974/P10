@@ -32,6 +32,9 @@ public class ReservationServiceImpl implements ReservationService{
     @Autowired
     private LivreRepository livreRepository;
 
+    @Autowired
+    private LivreService livreService;
+
 
     /**
      * Creer une reservation avec l'id du livre
@@ -185,7 +188,7 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public List<Reservation> giveList(List<ReservationDTO> listeDTO) throws ParseException {
 
-        System.out.println("\n give List  " + listeDTO.toString());
+      
         List<Reservation> list = new ArrayList<>();
         Reservation reservation;
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -224,7 +227,6 @@ public class ReservationServiceImpl implements ReservationService{
 
         }
 
-        System.out.println("\n list " + list.toString()) ;
         return list;
     }
 
@@ -340,9 +342,10 @@ public class ReservationServiceImpl implements ReservationService{
         {
 
             System.out.println("\n reservation " + reservation.getId() + " / " + reservation.getLivreReservation().getDisponible());
-           
-            //if (!reservation.getLivreReservation().getDisponible() && !reservation.isMailSend())
-            if ( !reservation.isMailSend())
+            boolean examplaireDisponible = livreService.checkDispo(reservation.getLivreReservation().getId());
+
+            //si la reservation n'a pas envoyé de mail et qu'un examplaire est dispo 
+            if ( !reservation.isMailSend() && examplaireDisponible)
             {
                 listFinal.add(reservation);
             }
@@ -365,7 +368,7 @@ public class ReservationServiceImpl implements ReservationService{
             listDTO.add(list.get(i));
         }
 
-        System.out.println("\n listDTO " + listDTO.toString());
+
 
         List<Reservation> listReserv = giveList(listDTO);
 
@@ -375,7 +378,7 @@ public class ReservationServiceImpl implements ReservationService{
 
 
     //verifie le delai des reservation statut first
-    //si la reserv a recu est first, a recu un mail et le delai
+    //si la reserv est first, a recu un mail et le delai
     //est depassé alors la reserv est annulé
     @Override
     public List<Reservation> checkDelai() {

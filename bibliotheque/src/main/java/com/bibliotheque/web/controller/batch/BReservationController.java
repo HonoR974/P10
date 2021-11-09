@@ -47,6 +47,7 @@ public class BReservationController {
 
     //get all first reservation by book
     //wich doesn't send mail
+    //& le livre a un examplaire de disponible 
     @GetMapping("/firstNoSendMail")
     public ResponseEntity<?> getFirstReserveByBookNoSendMail()
     {
@@ -54,21 +55,25 @@ public class BReservationController {
         livreService.checkDispoAllLivres();
         List<Reservation> list = reservationService.getAllFirstReserveNoSendMail();
 
-        if (list==null)
+        System.out.println("\n la taille de la liste " + list.size());
+
+        if (list.size() < 1 )
         {
-            return new ResponseEntity<String>("Aucun n'a le statut first", HttpStatus.CONFLICT);
+            return new ResponseEntity<String>("Aucune Réservation a le statut first sans avoir envoyé de mail ou  Aucun livre reservé n'est disponible ", HttpStatus.CONFLICT);
         }
+        else
+        {
+            List<ReservationDTO> listDTO  =reservationService.giveListDTO(list);
 
-        List<ReservationDTO> listDTO  =reservationService.giveListDTO(list);
-
-        return new ResponseEntity<List<ReservationDTO>>(listDTO, HttpStatus.ACCEPTED);
+            return new ResponseEntity<List<ReservationDTO>>(listDTO, HttpStatus.ACCEPTED);
+        }
     }
 
 
     @PostMapping("/save")
     public ResponseEntity<?> saveList(@RequestBody HashMap<Integer,ReservationDTO> list) throws ParseException {
 
-        System.out.println("\n la liste demandé a save " + list.toString());
+    
         reservationService.saveList(list);
 
         String reponse = "Correct";

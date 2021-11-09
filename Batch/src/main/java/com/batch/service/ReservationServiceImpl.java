@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.mail.*;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 
 
 import java.io.IOException;
@@ -48,6 +51,10 @@ public class ReservationServiceImpl implements ReservationService{
 
     private List<ReservationDTO> listReservation;
 
+    
+    @Autowired
+    public JavaMailSender emailSender;
+
 
     //recupere toutes les reservations
     // qui sont premieres de leurs
@@ -73,11 +80,21 @@ public class ReservationServiceImpl implements ReservationService{
 
         System.out.println("\n response : " +  response + "\n reponse : " + reponse);
 
-        ObjectMapper mapper = new ObjectMapper();
+        //il n'y a pas de reservation envoyé 
+        if(response.statusCode() != 202 )
+        {
+            return null;
+        }
+        else
+        {
+            ObjectMapper mapper = new ObjectMapper();
 
-        list = mapper.readValue(response.body().toString(), new TypeReference<List<ReservationDTO>>() {});
+            list = mapper.readValue(response.body().toString(), new TypeReference<List<ReservationDTO>>() {});
+    
+            return checkFirstReserv(list);
+        }
 
-        return checkFirstReserv(list);
+       
 
     }
     
@@ -116,47 +133,17 @@ public class ReservationServiceImpl implements ReservationService{
     @Override
     public String sendMail(ReservationDTO reservationDTO) throws MessagingException, IOException {
 
-        /*
-        String retour = "envoie de l'email ";
-        Email emailfrom = new Email(from);
-        String subject = "Votre livre est disponible ! ";
-        Email to = new Email(reservationDTO.getMail());
-        Mail mail = new Mail();
-
-        DynamicTemplatePersonalization personalization = new DynamicTemplatePersonalization();
-        personalization.addTo(to);
-        mail.setFrom(emailfrom);
-        mail.setSubject(subject);
-        mail.setTemplateId(templateID);
-
-        personalization.addDynamicTemplateData("user", reservationDTO.getUsername());
-        personalization.addDynamicTemplateData("subject", subject);
-        personalization.addDynamicTemplateData("livre", reservationDTO.getTitre());
-        mail.addPersonalization(personalization);
-
-        System.out.println("\n le mail " + mail.toString());
-
-        SendGrid sg = new SendGrid(sgID);
-
-        Request request= new Request();
-        Response response;
-        try {
-            request.setMethod(Method.POST);
-            request.setEndpoint("mail/send");
-            request.setBody(mail.build());
-            response = sg.api(request);
-
-            System.out.println("\n mail bien envoyé a  " + to.getEmail());
-            System.out.println("\n corps de l'email " + mail.build());
-
-            return "Mail bien envoyé " +  response.getBody();
-        } catch (IOException e)
-        {
-            System.out.println("\n l'erreur du mail " + e.getMessage());
-        }
-        return retour;
-*/
-return " en attente ";
+          // Create a Simple MailMessage.
+          SimpleMailMessage message = new SimpleMailMessage();
+        
+          message.setTo(reservationDTO.getMail());
+          message.setSubject("Votre Livre " + reservationDTO.getTitre() + " est disponible ");
+          message.setText("Bonjour " + reservationDTO.getUsername() + ", votre attente est fini," + "\n "+ reservationDTO.getTitre() + " n'attend plus que vous. ");
+  
+          // Send Message!
+          emailSender.send(message);
+   
+        return " mail envoyé  ";
     }
 
 
@@ -194,41 +181,45 @@ return " en attente ";
     @Override
     public void sendListReservation() throws IOException, InterruptedException {
 
-
         System.out.println("\n liste enregistré " + listReservation);
-
-
-        HashMap<Integer,ReservationDTO> param = new HashMap<>();
-        int i = 0;
-        for (ReservationDTO reservationDTO : listReservation)
+ 
+        if(listReservation != null )
         {
-            param.put(i, reservationDTO);
-            i++;
+            HashMap<Integer,ReservationDTO> param = new HashMap<>();
+            int i = 0;
+            for (ReservationDTO reservationDTO : listReservation)
+            {
+                param.put(i, reservationDTO);
+                i++;
+            }
+            var objectMapper = new ObjectMapper();
+            String requestBody = objectMapper.writeValueAsString(param);
+    
+            System.out.println("\n les params a save " + requestBody);
+    
+    
+    
+            this.jwt = securityService.authticate();
+            System.out.println("\n jwt send list " + jwt);
+    
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:9001/api/batch/reservation/save"))
+                    .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                    .setHeader(HttpHeaders.CONTENT_TYPE,"application/json")
+                    .setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
+                    .build();
+    
+            HttpResponse<String> response = client.send(request,
+                    HttpResponse.BodyHandlers.ofString());
+    
+            String reponse = response.body();
+    
+            System.out.println("\n response : " +  response + "\n reponse : " + reponse);
+    
         }
-        var objectMapper = new ObjectMapper();
-        String requestBody = objectMapper.writeValueAsString(param);
-
-        System.out.println("\n les params a save " + requestBody);
 
 
-
-        this.jwt = securityService.authticate();
-        System.out.println("\n jwt send list " + jwt);
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:9001/api/batch/reservation/save"))
-                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
-                .setHeader(HttpHeaders.CONTENT_TYPE,"application/json")
-                .setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + jwt)
-                .build();
-
-        HttpResponse<String> response = client.send(request,
-                HttpResponse.BodyHandlers.ofString());
-
-        String reponse = response.body();
-
-        System.out.println("\n response : " +  response + "\n reponse : " + reponse);
-
+       
 
     }
 
