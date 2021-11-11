@@ -58,8 +58,6 @@ public class ClientController {
 
         List<LivreDTO> listCarousel = livreService.getLivreToAccueil(listAPI);
 
-        System.out.println("\n liste API " + listAPI.toString() + "\n ------------ \n liste Carousel " + listCarousel.toString());
-
         model.addAttribute("listeCarousel", listCarousel);
         model.addAttribute("user", authBiblioService.testConnection());
 

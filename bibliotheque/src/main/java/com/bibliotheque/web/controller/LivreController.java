@@ -152,9 +152,9 @@ public class LivreController {
     @GetMapping("/accueil")
     public ResponseEntity<?> getLivreToAccueil()
     {
+        livreService.checkDispoAllLivres();
         List<Livre> list = livreService.getAllLivre();
 
-        System.out.println("\n nombre de livre accueil " + list.size());
         List<LivreDTO> livreDTO = livreService.convertListLivre(list);
 
         return new ResponseEntity<List<LivreDTO>>(livreDTO, HttpStatus.ACCEPTED);

@@ -147,9 +147,15 @@
                                             </table>
                                         </div>
 
-                                        <div class="btnLivre">
+                                        <div  th:if="${listeCarousel.get(0).disponible}"  class="btnLivre">
                                             <button>
                                                 <a th:href="@{/livre/Examplaires(id=${listeCarousel.get(0).id})}">Voir le livre</a>
+                                            </button>
+                                        </div>
+
+                                        <div th:if="${!listeCarousel.get(0).disponible}"  class="btnLivre" >
+                                            <button>
+                                                <a th:href="@{/livre/Reservations(id=${listeCarousel.get(0).id})}" >Reserver</a>
                                             </button>
                                         </div>
                                     </div>

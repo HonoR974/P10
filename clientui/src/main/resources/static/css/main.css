@@ -107,6 +107,10 @@ button:hover, a:hover
     background-color: rgba(29, 131, 72 ,0.8);
     border: 2px solid white;
 }
+.carousel-item
+{
+    overflow: auto;
+}
 
 .carousel
 {
@@ -118,6 +122,7 @@ button:hover, a:hover
     height: 500px;
     display: flex;
     flex-direction: row;
+
 }
 
 .info

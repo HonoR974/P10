@@ -3,6 +3,7 @@ package com.bibliotheque.service;
 import com.bibliotheque.dto.ExamplaireDTO;
 import com.bibliotheque.model.Examplaire;
 import com.bibliotheque.model.Livre;
+import com.bibliotheque.model.Reservation;
 import com.bibliotheque.repository.ExamplaireRepository;
 import com.bibliotheque.repository.LivreRepository;
 
@@ -38,7 +39,9 @@ public class ExamplaireServiceImpl implements ExamplaireService{
 
         Livre livre = livreRepository.findById(id_livre);
         examplaire.setEmprunt(false);
+        examplaire.setReserver(false);
         examplaire.setLivre(livre);
+
 
         examplaireRepository.save(examplaire);
 
@@ -125,6 +128,8 @@ public class ExamplaireServiceImpl implements ExamplaireService{
 
         return examplaireDTO;
     }
+
+   
 
 
 

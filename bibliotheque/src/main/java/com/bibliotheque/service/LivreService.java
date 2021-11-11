@@ -90,4 +90,8 @@ public interface LivreService {
      String dateRetourByLivre(Livre livre);
 
      int nmbUserReserv(Livre livre);
+
+     boolean checkReserveLivre(long id);
+
+
 }

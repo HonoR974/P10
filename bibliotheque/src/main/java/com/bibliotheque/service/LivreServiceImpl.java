@@ -3,17 +3,23 @@ package com.bibliotheque.service;
 import com.bibliotheque.dto.LivreDTO;
 import com.bibliotheque.model.Examplaire;
 import com.bibliotheque.model.Livre;
+import com.bibliotheque.model.Pret;
 import com.bibliotheque.model.Reservation;
 import com.bibliotheque.model.Statut;
 import com.bibliotheque.repository.LivreRepository;
+import com.bibliotheque.repository.PretRepository;
 import com.bibliotheque.repository.ReservationRepository;
 import com.bibliotheque.repository.StatutRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.bytebuddy.asm.Advice.Local;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +30,8 @@ import java.util.List;
 @Service
 public class LivreServiceImpl implements LivreService{
 
+
+
     @Autowired
     private LivreRepository livreRepository;
 
@@ -32,6 +40,9 @@ public class LivreServiceImpl implements LivreService{
 
     @Autowired
     private ReservationRepository reservationRepository;
+
+    @Autowired
+    private PretRepository pretRepository;
 
     /**
      * Recupere touts les livres
@@ -134,10 +145,8 @@ public class LivreServiceImpl implements LivreService{
        {
            livreDTO = convertLivre(livre);
            listFinal.add(livreDTO);
-           System.out.println("\n le livre convertie est " + livreDTO.toString());
        }
 
-       
         return listFinal;
     }
 
@@ -151,46 +160,36 @@ public class LivreServiceImpl implements LivreService{
 
         LivreDTO livreDTO = new LivreDTO();
         List<Examplaire> examplaires = livre.getExamplaires();
+        long nmbExamplaire = 0 ;
 
         livreDTO.setId(livre.getId());
         livreDTO.setAuteur(livre.getAuteur());
         livreDTO.setTitre(livre.getTitre());
         livreDTO.setDescription(livre.getDescription());
 
+ 
 
 
-        //nmb d'exemplaire
-        long count = 0 ;
         for (Examplaire examplaire : examplaires)
         {
-        
-            if ( examplaire.isEmprunt() == null || !examplaire.isEmprunt() )
+            if (!examplaire.isEmprunt() )
             {
-                count++;
+                nmbExamplaire++;
             }
         }
 
-        //si touts ses exemplaires sont emprunté
-        if (count <= 0)
+        //si le livre est réservé 
+        if (checkReserveLivre(livre.getId()))
         {
-            //plus dispo
-            livreDTO.setDisponible(false);
-
-            //la date de retour si il est first
-            livreDTO.setDateRetour(dateRetourByLivre(livre));
-
+            //la date de retour la plus proche 
+            livreDTO.setDateRetour(findClosestDate(livre.getId()));
 
             livreDTO.setNmbUserReserv(nmbUserReserv(livre));
-
-        }
-        else
-        {
-
-            livreDTO.setDisponible(true);
-
         }
 
-        livreDTO.setExamplaires(count);
+        livreDTO.setDisponible(checkDispo(livre.getId()));
+     
+        livreDTO.setExamplaires(nmbExamplaire);
         
         if(livre.getImage() != null)
         {
@@ -199,10 +198,82 @@ public class LivreServiceImpl implements LivreService{
       
         livreDTO.setDescription(livre.getDescription());
 
-
         return livreDTO;
     }
 
+    //trouve la date de fin du pret la plus proche pour le livre 
+    private String findClosestDate(long id_livre) 
+    {
+        Livre livre = livreRepository.findById(id_livre);
+        
+        System.out.println("\n le livre " + livre.getTitre());
+
+        List<Examplaire> list = new ArrayList<>();
+        list = livre.getExamplaires();
+        LocalDate dateBackOff = LocalDate.of(2000, 1, 1);
+        List<Pret> lPrets = new ArrayList<>();
+        Statut statut = statutRepository.findByNom("Valider");
+      
+     //   DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
+        for(int i = 0; i < list.size(); i++)
+        {
+            Examplaire e = list.get(i);
+         
+            System.out.println("\n examplaire " + e.getId());
+
+            if(e.isEmprunt())
+            {
+                Pret pret = findPretActif(e);
+                if(pret.getId() == null)
+                {
+                    System.out.println("\n  c null ");
+                }
+                else
+                {
+                    System.out.println("\n pret " + pret.getId());
+                
+                    if(pret.getDate_fin().isAfter(dateBackOff) )
+                    {
+                        dateBackOff = pret.getDate_fin();
+                    }
+                }
+               
+
+            }
+        }
+            
+        System.out.println("\n dateBackOff " + dateBackOff.format(DateTimeFormatter.ofPattern("dd-MMM-yy")) );
+
+        String reponse = dateBackOff.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        return reponse;
+    }
+
+    private Pret findPretActif(Examplaire examplaire)
+    {
+        Pret pret = new Pret();
+
+        for(Pret p : examplaire.getListeDePret())
+        {
+            if(p.getStatut().getNom().equals("Valider"))
+            {
+
+                pret = p;
+            }
+            else if( p.getStatut().getNom().equals("A Rendre"))
+            {
+                pret = p;
+            }
+
+        }
+
+
+        return pret;
+    }
+
+
+
+    //obtient la date de retour par reservation 
     @Override
     public String dateRetourByLivre(Livre livre)
     {
@@ -212,7 +283,6 @@ public class LivreServiceImpl implements LivreService{
         List<Reservation> listReserv = reservationRepository.findByStatutReservationAndLivreReservation(statut, livre);
         Date dateRetour = new Date();
         Date dateVerif = new Date();
-        System.out.println("\n before each ");
 
         for (Reservation reservation : listReserv)
         {
@@ -297,10 +367,39 @@ public class LivreServiceImpl implements LivreService{
             }
         }
 
+
+        //trouver si le livre est reservé 
+        //true le livre est reservé 
+        //false le livre n'est pas reserve 
+        boolean reservé = checkReserveLivre(id);
+       if(reservé)
+       {
+           disponible = false;
+       }
+      
         return disponible;
     }
 
-    //
+    public boolean checkReserveLivre(long id)
+    {
+        boolean livreReserved = false;
+        Livre livre = livreRepository.findById(id);
+        Statut satut = statutRepository.findByNom("InList");
+        Statut statut2 = statutRepository.findByNom("First");
+
+        List<Reservation> list = reservationRepository.findByLivreReservationAndStatutReservation(livre, satut);
+        list.addAll(reservationRepository.findByLivreReservationAndStatutReservation(livre,statut2));
+
+        if(list.size() > 0 )
+        {
+            livreReserved = true;
+            System.out.println("\n livreReserved " +  livreReserved);
+        }
+
+        return livreReserved;
+    }
+    
+
     @Override
     public void checkDispoAllLivres() {
 
@@ -329,5 +428,6 @@ public class LivreServiceImpl implements LivreService{
         }
     }
 
+  
 
 }

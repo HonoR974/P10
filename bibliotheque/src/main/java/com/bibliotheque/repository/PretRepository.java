@@ -1,5 +1,6 @@
 package com.bibliotheque.repository;
 
+import com.bibliotheque.model.Examplaire;
 import com.bibliotheque.model.Pret;
 import com.bibliotheque.model.Statut;
 import com.bibliotheque.model.User;
@@ -16,4 +17,6 @@ public interface PretRepository extends JpaRepository<Pret,Long> {
     List<Pret> findByUserAndStatut(User user, Statut statut );
 
     List<Pret> findByStatut(Statut statut);
+
+    Pret findByExamplaireAndStatut(Examplaire examplaire, Statut statut);
 }

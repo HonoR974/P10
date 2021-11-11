@@ -57,8 +57,6 @@ public class LivreServiceImpl implements  LivreService{
 
        System.out.println("\n response " + httpResponse + "\n reponse " + reponse);
 
-
-
         List<LivreDTO> list = mapper.readValue(httpResponse.body().toString(), new TypeReference<List<LivreDTO>>(){});
 
 

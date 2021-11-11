@@ -51,8 +51,6 @@ public class ReservationServiceImpl implements ReservationService{
         Statut statut = statutDisponible(livre);
         System.out.println("\n statut a donner à la reserv " + statut.getNom());
 
-//        System.out.println("\n creation le statut " + statut.getNom());
-
         //l'user avec le jwt
         User user = securityService.getUser();
 

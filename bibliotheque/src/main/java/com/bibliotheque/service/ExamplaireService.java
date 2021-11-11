@@ -60,4 +60,7 @@ public interface ExamplaireService {
      * @return exemplaire DTO
      */
     ExamplaireDTO convertExamplaire(Examplaire examplaire);
+
+
+
 }
