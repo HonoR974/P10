@@ -20,18 +20,18 @@ public class Scheduler {
     //@Scheduled(cron = "* * 1 * * ?")
     public void perform() throws Exception {
 
-        System.out.println("\n ----------- Perform Pret -------- ");
+        System.out.println("\n ----------- scheduler Pret -------- ");
         batchLauncher.run();
 
     }
 
 
 
-    //Batch Reserv toutes 20 sec 
+    //Batch Reserv toutes 5 sec 
     @Scheduled(cron = "5 * * * * ?")
     public void performReserve() throws Exception {
 
-        System.out.println("\n ----------- Perform Test -------- ");
+        System.out.println("\n ----------- scheduler Reservation -------- ");
         batchLauncher.runReserve();
 
     }

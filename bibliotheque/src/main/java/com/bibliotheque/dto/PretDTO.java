@@ -3,6 +3,7 @@ package com.bibliotheque.dto;
 
 import lombok.Data;
 
+@Data
 public class PretDTO
 {
 

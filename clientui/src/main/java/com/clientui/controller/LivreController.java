@@ -38,11 +38,6 @@ public class LivreController {
         List<LivreDTO> list = livreService.getAll();
         TesterUser user = authBiblioService.testConnection();
 
-        for(LivreDTO lDto : list)
-        {
-            System.out.println("\n ldto " + lDto.getId() + " reservé " + lDto.getNmbUserReserv() + "\n dispo " + lDto.isDisponible());
-        }
-
         model.addAttribute("liste", list);
         model.addAttribute("user", user);
 

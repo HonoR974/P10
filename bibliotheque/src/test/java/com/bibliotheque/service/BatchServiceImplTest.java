@@ -135,9 +135,9 @@ public class BatchServiceImplTest {
 
 
         // test
-
        List<PretBatchDTO> listTest = batchService.sendPretRappel(map);
 
+       System.out.println("\n listTest " + listTest.size());
         //verify repo
         assertThat(listTest.size()).isEqualTo(2);
         assertThat(listTest.get(0).getEnvoieEmail()).isTrue();

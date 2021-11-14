@@ -23,7 +23,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class BatchConfig {
 
-    private static final String STEP_NAME="emaiilRetardStep";
+  
 
     private static final String JOBNAME = "emailRetardJob";
 
