@@ -23,9 +23,6 @@ public class Examplaire {
     @Column(name = "emprunt", nullable = true)
     private Boolean emprunt;
 
-
-    private Boolean reserver; 
-
     public Examplaire(){};
 
     public Long getId() {
@@ -66,16 +63,6 @@ public class Examplaire {
 
     public void setEmprunt(boolean emprunt) {
         this.emprunt = emprunt;
-    }
-
-    public Boolean isReserve()
-    {
-        return reserver; 
-    }
-
-    public void setReserver(boolean reserve)
-    {
-        this.reserver = reserve;
     }
 
 

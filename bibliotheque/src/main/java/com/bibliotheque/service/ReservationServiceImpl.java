@@ -340,10 +340,9 @@ public class ReservationServiceImpl implements ReservationService{
         {
 
             System.out.println("\n reservation " + reservation.getId() + " / " + reservation.getLivreReservation().getDisponible());
-            boolean examplaireDisponible = livreService.checkDispo(reservation.getLivreReservation().getId());
-
-            //si la reservation n'a pas envoyé de mail et qu'un examplaire est dispo 
-            if ( !reservation.isMailSend() && examplaireDisponible)
+           
+            //si la reservation n'a pas envoyé de mail 
+            if ( !reservation.isMailSend() && !reservation.getLivreReservation().getDisponible())
             {
                 listFinal.add(reservation);
             }

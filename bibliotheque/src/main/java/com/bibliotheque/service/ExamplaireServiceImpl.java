@@ -39,7 +39,6 @@ public class ExamplaireServiceImpl implements ExamplaireService{
 
         Livre livre = livreRepository.findById(id_livre);
         examplaire.setEmprunt(false);
-        examplaire.setReserver(false);
         examplaire.setLivre(livre);
 
 

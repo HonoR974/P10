@@ -412,8 +412,10 @@ public class LivreServiceImpl implements LivreService{
 
             livre.setDisponible(false);
 
-            if (livre.getExamplaires() != null )
+            //si le livre posses des examplaires  & que le livre n'est pas reservé 
+            if (livre.getExamplaires() != null && !checkReserveLivre(livre.getId()) )
             {
+
                 for (Examplaire examplaire : livre.getExamplaires())
                 {
                     if (!examplaire.isEmprunt())
@@ -422,6 +424,8 @@ public class LivreServiceImpl implements LivreService{
                     }
                 }
             }
+
+           
             System.out.println("\n le livre " + livre.getId() + " est dispo : " + livre.getDisponible());
 
             livreRepository.save(livre);
