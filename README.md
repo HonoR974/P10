@@ -14,7 +14,7 @@
  
   * Se rendre dans le fichier *application.properties* de l'api Bibliotheque. 
   * Remplacer les informations vous concernant pour la connexion à votre base de donnée. 
-  * Dans votre base de donnée éffectuer le dump grâce au fichier *DumpP7.sql* . 
+  * Dans votre base de donnée éffectuer le dump grâce au fichier *Dump/DumpP7.sql* . 
   * Démarrer le module *API Bibliotheque* puis *Clientui*. 
  
  > Implementation Batch : 
@@ -23,13 +23,13 @@
   * Ajouter les informations concernant votre boite mail.
   * Demarrer le module *API Bibliotheque* puis *Batch*. 
  
-  > Test Batch - Pret ( DumpP7.sql ) : 
+  > Test Batch - Pret ( Dump/DumpP7.sql ) : 
  
  * Demarrer le batch.
  * Changer la date de fin d'un des prets, si aucune date n'est dépassé.
  * Redemarrer le batch. 
  
-   > Test Batch - Reservation ( DumpP10.sql )  : 
+   > Test Batch - Reservation ( Dump/DumpP10.sql )  : 
  
  * Demarrer le batch.
  * Changer la date de fin d'un des prets, si aucune date n'est dépassé.
