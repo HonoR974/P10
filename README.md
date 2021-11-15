@@ -32,7 +32,8 @@
    > Test Batch - Reservation ( Dump/DumpP10.sql )  : 
  
  * Demarrer le batch.
- * Changer la date de fin d'un des prets, si aucune date n'est dépassé.
+ * Une fois que le livre est disponible et que l'admin l'a recu dans son espace personel. 
+ * Changer l'email de l'user "Gandalfe" par la votre ( differente de celle utilisé pour l'implementation du batch ) . 
  * Redemarrer le batch. 
  
  
