@@ -136,8 +136,13 @@ public class PretServiceImplTest {
 
         Examplaire examplaire = new Examplaire();
 
-        examplaire.setId(10L);
+        Livre livre = new Livre();
 
+        ImageGallery image = new ImageGallery();
+        livre.setImage(image);
+
+        examplaire.setId(10L);
+        examplaire.setLivre(livre);
 
         when(examplaireService.getExamplaireById(10L)).thenReturn(examplaire);
         when(userRepository.findByUsername(username)).thenReturn(user);
@@ -159,6 +164,10 @@ public class PretServiceImplTest {
 
         Livre livre = new Livre();
         livre.setTitre("livre des test ");
+
+        ImageGallery imageGallery = new ImageGallery();
+        imageGallery.setName("nameImage");
+        livre.setImage(imageGallery);
 
         Examplaire examplaire = new Examplaire();
         examplaire.setLivre(livre);

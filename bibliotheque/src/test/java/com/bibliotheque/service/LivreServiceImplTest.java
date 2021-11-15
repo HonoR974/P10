@@ -15,8 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -259,12 +258,15 @@ public class LivreServiceImplTest {
         ImageGallery imageGallery = new ImageGallery();
         imageGallery.setName("laBelleVie.png");
 
-        livre.setId(2L);
+        livre.setId(20L);
         livre.setAuteur("Marc Levy");
         livre.setTitre("La belle vie");
         livre.setDescription("test Description");
         livre.setExamplaires(list);
         livre.setImage(imageGallery);
+
+
+        when(livreRepository.findById(20L)).thenReturn(livre);
 
         //le test
         LivreDTO livreDTO = livreService.convertLivre(livre);
@@ -319,8 +321,30 @@ public class LivreServiceImplTest {
     @Test
     public void nmbUserReserv()
     {
-        int nmb = livreService.nmbUserReserv(livreRepository.findById(5L));
-        System.out.println("\n nmb " + nmb);
+      
+        Statut first = new Statut("First");
+        Statut inList = new Statut("InList");
+      
+        Reservation r1 = new Reservation();
+        Reservation r2 = new Reservation();
+
+        r1.setStatutReservation(first);
+        r2.setStatutReservation(inList);
+
+        Livre livre = new Livre();
+        List<Reservation> list = new ArrayList<>();
+        List<Reservation> list2 = new ArrayList<>();
+        list.add(r1);
+        list2.add(r2);
+
+        when(statutRepository.findByNom("First")).thenReturn(first);
+        when(statutRepository.findByNom("InList")).thenReturn(inList);
+
+        when(reservationRepository.findByLivreReservationAndStatutReservation(livre, first)).thenReturn(list);
+        when(reservationRepository.findByLivreReservationAndStatutReservation(livre, inList)).thenReturn(list2);
+
+
+        int nmb = livreService.nmbUserReserv(livre);
         assertThat(nmb).isGreaterThan(0);
 
     }

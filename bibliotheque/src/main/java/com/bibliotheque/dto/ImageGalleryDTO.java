@@ -1,7 +1,9 @@
 package com.bibliotheque.dto;
 
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Arrays;
+
 
 @Data
 public class ImageGalleryDTO {
@@ -42,4 +44,12 @@ public class ImageGalleryDTO {
     public void setTitreLivre(String titreLivre) {
         this.titreLivre = titreLivre;
     }
+
+    @Override
+    public String toString() {
+        return "ImageGalleryDTO [id=" + id + ", image=" + Arrays.toString(image) + ", name=" + name + ", titreLivre="
+                + titreLivre + "]";
+    }
+
+    
 }

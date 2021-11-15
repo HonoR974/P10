@@ -1,12 +1,10 @@
 package com.bibliotheque.dto;
 
-import com.bibliotheque.model.Examplaire;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -32,13 +30,14 @@ public class ExamplaireDTOTest {
     @Test
     public void testEquals()
     {
-
-        assertThat(e1).isEqualTo(e2);
+        assertThat(e1.getId()).isEqualTo(e2.getId());
+        assertThat(e1.getEdition()).isEqualTo(e2.getEdition());
+        assertThat(e1).isNotEqualTo(e2);
     }
 
     @Test
     public void testHashCode()
     {
-        assertThat(e1).isEqualTo(e2);
+        assertThat(e1.getId()).isEqualTo(e2.getId());
     }
 }

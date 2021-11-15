@@ -96,4 +96,13 @@ public class ReservationDTO
     public void setTitreImage(String titreImage) {
         this.titreImage = titreImage;
     }
+
+    @Override
+    public String toString() {
+        return "ReservationDTO [date_debut=" + date_debut + ", date_demande=" + date_demande + ", date_fin=" + date_fin
+                + ", id=" + id + ", mail=" + mail + ", sendMail=" + sendMail + ", statut=" + statut + ", titre=" + titre
+                + ", titreImage=" + titreImage + ", username=" + username + "]";
+    }
+
+    
 }

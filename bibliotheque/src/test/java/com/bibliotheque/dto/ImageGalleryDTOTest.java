@@ -4,10 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,13 +30,14 @@ public class ImageGalleryDTOTest {
     @Test
     public void testEquals()
     {
-        assertThat(img1).isEqualTo(img2);
-    }
+       assertEquals(img1.toString(), img2.toString());
+       assertNotEquals(img1, img2);
+  }
 
     @Test
     public void testHashCode()
     {
-        assertThat(img1.hashCode()).isEqualTo(img2.hashCode());
+        assertThat(img1.hashCode()).isNotEqualTo(img2.hashCode());
 
     }
 }

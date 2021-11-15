@@ -137,10 +137,11 @@ public class BatchServiceImplTest {
         // test
        List<PretBatchDTO> listTest = batchService.sendPretRappel(map);
 
-       System.out.println("\n listTest " + listTest.size());
+
         //verify repo
         assertThat(listTest.size()).isEqualTo(2);
-        assertThat(listTest.get(0).getEnvoieEmail()).isTrue();
+        assertThat(listTest.get(0).getEnvoieEmail()).isFalse();
+        assertThat(listTest.get(1).getEnvoieEmail()).isTrue();
     }
 
     @Test
@@ -209,6 +210,7 @@ public class BatchServiceImplTest {
 
         //verify repo
         assertThat(batchDTOList.size()).isEqualTo(2);
-        assertThat(batchDTOList.get(0).getEnvoieEmail()).isTrue();
+        assertThat(batchDTOList.get(0).getEnvoieEmail()).isFalse();
+        assertThat(batchDTOList.get(1).getEnvoieEmail()).isTrue();
     }
 }

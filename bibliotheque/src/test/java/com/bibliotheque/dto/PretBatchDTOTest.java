@@ -45,22 +45,17 @@ public class PretBatchDTOTest {
     @Test
     public void testEquals()
     {
-        assertThat(p1).isEqualTo(p2);
+        assertThat(p1).isNotEqualTo(p2);
         assertThat(p1.getId()).isEqualTo(p2.getId());
         assertThat(p1.getDate_debut()).isEqualTo(p2.getDate_debut());
         assertThat(p1.getDate_fin()).isEqualTo(p2.getDate_fin());
         assertThat(p1.getId()).isEqualTo(p2.getId());
-
-
-        PretBatchDTO p3 = new PretBatchDTO();
-
-        assertThat(p1).isNotEqualTo(p3);
 
     }
 
     @Test
     public void testHashCode()
     {
-        assertThat(p1.hashCode()).isEqualTo(p2.hashCode());
+        assertThat(p1.hashCode()).isNotEqualTo(p2.hashCode());
     }
 }

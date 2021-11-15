@@ -49,14 +49,13 @@ public class PretDTOTest {
     @Test
     public void testEquals()
     {
-       // Assert.assertThat(p2, new ReflectionEquals(p1));
-       // assertThat(p1.getId()).isEqualTo(p2.getId());
+        assertEquals(p1.toString(), p2.toString());
     }
 
     @Test
     public void testHashCode()
     {
-        assertThat(p1.hashCode()).isEqualTo(p2.hashCode());
+        assertThat(p1.hashCode()).isNotEqualTo(p2.hashCode());
 
     }
 }

@@ -31,4 +31,11 @@ public class BibliothequeDTO {
     public void setAdresse(String adresse) {
         this.adresse = adresse;
     }
+
+    @Override
+    public String toString() {
+        return "BibliothequeDTO [adresse=" + adresse + ", id=" + id + ", nom=" + nom + "]";
+    }
+
+    
 }

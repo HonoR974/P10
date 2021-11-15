@@ -4,6 +4,8 @@ import com.bibliotheque.dto.ExamplaireDTO;
 import com.bibliotheque.model.Examplaire;
 import com.bibliotheque.model.Livre;
 import com.bibliotheque.repository.ExamplaireRepository;
+import com.bibliotheque.repository.LivreRepository;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +28,9 @@ public class ExamplaireServiceImplTest {
 
     @Mock
     ExamplaireRepository examplaireRepository;
+
+    @Mock
+    LivreRepository livreRepository;
 
     @InjectMocks
     ExamplaireServiceImpl examplaireService;
@@ -91,15 +96,21 @@ public class ExamplaireServiceImplTest {
     @Test
     public void createExamplaire()
     {
+
+        Livre livre = new Livre();
+        livre.setId(100L);
+
+
         Examplaire ex = new Examplaire();
-        long id = 1L;
-        ex.setId(id);
 
-        
+        when(livreRepository.findById(100L)).thenReturn(livre);
 
-        Examplaire examplaire = examplaireService.createExamplaire(ex, l1.getId());
+        Examplaire examplaire = examplaireService.createExamplaire(ex, livre.getId());
 
-        assertThat(examplaire.getId()).isEqualTo(id);
+
+        verify(examplaireRepository, times(1)).save(ex);
+
+        assertEquals(examplaire.getLivre().getId(), livre.getId());
     }
 
     @Test

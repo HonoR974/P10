@@ -3,14 +3,9 @@ package com.bibliotheque.dto;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-
-import static org.junit.Assert.*;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 
 public class UserDTOTest {
@@ -36,13 +31,14 @@ public class UserDTOTest {
     @Test
     public void testEquals()
     {
-        assertThat(u1.equals(u2)).isTrue();
+        assertThat(u1.equals(u2)).isFalse();
 
     }
 
     @Test
     public void testHashCode()
     {
-        assertThat(u1.hashCode()).isEqualTo(u2.hashCode());
+    
+        assertThat(u1.hashCode()).isNotEqualTo(u2.hashCode());
     }
 }

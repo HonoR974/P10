@@ -36,14 +36,14 @@ public class LivreDTOTest {
     @Test
     public void testEquals()
     {
-        assertThat(l1).isEqualTo(l2);
-
+        assertThat(l1.toString()).isEqualTo(l2.toString());
+        assertNotEquals(l1, l2);
 
     }
 
     @Test
     public void testHashCode()
     {
-        assertThat(l1.hashCode()).isEqualTo(l2.hashCode());
+        assertThat(l1.hashCode()).isNotEqualTo(l2.hashCode());
     }
 }
