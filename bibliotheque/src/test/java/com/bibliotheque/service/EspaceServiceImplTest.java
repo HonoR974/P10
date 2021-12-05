@@ -105,7 +105,6 @@ public class EspaceServiceImplTest {
     @Test
     public void getListPretByIdUser()
     {
-
         List<Pret>list = espaceService.getListPretByIdUser(1);
 
         System.out.println("\n la liste de pret   " + pretRepository.findAll());
