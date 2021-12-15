@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.25, for Win64 (x86_64)
 --
--- Host: localhost    Database: p10
+-- Host: localhost    Database: p10_review
 -- ------------------------------------------------------
 -- Server version	8.0.25
 
@@ -27,7 +27,7 @@ CREATE TABLE `bibliotheque` (
   `adresse` varchar(255) DEFAULT NULL,
   `nom` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,7 +137,7 @@ CREATE TABLE `livre` (
   KEY `FK4g9h7xlayt8p25wqvr1ep568l` (`image_id`),
   CONSTRAINT `FK4g9h7xlayt8p25wqvr1ep568l` FOREIGN KEY (`image_id`) REFERENCES `image_gallery` (`id`),
   CONSTRAINT `FKr1d20hy7k1mp2fphrnl87mycb` FOREIGN KEY (`bibliotheque_id`) REFERENCES `bibliotheque` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +146,7 @@ CREATE TABLE `livre` (
 
 LOCK TABLES `livre` WRITE;
 /*!40000 ALTER TABLE `livre` DISABLE KEYS */;
-INSERT INTO `livre` VALUES (1,'Bernard Minier ','N\'éteins pas la lumière ',1,8,'Le soir de Noël, Christine Steinmeyer, animatrice radio à Toulouse, trouve dans sa boîte aux lettres le courrier d\'une femme qui annonce son suicide. Elle est convaincue que le message ne lui est pas destiné.',_binary ''),(3,'Guillaume Musso','La Fille de Papier',1,3,'Ensemble, Tom et Billie vont vivre une aventure extraordinaire où la réalité et la fiction s\'entremêlent et se bousculent dans un jeu séduisant et mortel... Une comédie vive et piquante. Un suspense romantique et fantastique. Quand la vie ne tient plus qu\'à un livre !',_binary ''),(4,'Julie de Lestrange','La Nouvelle Arche',1,20,'Mathilde est l\'une des premières. Aujourd\'hui âgée de 20 ans, elle s\'occupe des futures générations qui grandissent au Centre. Comme elle, ces spécimens n\'auront pas d\'enfance. Comme elle, ils naîtront, prêts à se battre, pour affronter l\'ennemi invisible qui terrorise leur Communauté.',_binary ''),(6,'Yuval Noah Harari','21 leçons pour le XXIe siècle',1,21,'Après Sapiens qui explorait le passé de notre humanité et Homo deus la piste d\'un avenir gouverné par l\'intelligence artificielle, 21 leçons pour le XXIe siècle nous confronte aux grands défis contemporains. Pourquoi la démocratie libérale est-elle en crise ? Sommes-nous à l\'aube d\'une nouvelle guerre mondiale ? Que faire devant l\'épidémie de \"fake news\" ? Quelle civilisation domine le monde : l\'Occident, la Chine ou l\'Islam ? Que devons-nous enseigner à nos enfants ?',_binary ''),(7,'Cal Newport','Deep work',1,24,'“Deep Work” de Cal Newport est un livre sur la science de la productivité. Cal Newport affirme que le meilleur moyen d’obtenir un travail plus significatif est de travailler en profondeur – de travailler dans un état de concentration élevée sans distractions sur une seule tâche.',_binary ''),(8,'Margaret Atwood','C\'est le coeur qui lâche en dernier',1,26,'Avec C’est le coeur qui lâche en dernier, Margaret Atwood nous livre un roman aussi hilarant qu’inquiétant, une implacable satire de nos vices et travers qui nous enferment dans de viles obsessions quand le monde entier est en passe de disparaître.',_binary ''),(9,'Bernard Minier','Une putain d\'histoire',1,28,'Une île boisée au large de Seattle... \" Au commencement est la peur.La peur de se noyer.La peur des autres, ceux qui me détestent, ceux qui veulent ma peau. Autant vous le dire tout de suite : Ce n\'est pas une histoire banale. Ça non. c\'est une putain d\'histoire.Ouais, une putain d\'histoire... \" Un thriller implacable',_binary ''),(10,'Maxime Chattam','Que ta volonté soit faite',1,32,'Jon Petersen. Enfanté dans le sang, élevé à la dure par son grand-père Ingmar, figure imposante et violente, et ses deux tantes, Rackel et Hannah. ... Dès lors que l\'on touche à ses fourmilières, Jon enrage et bien lui aura pris à ce jeune Tyler qui finira sous les coups acharnés de ce dernier et en sang, le visage démoli.',_binary ''),(11,'BernarWerber','Les Thanatonautes',1,33,'L\'homme a tout exploré : le monde de l\'espace, le monde sous-marin, le monde souterrain ; pourtant il lui manque la connaissance d\'un monde : le continent des morts.',_binary ''),(13,'Stieg Larson','Les hommes qui n\'aimaient pas les femmes : Millénium 1',1,35,'Contraint d\'abandonner son poste de rédacteur pour avoir diffamé un requin de la finance, Mikael Blomkvist est bientôt associé à Lisbeth Salander, jeune femme rebelle et fouineuse, pour travailler avec Henrik Vanger, un industriel désireux de faire la lumière sur la disparition, vieille de plus de trente ans, de sa petite nièce, au cours d\'une réunion familiale... Le premier volet de la série culte.',_binary '');
+INSERT INTO `livre` VALUES (1,'Bernard Minier ','N\'éteins pas la lumière ',1,8,'Le soir de Noël, Christine Steinmeyer, animatrice radio à Toulouse, trouve dans sa boîte aux lettres le courrier d\'une femme qui annonce son suicide. Elle est convaincue que le message ne lui est pas destiné.',_binary '\0'),(3,'Guillaume Musso','La Fille de Papier',1,3,'Ensemble, Tom et Billie vont vivre une aventure extraordinaire où la réalité et la fiction s\'entremêlent et se bousculent dans un jeu séduisant et mortel... Une comédie vive et piquante. Un suspense romantique et fantastique. Quand la vie ne tient plus qu\'à un livre !',_binary ''),(4,'Julie de Lestrange','La Nouvelle Arche',1,20,'Mathilde est l\'une des premières. Aujourd\'hui âgée de 20 ans, elle s\'occupe des futures générations qui grandissent au Centre. Comme elle, ces spécimens n\'auront pas d\'enfance. Comme elle, ils naîtront, prêts à se battre, pour affronter l\'ennemi invisible qui terrorise leur Communauté.',_binary ''),(6,'Yuval Noah Harari','21 leçons pour le XXIe siècle',1,21,'Après Sapiens qui explorait le passé de notre humanité et Homo deus la piste d\'un avenir gouverné par l\'intelligence artificielle, 21 leçons pour le XXIe siècle nous confronte aux grands défis contemporains. Pourquoi la démocratie libérale est-elle en crise ? Sommes-nous à l\'aube d\'une nouvelle guerre mondiale ? Que faire devant l\'épidémie de \"fake news\" ? Quelle civilisation domine le monde : l\'Occident, la Chine ou l\'Islam ? Que devons-nous enseigner à nos enfants ?',_binary ''),(7,'Cal Newport','Deep work',1,24,'“Deep Work” de Cal Newport est un livre sur la science de la productivité. Cal Newport affirme que le meilleur moyen d’obtenir un travail plus significatif est de travailler en profondeur – de travailler dans un état de concentration élevée sans distractions sur une seule tâche.',_binary ''),(8,'Margaret Atwood','C\'est le coeur qui lâche en dernier',1,26,'Avec C’est le coeur qui lâche en dernier, Margaret Atwood nous livre un roman aussi hilarant qu’inquiétant, une implacable satire de nos vices et travers qui nous enferment dans de viles obsessions quand le monde entier est en passe de disparaître.',_binary ''),(9,'Bernard Minier','Une putain d\'histoire',1,28,'Une île boisée au large de Seattle... \" Au commencement est la peur.La peur de se noyer.La peur des autres, ceux qui me détestent, ceux qui veulent ma peau. Autant vous le dire tout de suite : Ce n\'est pas une histoire banale. Ça non. c\'est une putain d\'histoire.Ouais, une putain d\'histoire... \" Un thriller implacable',_binary ''),(10,'Maxime Chattam','Que ta volonté soit faite',1,32,'Jon Petersen. Enfanté dans le sang, élevé à la dure par son grand-père Ingmar, figure imposante et violente, et ses deux tantes, Rackel et Hannah. ... Dès lors que l\'on touche à ses fourmilières, Jon enrage et bien lui aura pris à ce jeune Tyler qui finira sous les coups acharnés de ce dernier et en sang, le visage démoli.',_binary ''),(11,'BernarWerber','Les Thanatonautes',1,33,'L\'homme a tout exploré : le monde de l\'espace, le monde sous-marin, le monde souterrain ; pourtant il lui manque la connaissance d\'un monde : le continent des morts.',_binary ''),(13,'Stieg Larson','Les hommes qui n\'aimaient pas les femmes : Millénium 1',1,35,'Contraint d\'abandonner son poste de rédacteur pour avoir diffamé un requin de la finance, Mikael Blomkvist est bientôt associé à Lisbeth Salander, jeune femme rebelle et fouineuse, pour travailler avec Henrik Vanger, un industriel désireux de faire la lumière sur la disparition, vieille de plus de trente ans, de sa petite nièce, au cours d\'une réunion familiale... Le premier volet de la série culte.',_binary '');
 /*!40000 ALTER TABLE `livre` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,7 +176,7 @@ CREATE TABLE `pret` (
   CONSTRAINT `FKakhpji20vitn7fv5oa1f2nxj7` FOREIGN KEY (`examplaire_id`) REFERENCES `examplaire` (`id`),
   CONSTRAINT `FKm79pvipv5c4a9yxyfu5imc4dj` FOREIGN KEY (`image_id`) REFERENCES `image_gallery` (`id`),
   CONSTRAINT `FKrbbbegkxh6c9wnybu9phurbs3` FOREIGN KEY (`statut_id`) REFERENCES `statut` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=166 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=167 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +185,7 @@ CREATE TABLE `pret` (
 
 LOCK TABLES `pret` WRITE;
 /*!40000 ALTER TABLE `pret` DISABLE KEYS */;
-INSERT INTO `pret` VALUES (161,'2021-11-09','2021-12-07',_binary '\0',_binary '\0',103,3,10,8),(165,'2021-11-11','2021-12-09',_binary '\0',_binary '\0',45,2,9,8);
+INSERT INTO `pret` VALUES (161,'2021-11-09','2021-12-07',_binary '\0',_binary '\0',103,3,10,8),(165,'2021-11-11','2021-12-09',_binary '\0',_binary '\0',45,2,9,8),(166,'2021-12-05','2022-02-01',_binary '\0',_binary '',73,3,2,21);
 /*!40000 ALTER TABLE `pret` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -212,7 +212,7 @@ CREATE TABLE `reservation` (
   CONSTRAINT `FK2i2cs4lerdn26kceigr5aiiny` FOREIGN KEY (`statut_reservation_id`) REFERENCES `statut` (`id`),
   CONSTRAINT `FK5497tv27p6rqv4umhmuayi2sp` FOREIGN KEY (`user_reservation_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FKaxplnjxcr0brj6qll3379exp9` FOREIGN KEY (`livre_reservation_id`) REFERENCES `livre` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,7 +221,7 @@ CREATE TABLE `reservation` (
 
 LOCK TABLES `reservation` WRITE;
 /*!40000 ALTER TABLE `reservation` DISABLE KEYS */;
-INSERT INTO `reservation` VALUES (15,'2021-11-11 15:20:42.404000',NULL,NULL,_binary '\0',1,7,14),(16,'2021-11-11 15:23:21.173000',NULL,NULL,_binary '\0',1,6,2);
+INSERT INTO `reservation` VALUES (15,'2021-11-11 15:20:42.404000',NULL,NULL,_binary '\0',1,7,14);
 /*!40000 ALTER TABLE `reservation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -264,7 +264,7 @@ CREATE TABLE `user` (
   `username` varchar(255) DEFAULT NULL,
   `matching_password` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -273,7 +273,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (2,'smiirf123@gmail.com',_binary '\0','$2a$10$GjecpwSxYjJImn9CZ/KEA.RZqsr21ChnYnPAx9KQHML4lfoLEEtam','personnage',NULL),(4,'admin@gmail.com',_binary '\0','$2a$10$Xu78tXpKulfVkwLSFtzpdOss/n21rZliNevW23CoWBhXVibeQbmva','ADMIN',NULL),(5,'batch@gmail.com',_binary '\0','$2a$10$DI4JR2gs8Vs8d0ggQ65uR.9THZnf4FEhgYO7SdruVcItLDjmRJDEG','batch',NULL),(9,'damien.dorval1@gmail.com',_binary '\0','$2a$10$ImdlyDi9X.hprpplEFj3Ou7IHX.StErQHzFSw8IJ1EuTwLvW.lYa2','sebastien974',NULL),(10,'angela2A@gmail.com',_binary '\0','$2a$10$sj/laeon/KbaVEBGhGHcq.Q8RVcosXwQ1cw54U5Zo9D19CMnVm.S2','Angela2A',NULL),(14,'hg.dev974@gmail.com',_binary '\0','$2a$10$U7r2dHt6VT/4FpmJlWhgD.0yy/sGEMQ.lmcKmyfFBAjZGQcCU1yyu','gandalfe789','$2a$10$U7r2dHt6VT/4FpmJlWhgD.0yy/sGEMQ.lmcKmyfFBAjZGQcCU1yyu');
+INSERT INTO `user` VALUES (2,'smiirf123@gmail.com',_binary '\0','$2a$10$GjecpwSxYjJImn9CZ/KEA.RZqsr21ChnYnPAx9KQHML4lfoLEEtam','personnage',NULL),(4,'admin@gmail.com',_binary '\0','$2a$10$Xu78tXpKulfVkwLSFtzpdOss/n21rZliNevW23CoWBhXVibeQbmva','ADMIN',NULL),(5,'batch@gmail.com',_binary '\0','$2a$10$DI4JR2gs8Vs8d0ggQ65uR.9THZnf4FEhgYO7SdruVcItLDjmRJDEG','batch',NULL),(9,'damien.dorval1@gmail.com',_binary '\0','$2a$10$ImdlyDi9X.hprpplEFj3Ou7IHX.StErQHzFSw8IJ1EuTwLvW.lYa2','sebastien974',NULL),(10,'angela2A@gmail.com',_binary '\0','$2a$10$sj/laeon/KbaVEBGhGHcq.Q8RVcosXwQ1cw54U5Zo9D19CMnVm.S2','Angela2A',NULL),(14,'hg.dev974@gmail.com',_binary '\0','$2a$10$U7r2dHt6VT/4FpmJlWhgD.0yy/sGEMQ.lmcKmyfFBAjZGQcCU1yyu','gandalfe789','$2a$10$U7r2dHt6VT/4FpmJlWhgD.0yy/sGEMQ.lmcKmyfFBAjZGQcCU1yyu'),(15,NULL,_binary '\0','$2a$10$P5q.qY3JkrCN6zo1XrXSiebHTBr7rRgWrKXcrWw72ZYzh6/6lXGuu','samuel456','$2a$10$P5q.qY3JkrCN6zo1XrXSiebHTBr7rRgWrKXcrWw72ZYzh6/6lXGuu');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -313,4 +313,5 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-11-11 16:34:47
+-- Dump completed on 2021-12-12 15:24:55
+
