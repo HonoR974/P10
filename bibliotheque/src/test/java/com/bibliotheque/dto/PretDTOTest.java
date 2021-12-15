@@ -2,7 +2,7 @@ package com.bibliotheque.dto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.internal.matchers.apachecommons.ReflectionEquals;
+
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.Assert.*;
@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Assert;
+
 
 
 @ExtendWith(MockitoExtension.class)
@@ -49,13 +49,13 @@ public class PretDTOTest {
     @Test
     public void testEquals()
     {
-        assertEquals(p1.toString(), p2.toString());
+        assertThat(p1).isEqualTo(p2);
     }
 
     @Test
     public void testHashCode()
     {
-        assertThat(p1.hashCode()).isNotEqualTo(p2.hashCode());
+        assertThat(p1.hashCode()).isEqualTo(p2.hashCode());
 
     }
 }

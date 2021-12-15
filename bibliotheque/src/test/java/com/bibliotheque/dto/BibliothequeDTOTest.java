@@ -85,7 +85,6 @@ public class BibliothequeDTOTest {
         bi2.setNom("Bibi");
         bi2.setAdresse("rue Test");
 
-      assertThat(bi1).isNotEqualTo(bi2);
       assertEquals(bi1.getNom(), bi2.getNom());
       assertEquals(bi1.getId(), bi2.getId());
     }
@@ -109,7 +108,7 @@ public class BibliothequeDTOTest {
         bi2.setNom("Bibi");
         bi2.setAdresse("rue Test");
 
-        assertThat(bi1.hashCode()).isNotEqualTo(bi2.hashCode());
+        assertThat(bi1.hashCode()).isEqualTo(bi2.hashCode());
     }
 
     @Test

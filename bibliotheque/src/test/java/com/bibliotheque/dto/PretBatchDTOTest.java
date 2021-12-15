@@ -3,11 +3,11 @@ package com.bibliotheque.dto;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+
 
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 
 public class PretBatchDTOTest {
@@ -45,7 +45,7 @@ public class PretBatchDTOTest {
     @Test
     public void testEquals()
     {
-        assertThat(p1).isNotEqualTo(p2);
+        assertThat(p1).isEqualTo(p2);
         assertThat(p1.getId()).isEqualTo(p2.getId());
         assertThat(p1.getDate_debut()).isEqualTo(p2.getDate_debut());
         assertThat(p1.getDate_fin()).isEqualTo(p2.getDate_fin());
@@ -56,6 +56,6 @@ public class PretBatchDTOTest {
     @Test
     public void testHashCode()
     {
-        assertThat(p1.hashCode()).isNotEqualTo(p2.hashCode());
+        assertThat(p1.hashCode()).isEqualTo(p2.hashCode());
     }
 }

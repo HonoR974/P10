@@ -93,5 +93,6 @@ public interface LivreService {
 
      boolean checkReserveLivre(long id);
 
+     String findClosestDate(long id_livre) ;
 
 }

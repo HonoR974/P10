@@ -32,7 +32,7 @@ public class ExamplaireDTOTest {
     {
         assertThat(e1.getId()).isEqualTo(e2.getId());
         assertThat(e1.getEdition()).isEqualTo(e2.getEdition());
-        assertThat(e1).isNotEqualTo(e2);
+        assertThat(e1).isEqualTo(e1);
     }
 
     @Test

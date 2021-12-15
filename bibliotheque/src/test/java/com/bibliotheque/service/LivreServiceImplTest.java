@@ -12,6 +12,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -348,4 +353,63 @@ public class LivreServiceImplTest {
         assertThat(nmb).isGreaterThan(0);
 
     }
+
+
+    
+    @Test
+    public void findClosesDate()
+    {
+        Livre l1 = new Livre();
+
+        Examplaire e1 = new Examplaire();
+        Examplaire e2 = new Examplaire();
+
+        e1.setEmprunt(true);
+        e2.setEmprunt(true);
+        Pret p1 = new Pret();
+        Pret p2 = new Pret();
+        p1.setId(1L);
+        p2.setId(2L);
+
+
+        Statut statut = new Statut("Valider");
+        p1.setStatut(statut);
+        p2.setStatut(statut);
+
+        p1.setDate_fin(LocalDate.of(2021,11,11));
+        p2.setDate_fin(LocalDate.of(2021, 12, 12));
+
+        List <Pret> listePret1 = new ArrayList<>();
+        List <Pret> listePret2 = new ArrayList<>();
+
+        listePret1.add(p1);
+        e1.setListeDePret(listePret1);
+
+        listePret2.add(p2);
+        e2.setListeDePret(listePret2);
+
+
+        List<Examplaire> list = new ArrayList<>();
+        list.add(e1);
+        list.add(e2);
+
+        l1.setExamplaires(list);
+
+
+        when(livreRepository.findById(1)).thenReturn(l1);
+
+        //
+
+        String dateFin = livreService.findClosestDate(1);
+
+        String dateE1 = p1.getDate_fin().format(DateTimeFormatter.ofPattern("dd-MMM-yy"));
+       
+        String dateE2 = p2.getDate_fin().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        //
+
+        assertThat(dateFin).isNotEqualTo(dateE1);
+        assertThat(dateFin).isEqualTo(dateE2);
+        
+    }
+
 }

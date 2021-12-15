@@ -201,27 +201,26 @@ public class LivreServiceImpl implements LivreService{
         return livreDTO;
     }
 
+    @Override
     //trouve la date de fin du pret la plus proche pour le livre 
-    private String findClosestDate(long id_livre) 
+    public String findClosestDate(long id_livre) 
     {
         Livre livre = livreRepository.findById(id_livre);
         
-        System.out.println("\n le livre " + livre.getTitre());
 
         List<Examplaire> list = new ArrayList<>();
         list = livre.getExamplaires();
         LocalDate dateBackOff = LocalDate.of(2000, 1, 1);
-        List<Pret> lPrets = new ArrayList<>();
-        Statut statut = statutRepository.findByNom("Valider");
-      
-     //   DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
 
         for(int i = 0; i < list.size(); i++)
         {
             Examplaire e = list.get(i);
          
-            System.out.println("\n examplaire " + e.getId());
-
+            //pour chaque examplaire 
+            //si il est emprunté 
+            //prend le pret actif de l'emplaire
+            //verifié si sa date est la plus eloigné  
             if(e.isEmprunt())
             {
                 Pret pret = findPretActif(e);
