@@ -44,6 +44,9 @@ public interface ReservationService {
     //cancel une reservation
     void cancelReservation(long id_reservation);
 
+    //delete 
+    void deleteReservation(long id_reservation);
+
     List<Reservation> getAllFirstReserve();
 
     List<Reservation> getAllFirstReserveNoSendMail();

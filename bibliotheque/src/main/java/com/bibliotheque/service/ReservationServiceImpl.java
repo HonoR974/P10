@@ -540,6 +540,13 @@ public class ReservationServiceImpl implements ReservationService{
         return examplairetest;
     }
 
+	@Override
+	public void deleteReservation(long id_reservation) {
+		Reservation reservation = reservationRepository.findById(id_reservation);
+        reservationRepository.delete(reservation);
+		
+	}
+
 
 }
 

@@ -144,6 +144,13 @@ public class ReservationController {
         return HttpStatus.ACCEPTED;
     }
 
+    @DeleteMapping("/delete/{id}")
+    public HttpStatus deleteReservation(@PathVariable(name = "id")Long id_reservation)
+    {
+        reservationService.deleteReservation(id_reservation);
+        return HttpStatus.ACCEPTED;
+    }
+
     //get reservation by id
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getReservById(@PathVariable("id")Long id_reserv)
