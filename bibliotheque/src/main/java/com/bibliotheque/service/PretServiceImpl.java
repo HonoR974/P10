@@ -9,6 +9,8 @@ import com.bibliotheque.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import net.bytebuddy.asm.Advice.Local;
+
 import java.time.LocalDate;
 import java.util.*;
 
@@ -194,7 +196,10 @@ public class PretServiceImpl implements PretService
 
         Pret pret = pretRepository.findById(id_pret);
 
-        if (!pret.getProlonger())
+        LocalDate dateFin = pret.getDate_fin();
+        LocalDate dateNow  = LocalDate.now();
+        //check date 
+        if (!pret.getProlonger() && dateFin.isAfter(dateNow))
         {
             pret.setProlonger(true);
 
