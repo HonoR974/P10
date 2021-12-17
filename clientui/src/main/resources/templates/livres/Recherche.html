@@ -83,13 +83,30 @@
                 <div class="cardLivre" th:each="livre : ${liste}" >
                     <img th:src="@{'/image/' + ${livre.titreImage}}" th:alt="${livre.titreImage}"/>
 
-                    <div class="infoCardLivre">
+                    <div th:if="${livre.disponible}">
+                        <div class="infoCardLivre">
 
-                        <h5 class="cardTitle" th:text="${livre.titre}"></h5>
-                        <h5 th:text="${livre.auteur}"></h5>
-                        <h5>Nombre d'exemplaire <i th:text="${livre.examplaires}"></i></h5>
+                            <h5 class="cardTitle" th:text="${livre.titre}"></h5>
+                            <h5 th:text="${livre.auteur}"></h5>
+                            <h5>Nombre d'exemplaire <i th:text="${livre.examplaires}"></i></h5>
+
+                        </div>
+
+                        <div class="cadreButtonLivre">
+                            <button>
+                                <a th:href="@{/livre/Examplaires(id=${livre.id})}">Selectionner</a>
+                            </button>
+                        </div>
 
                     </div>
+                    <div th:if="${!livre.disponible}" class="cadreReservation">
+                        <div class="infoCardReservation">
+
+                            <h5 class="cardTitle" th:text="${livre.titre}"></h5>
+                           <div class="infoReservation">Nombre de réservation : <i th:utext="${livre.nmbUserReserv}"></i></div>
+                            <div class="infoReservation">Date de retour : <i th:utext="${livre.dateRetour}"></i></div>
+
+                        </div>
 
                     <div class="cadreButtonLivre">
                         <button>
