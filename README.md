@@ -31,7 +31,7 @@
   * Ouvrer un terminal et rendez-vous à la racine du dossier "batch" et utliser la commande : mvn spring-boot:run.
  
  
-   > Test Batch - Reservation ( Dump/DumpP10.sql )  : 
+   > Test Batch - Reservation ( P10/SQL/CreationBDD&Demo.sql )  : 
  
  *  Lancer la commande mvn spring-boot:run dans le terminal à la racine du dossier "batch".
  * Une fois que le livre est disponible et que l'admin l'a recu dans son espace personel. 
