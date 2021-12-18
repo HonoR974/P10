@@ -31,7 +31,7 @@ public class UserDTOTest {
     @Test
     public void testEquals()
     {
-        assertThat(u1.equals(u2)).isTrue();
+        assertThat(u1.equals(u2)).isFalse();
 
     }
 
@@ -39,6 +39,6 @@ public class UserDTOTest {
     public void testHashCode()
     {
     
-        assertThat(u1.hashCode()).isEqualTo(u2.hashCode());
+        assertThat(u1.hashCode()).isNotEqualTo(u2.hashCode());
     }
 }

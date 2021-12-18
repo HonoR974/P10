@@ -45,12 +45,12 @@ public class ReservationDTOTest {
     public void testEquals()
     {
         assertThat(r1.toString()).isEqualTo(r2.toString());
-        assertThat(r1).isEqualTo(r2);
+        assertThat(r1).isNotEqualTo(r2);
     }
 
     @Test
     public void testHashCode()
     {
-        assertThat(r1.hashCode()).isEqualTo(r2.hashCode());
+        assertThat(r1.hashCode()).isNotEqualTo(r2.hashCode());
     }
 }

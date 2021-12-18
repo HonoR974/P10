@@ -30,14 +30,14 @@ public class ImageGalleryDTOTest {
     @Test
     public void testEquals()
     {
-       assertEquals(img1, img2);
+        assertThat(img1).isNotEqualTo(img2);
     
   }
 
     @Test
     public void testHashCode()
     {
-        assertThat(img1.hashCode()).isEqualTo(img2.hashCode());
+        assertThat(img1.hashCode()).isNotEqualTo(img2.hashCode());
 
     }
 }
