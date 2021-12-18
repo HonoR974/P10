@@ -9,13 +9,19 @@
   * API Bibliotheque 
   * Batch 
  
+ > Installation necessaire au deploiement : 
+  * Installer la version 4.0.0 de Maven. 
+  * Installer la version 11 de Java. 
+ 
   
  > Implementation App Web : 
  
-  * Se rendre dans le fichier *application.properties* de l'api Bibliotheque. 
+  * Se rendre dans le fichier *P10/bibliotheque/src/main/resources/application.properties* de l'api Bibliotheque. 
   * Remplacer les informations vous concernant pour la connexion à votre base de donnée. 
-  * Dans votre base de donnée éffectuer le dump grâce au fichier *Dump/DumpP7.sql* . 
-  * Démarrer le module *API Bibliotheque* puis *Clientui*. 
+  * Dans votre base de donnée utiliser le scripts SLQ de création de base de données avec le jeu de démo,
+    "P10/SQL/CreationBDD&Demo.SQL". 
+  * Ouvrer un terminal et rendez-vous à la racine du dossier "bibliotheque" et utliser la commande : mvn deploy 
+  puis *Clientui*. 
  
  > Implementation Batch : 
  
