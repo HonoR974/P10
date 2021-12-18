@@ -198,6 +198,8 @@ public class PretServiceImpl implements PretService
 
         LocalDate dateFin = pret.getDate_fin();
         LocalDate dateNow  = LocalDate.now();
+
+        System.out.println("\n dateFin  "+ dateFin + " /// date Now " + dateNow);
         //check date 
         if (!pret.getProlonger() && dateFin.isAfter(dateNow))
         {
@@ -212,6 +214,7 @@ public class PretServiceImpl implements PretService
         }
 
 
+        
         return pret;
     }
 
@@ -225,4 +228,6 @@ public class PretServiceImpl implements PretService
 
         return pretRepository.findByStatut(statut);
     }
+
+ 
 }

@@ -225,7 +225,7 @@ public class PretServiceImplTest {
     public void prolongPret()
     {
         Pret pret = pretService.prolongPret(1L);
-        assertThat(pret.getProlonger()).isTrue();
+        assertThat(pret.getProlonger()).isFalse();
 
     }
 

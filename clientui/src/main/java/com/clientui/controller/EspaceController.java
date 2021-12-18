@@ -51,6 +51,7 @@ public class EspaceController
 
         //alert box
         boolean prolongable=true;
+        boolean dateProlongable = true;
 
         //liste de prets
         List<PretDTO> list = espaceService.getListePretByIdUser(user.getId());
@@ -64,6 +65,8 @@ public class EspaceController
         model.addAttribute("liste",  pretService.convertList(list));
         model.addAttribute("prolongable", prolongable);
         model.addAttribute("listeReserv", reservationDTOList);
+        model.addAttribute("dateProlongable", dateProlongable);
+        
 
         return "espace/Accueil";
     }

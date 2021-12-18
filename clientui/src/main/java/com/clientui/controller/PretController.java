@@ -168,6 +168,7 @@ public class PretController
 
        boolean prolongable= pretDTO2.isEnabled();
 
+
         UserDTO userDTO = authBiblioService.getUserDTOByJwt(authBiblioService.getJwt());
         model.addAttribute("user", authBiblioService.testConnection());
         model.addAttribute("utilisateur", userDTO);
@@ -177,11 +178,10 @@ public class PretController
         //si il n'a pas été prolongé
        if (! pretDTO2.isEnabled())
        {
+           
+            PretDTO pretDTO= pretService.prolongPret(id);
 
-           PretDTO pretDTO= pretService.prolongPret(id);
-
-           prolongable = true;
-
+            prolongable = true;
        }
        //on peut le prolonger qu'une fois
        else
